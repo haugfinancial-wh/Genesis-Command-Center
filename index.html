@@ -201,7 +201,7 @@ body::after {
 /* ═══════════ NAV ═══════════ */
 .nav {
   display: flex;
-  gap: 3px;
+  gap: 2px;
   margin-bottom: 36px;
   background: var(--surface);
   border: 1px solid var(--border-hi);
@@ -211,13 +211,13 @@ body::after {
   box-shadow: inset 0 0 20px rgba(0,255,255,0.02);
 }
 .nav-btn {
-  padding: 9px 18px;
+  padding: 8px 14px;
   border-radius: var(--r-sm);
   border: none;
   background: transparent;
   color: var(--text-soft);
   font-family: var(--font);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.5px;
   cursor: pointer;
@@ -1631,7 +1631,7 @@ body::after {
   <div class="status-bar">
     <div class="status-left">
       <span class="live-dot"></span>
-      LIVE SYNC ACTIVE &nbsp;·&nbsp; All changes save instantly
+      LIVE SYNC ACTIVE &nbsp;·&nbsp; All changes save instantly &nbsp;·&nbsp; <span style="color:var(--text-mute);">v16</span>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
       <button onclick="confirmDailyReset()" style="background:var(--red-dim);border:1px solid rgba(255,61,90,0.3);border-radius:6px;color:var(--red);font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:6px 14px;cursor:pointer;text-transform:uppercase;">↺ New Day Reset</button>
@@ -2923,8 +2923,53 @@ function playSound(type){
 }
 
 /* ═══════════════════════════════════════════════════════
-   CONFETTI + MILESTONE BANNER
+   REAL AUDIO SOUNDS
+   All sourced from Mixkit free license
 ═══════════════════════════════════════════════════════ */
+const soundFiles = {
+  cash:      'https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3', // cash register
+  appt:      'https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3', // bright notification chime
+  milestone: 'https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3', // crowd cheer
+  newday:    'https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3', // morning startup tone
+  login:     'https://assets.mixkit.co/active_storage/sfx/2309/2309-preview.mp3', // access granted unlock
+  timer:     'https://assets.mixkit.co/active_storage/sfx/2020/2020-preview.mp3', // bell / chime
+};
+const audioCache = {};
+
+function playRealSound(key, volume=0.7){
+  try {
+    if(!audioCache[key]){
+      audioCache[key] = new Audio(soundFiles[key]);
+      audioCache[key].volume = volume;
+    }
+    audioCache[key].currentTime = 0;
+    audioCache[key].play().catch(()=>{});
+  } catch(e){}
+}
+
+// Named helpers for clarity
+function playCashRegister()  { playRealSound('cash', 0.7);      }
+function playApptSound()     { playRealSound('appt', 0.6);      }
+function playMilestoneSound(){ playRealSound('milestone', 0.65); }
+function playNewDaySound()   { playRealSound('newday', 0.6);    }
+function playLoginSound()    { playRealSound('login', 0.55);    }
+function playTimerSound()    { playRealSound('timer', 0.65);    }
+
+// Preload all sounds silently on first user interaction so they're ready instantly
+let soundsPreloaded = false;
+function preloadSounds(){
+  if(soundsPreloaded) return;
+  soundsPreloaded = true;
+  Object.keys(soundFiles).forEach(key=>{
+    const a = new Audio(soundFiles[key]);
+    a.volume = 0;
+    a.load();
+    audioCache[key] = a;
+  });
+}
+document.addEventListener('click', preloadSounds, { once: true });
+
+
 function launchConfetti(dur){
   const canvas=document.getElementById('confetti-canvas'); if(!canvas) return;
   const ctx=canvas.getContext('2d');
@@ -2944,7 +2989,7 @@ function showMilestone(text, icon){
   document.getElementById('mb-text').textContent = text;
   document.getElementById('mb-icon').textContent  = icon||'⚡';
   document.getElementById('mb-icon2').textContent = icon||'⚡';
-  b.classList.add('show'); playSound('milestone'); launchConfetti();
+  b.classList.add('show'); playSound('milestone'); playMilestoneSound(); launchConfetti();
   setTimeout(()=>b.classList.remove('show'), 5000);
 }
 
@@ -3114,6 +3159,8 @@ function renderTracker(){
 async function trackInc(stat){
   const soundMap={dials:'dial',pickups:'pickup',appts:'appt',closed:'closed',presentations:'click'};
   playSound(soundMap[stat]||'click');
+  if(stat==='closed') playCashRegister();
+  if(stat==='appts')  playApptSound();
   callCache[currentAgent][stat]=(callCache[currentAgent][stat]||0)+1;
   const el=document.getElementById('t-'+stat); if(el){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');}
   renderTracker(); renderTeamCallSummary(); updateDailyGoals(); updateAOTD();
@@ -3163,7 +3210,7 @@ function logPresOutcome(outcome){
     callCache[currentAgent].closed=(callCache[currentAgent].closed||0)+1;
     const el=document.getElementById('t-closed'); if(el){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');}
     playSound('closed');
-    checkClosedMilestones(currentAgent);
+    playCashRegister();
     showRewardBanner(currentAgent);
     addToWinFeed('closed',currentAgent,'CLOSED A POLICY from a presentation 🔥');
     const d=callCache[currentAgent];
@@ -3350,7 +3397,7 @@ function startTimer(){
   timerInterval=setInterval(()=>{
     if(timerSeconds>0){timerSeconds--;renderTimerDisplay();}
     else{
-      clearInterval(timerInterval); timerRunning=false; playSound('timer_end'); sessionsCompleted++;
+      clearInterval(timerInterval); timerRunning=false; playSound('timer_end'); playTimerSound(); sessionsCompleted++;
       const log=document.getElementById('session-log');
       const now=new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit',hour12:true});
       if(log){const e=document.createElement('div');e.style.color='var(--tron)';e.textContent=`[${now}] ✓ ${sessionLabel} — Session #${sessionsCompleted}`;log.prepend(e);}
@@ -3578,6 +3625,7 @@ function confirmDailyReset(){
 
 async function executeDailyReset(){
   playSound('milestone');
+  playNewDaySound();
   agents.forEach(a=>{
     callCache[a]={dials:0,pickups:0,appts:0,closed:0,presentations:0};
     presCache[a]={closed:0,callbacks:0,nosales:0};
@@ -3695,6 +3743,7 @@ function addAppt(){
   document.getElementById('appt-notes').value='';
   renderAppts();
   playSound('appt');
+  playApptSound();
   toast(`📅 Appointment booked for ${name}!`);
 }
 
@@ -3845,6 +3894,7 @@ function clearPinError(){
 function completeLogin(){
   const ps = document.getElementById('pin-screen');
   if(ps){ ps.style.opacity='0'; ps.style.transition='opacity 0.4s'; setTimeout(()=>ps.style.display='none',400); }
+  playLoginSound();
   // Show logout button
   const lb = document.getElementById('logout-btn'); if(lb) lb.style.display='block';
   applyAccessRestrictions();
@@ -3979,6 +4029,7 @@ function addBobPolicy(){
   document.getElementById('bob-status').value='pending';
   renderBobTable(); renderBobSummary();
   playSound('closed');
+  playCashRegister();
   toast(`📒 ${client} added to Book of Business!`);
 }
 
