@@ -1294,9 +1294,284 @@ body::after {
   .aotd-box{flex-direction:column;text-align:center;}
 }
 
+/* ═══════════ PIN SCREEN ═══════════ */
+#pin-screen {
+  position: fixed; inset: 0; background: var(--bg);
+  z-index: 5000; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.pin-grid-bg {
+  position: fixed; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: gridPulse 4s ease-in-out infinite;
+}
+@keyframes gridPulse {
+  0%,100% { opacity: 0.6; }
+  50%      { opacity: 1;   }
+}
+.pin-scan-line {
+  position: fixed; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.6), transparent);
+  box-shadow: 0 0 20px rgba(0,255,255,0.5), 0 0 60px rgba(0,255,255,0.2);
+  animation: scanDown 5s linear infinite;
+  pointer-events: none;
+}
+@keyframes scanDown { from { top: -2px; } to { top: 100vh; } }
+.pin-corner {
+  position: fixed; width: 60px; height: 60px; pointer-events: none;
+}
+.pin-corner.tl { top: 16px; left: 16px; border-top: 2px solid var(--tron); border-left: 2px solid var(--tron); box-shadow: -4px -4px 12px rgba(0,255,255,0.3), inset -4px -4px 12px rgba(0,255,255,0.05); }
+.pin-corner.tr { top: 16px; right: 16px; border-top: 2px solid var(--tron); border-right: 2px solid var(--tron); box-shadow: 4px -4px 12px rgba(0,255,255,0.3), inset 4px -4px 12px rgba(0,255,255,0.05); }
+.pin-corner.bl { bottom: 16px; left: 16px; border-bottom: 2px solid var(--tron); border-left: 2px solid var(--tron); box-shadow: -4px 4px 12px rgba(0,255,255,0.3); }
+.pin-corner.br { bottom: 16px; right: 16px; border-bottom: 2px solid var(--tron); border-right: 2px solid var(--tron); box-shadow: 4px 4px 12px rgba(0,255,255,0.3); }
+
+.pin-card {
+  position: relative; z-index: 2;
+  background: rgba(6,12,20,0.95);
+  border: 1px solid rgba(0,255,255,0.25);
+  border-radius: 16px;
+  padding: 36px 32px 32px;
+  width: 100%; max-width: 420px;
+  margin: 0 24px;
+  box-shadow:
+    0 0 0 1px rgba(0,255,255,0.05),
+    0 0 40px rgba(0,255,255,0.08),
+    0 0 80px rgba(0,255,255,0.04),
+    inset 0 1px 0 rgba(0,255,255,0.1);
+  text-align: center;
+}
+.pin-card::before {
+  content:'';
+  position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tron), var(--green), var(--tron), transparent);
+  box-shadow: 0 0 12px rgba(0,255,255,0.8);
+}
+.pin-logo-wrap { margin-bottom: 32px; }
+.pin-logo-main {
+  font-family: var(--display);
+  font-size: 42px; font-weight: 900;
+  color: var(--tron);
+  letter-spacing: 8px;
+  text-shadow: 0 0 20px rgba(0,255,255,0.9), 0 0 40px rgba(0,255,255,0.4), 0 0 80px rgba(0,255,255,0.15);
+  animation: logoPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse {
+  0%,100% { text-shadow: 0 0 20px rgba(0,255,255,0.9), 0 0 40px rgba(0,255,255,0.4), 0 0 80px rgba(0,255,255,0.15); }
+  50%      { text-shadow: 0 0 30px rgba(0,255,255,1),   0 0 60px rgba(0,255,255,0.6), 0 0 100px rgba(0,255,255,0.2); }
+}
+.pin-logo-sub {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--text-soft); letter-spacing: 5px;
+  text-transform: uppercase; margin-top: 6px;
+}
+.pin-divider {
+  height: 1px; margin: 20px 0;
+  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.2), transparent);
+}
+.pin-section-label {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--tron); letter-spacing: 4px;
+  text-transform: uppercase; margin-bottom: 12px;
+  text-shadow: var(--tron-glow-sm);
+}
+.agent-login-btn {
+  background: rgba(6,12,20,0.8);
+  border: 1px solid rgba(0,255,255,0.15);
+  border-radius: 8px;
+  color: var(--text-soft);
+  font-family: var(--mono);
+  font-size: 12px; font-weight: 600;
+  padding: 11px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.agent-login-btn:hover {
+  border-color: rgba(0,255,255,0.5);
+  color: var(--tron);
+  box-shadow: 0 0 12px rgba(0,255,255,0.15), inset 0 0 12px rgba(0,255,255,0.04);
+  text-shadow: var(--tron-glow-sm);
+}
+.agent-login-btn.selected {
+  background: rgba(0,255,255,0.08);
+  border-color: var(--tron);
+  color: var(--tron);
+  text-shadow: var(--tron-glow);
+  box-shadow: 0 0 16px rgba(0,255,255,0.25), inset 0 0 16px rgba(0,255,255,0.06);
+}
+.pin-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,255,255,0.3);
+  background: transparent;
+  transition: all 0.2s;
+}
+.pin-dot.filled {
+  background: var(--tron);
+  border-color: var(--tron);
+  box-shadow: 0 0 10px rgba(0,255,255,0.9), 0 0 20px rgba(0,255,255,0.4);
+}
+.pin-dot.error {
+  background: var(--red);
+  border-color: var(--red);
+  box-shadow: 0 0 10px rgba(255,61,90,0.9);
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-7px);}
+  40%{transform:translateX(7px);}
+  60%{transform:translateX(-4px);}
+  80%{transform:translateX(4px);}
+}
+.pin-key {
+  background: rgba(10,18,32,0.9);
+  border: 1px solid rgba(0,255,255,0.2);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: var(--display);
+  font-size: 22px; font-weight: 900;
+  padding: 16px 8px;
+  cursor: pointer;
+  transition: all 0.12s;
+  position: relative; overflow: hidden;
+}
+.pin-key::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at center, rgba(0,255,255,0.15), transparent 70%);
+  opacity: 0; transition: opacity 0.15s;
+}
+.pin-key:hover { border-color: rgba(0,255,255,0.6); color: var(--tron); box-shadow: 0 0 14px rgba(0,255,255,0.2), inset 0 0 14px rgba(0,255,255,0.05); text-shadow: var(--tron-glow-sm); }
+.pin-key:hover::after { opacity: 1; }
+.pin-key:active { transform: scale(0.93); box-shadow: 0 0 20px rgba(0,255,255,0.4); }
+.pin-key.ghost {
+  background: transparent; border-color: rgba(0,255,255,0.1);
+  color: var(--text-mute); font-family: var(--mono);
+  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+}
+.pin-key.ghost:hover { border-color: rgba(0,255,255,0.3); color: var(--text-soft); box-shadow: none; }
+.pin-enter-btn {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, rgba(0,255,255,0.12), rgba(0,255,157,0.08));
+  border: 1px solid rgba(0,255,255,0.5);
+  border-radius: 10px;
+  color: var(--tron); font-family: var(--display);
+  font-size: 15px; font-weight: 900; letter-spacing: 4px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0,255,255,0.2), inset 0 1px 0 rgba(0,255,255,0.2);
+  text-shadow: var(--tron-glow);
+  transition: all 0.2s;
+  animation: enterPulse 2s ease-in-out infinite;
+}
+.pin-enter-btn:hover {
+  background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,255,157,0.12));
+  box-shadow: 0 0 30px rgba(0,255,255,0.4), inset 0 1px 0 rgba(0,255,255,0.3);
+  transform: translateY(-1px);
+}
+@keyframes enterPulse {
+  0%,100% { box-shadow: 0 0 20px rgba(0,255,255,0.2), inset 0 1px 0 rgba(0,255,255,0.2); }
+  50%      { box-shadow: 0 0 30px rgba(0,255,255,0.35), inset 0 1px 0 rgba(0,255,255,0.3); }
+}
+
+/* locked nav items */
+.nav-btn.locked { opacity: 0.25; cursor: not-allowed; pointer-events: none; }
+
+/* logout button */
+#logout-btn {
+  position: fixed; bottom: 20px; right: 20px; z-index: 999;
+  background: rgba(6,12,20,0.9);
+  border: 1px solid rgba(0,255,255,0.2);
+  border-radius: 8px;
+  color: var(--text-soft); font-family: var(--mono);
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 8px 16px; cursor: pointer;
+  transition: all 0.2s; display: none;
+}
+#logout-btn:hover { border-color: var(--tron); color: var(--tron); box-shadow: var(--tron-glow-sm); }
+
 </style>
 </head>
 <body>
+
+<!-- ═══════════ PIN LOGIN SCREEN ═══════════ -->
+<div id="pin-screen">
+  <div class="pin-grid-bg"></div>
+  <div class="pin-scan-line"></div>
+  <div class="pin-corner tl"></div>
+  <div class="pin-corner tr"></div>
+  <div class="pin-corner bl"></div>
+  <div class="pin-corner br"></div>
+
+  <div class="pin-card">
+    <!-- Logo -->
+    <div class="pin-logo-wrap">
+      <div class="pin-logo-main">GENESIS</div>
+      <div style="font-family:var(--display);font-size:22px;font-weight:900;color:var(--green);letter-spacing:10px;text-shadow:0 0 16px rgba(0,255,157,0.7),0 0 32px rgba(0,255,157,0.3);margin-top:-4px;">SOLUTIONS</div>
+      <div class="pin-logo-sub" style="margin-top:8px;">Command Center</div>
+    </div>
+
+    <div class="pin-divider"></div>
+
+    <!-- Agent select -->
+    <div style="margin-bottom:22px;">
+      <div class="pin-section-label">Identify Yourself</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+        <button class="agent-login-btn" onclick="selectLoginAgent('Mark',this)">Mark</button>
+        <button class="agent-login-btn" onclick="selectLoginAgent('Max',this)">Max</button>
+        <button class="agent-login-btn" onclick="selectLoginAgent('Issac',this)">Issac</button>
+        <button class="agent-login-btn" onclick="selectLoginAgent('McKenna',this)">McKenna</button>
+        <button class="agent-login-btn" onclick="selectLoginAgent('Will',this)">Will</button>
+      </div>
+    </div>
+
+    <!-- PIN entry -->
+    <div id="pin-entry-wrap" style="display:none;">
+      <div class="pin-divider"></div>
+      <div class="pin-section-label" id="pin-prompt-label">Enter PIN</div>
+
+      <!-- PIN dots -->
+      <div style="display:flex;justify-content:center;gap:18px;margin-bottom:22px;" id="pin-dots">
+        <div class="pin-dot" id="pd-0"></div>
+        <div class="pin-dot" id="pd-1"></div>
+        <div class="pin-dot" id="pd-2"></div>
+        <div class="pin-dot" id="pd-3"></div>
+      </div>
+
+      <!-- Number pad -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:280px;margin:0 auto;">
+        <button class="pin-key" onclick="pinKey('1')">1</button>
+        <button class="pin-key" onclick="pinKey('2')">2</button>
+        <button class="pin-key" onclick="pinKey('3')">3</button>
+        <button class="pin-key" onclick="pinKey('4')">4</button>
+        <button class="pin-key" onclick="pinKey('5')">5</button>
+        <button class="pin-key" onclick="pinKey('6')">6</button>
+        <button class="pin-key" onclick="pinKey('7')">7</button>
+        <button class="pin-key" onclick="pinKey('8')">8</button>
+        <button class="pin-key" onclick="pinKey('9')">9</button>
+        <button class="pin-key ghost" onclick="pinClear()">CLR</button>
+        <button class="pin-key" onclick="pinKey('0')">0</button>
+        <button class="pin-key ghost" onclick="pinBackspace()">⌫</button>
+      </div>
+
+      <div id="pin-error" style="font-family:var(--mono);font-size:11px;color:var(--red);text-align:center;margin-top:14px;min-height:18px;opacity:0;transition:opacity 0.3s;letter-spacing:1px;"></div>
+    </div>
+
+    <!-- Full access (Mark & Will) -->
+    <div id="full-access-notice" style="display:none;">
+      <div class="pin-divider"></div>
+      <div id="full-access-label" style="font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;text-shadow:0 0 8px rgba(0,255,157,0.5);">⚡ Full Admin Access Granted</div>
+      <button class="pin-enter-btn" onclick="loginFullAccess()">ENTER COMMAND CENTER</button>
+    </div>
+  </div>
+</div>
+
+<!-- Logout button (shown after login) -->
+<button id="logout-btn" onclick="logoutSession()">⏻ &nbsp;Logout</button>
 
 <div id="loading-screen">
   <div class="load-ring"></div>
@@ -3069,6 +3344,188 @@ function renderAppts(){
   if(upEl) upEl.innerHTML=upcoming.length?upcoming.map(a=>apptCard(a,false)).join(''):'<div style="font-family:var(--mono);font-size:11px;color:var(--text-mute);text-align:center;padding:24px 0;">No upcoming appointments. Book some calls!</div>';
   const pastEl=document.getElementById('appt-list-past');
   if(pastEl) pastEl.innerHTML=past.length?[...past].reverse().slice(0,10).map(a=>apptCard(a,true)).join(''):'<div style="font-family:var(--mono);font-size:11px;color:var(--text-mute);text-align:center;padding:20px 0;">No past appointments.</div>';
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   PIN AUTHENTICATION
+   Will & Mark  → full access, no PIN required
+   Max          → PIN 1847
+   Issac        → PIN 2931
+   McKenna      → PIN 5063
+═══════════════════════════════════════════════════════ */
+const PIN_CONFIG = {
+  Mark:    { pin: '7439', access: 'full'  },
+  Will:    { pin: '2512', access: 'full'  },
+  Max:     { pin: '1847', access: 'agent' },
+  Issac:   { pin: '2931', access: 'agent' },
+  McKenna: { pin: '5063', access: 'agent' },
+};
+
+let loginAgent    = null;
+let pinBuffer     = '';
+let sessionAccess = null;
+let sessionAgent  = null;
+
+function selectLoginAgent(agent, btn){
+  loginAgent = agent;
+  pinBuffer  = '';
+  document.querySelectorAll('.agent-login-btn').forEach(b => b.classList.remove('selected'));
+  if(btn) btn.classList.add('selected');
+  updatePinDots();
+  const pinWrap    = document.getElementById('pin-entry-wrap');
+  const fullNotice = document.getElementById('full-access-notice');
+  // Everyone goes through the PIN keypad
+  pinWrap.style.display    = 'block';
+  fullNotice.style.display = 'none';
+  document.getElementById('pin-prompt-label').textContent = `Enter ${agent}'s PIN`;
+  clearPinError();
+}
+
+function loginFullAccess(){
+  sessionAccess = 'full';
+  sessionAgent  = loginAgent;
+  completeLogin();
+}
+
+function pinKey(digit){
+  if(pinBuffer.length >= 4) return;
+  pinBuffer += digit;
+  updatePinDots();
+  if(pinBuffer.length === 4) setTimeout(checkPin, 120);
+}
+
+function pinBackspace(){
+  pinBuffer = pinBuffer.slice(0,-1);
+  updatePinDots();
+  clearPinError();
+}
+
+function pinClear(){
+  pinBuffer = '';
+  updatePinDots();
+  clearPinError();
+}
+
+function updatePinDots(){
+  for(let i=0;i<4;i++){
+    const dot = document.getElementById('pd-'+i);
+    if(!dot) continue;
+    dot.classList.remove('filled','error');
+    if(i < pinBuffer.length) dot.classList.add('filled');
+  }
+}
+
+function checkPin(){
+  const cfg = PIN_CONFIG[loginAgent];
+  if(pinBuffer === cfg.pin){
+    sessionAccess = cfg.access; // 'full' for Mark/Will, 'agent' for others
+    sessionAgent  = loginAgent;
+    completeLogin();
+  } else {
+    for(let i=0;i<4;i++){
+      const dot=document.getElementById('pd-'+i);
+      if(dot){ dot.classList.remove('filled'); dot.classList.add('error'); }
+    }
+    const errEl = document.getElementById('pin-error');
+    if(errEl){ errEl.textContent='Incorrect PIN — try again'; errEl.style.opacity='1'; }
+    setTimeout(()=>{
+      pinBuffer=''; updatePinDots();
+      for(let i=0;i<4;i++){ const d=document.getElementById('pd-'+i); if(d) d.classList.remove('error'); }
+    }, 900);
+  }
+}
+
+function clearPinError(){
+  const e=document.getElementById('pin-error'); if(e){ e.textContent=''; e.style.opacity='0'; }
+}
+
+function completeLogin(){
+  const ps = document.getElementById('pin-screen');
+  if(ps){ ps.style.opacity='0'; ps.style.transition='opacity 0.4s'; setTimeout(()=>ps.style.display='none',400); }
+  // Show logout button
+  const lb = document.getElementById('logout-btn'); if(lb) lb.style.display='block';
+  applyAccessRestrictions();
+  const callPill = document.querySelector(`#page-calls .pill[onclick*="'${sessionAgent}'"]`);
+  if(callPill) selectAgent(sessionAgent, callPill);
+  const goalPill = document.querySelector(`#page-goals .pill[onclick*="'${sessionAgent}'"]`);
+  if(goalPill) selectGoalAgent(sessionAgent, goalPill);
+  toast(`Welcome, ${sessionAgent}! Let's get it. 🔥`);
+}
+
+function logoutSession(){
+  playSound('click');
+  // Reset session state
+  sessionAccess = null; sessionAgent = null;
+  loginAgent = null; pinBuffer = '';
+  // Hide logout button
+  const lb = document.getElementById('logout-btn'); if(lb) lb.style.display='none';
+  // Reset PIN screen UI
+  document.querySelectorAll('.agent-login-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('pin-entry-wrap').style.display='none';
+  document.getElementById('full-access-notice').style.display='none';
+  updatePinDots(); clearPinError();
+  // Show PIN screen
+  const ps = document.getElementById('pin-screen');
+  if(ps){ ps.style.display='flex'; ps.style.opacity='0'; setTimeout(()=>ps.style.opacity='1',10); ps.style.transition='opacity 0.3s'; }
+  // Restore any locked nav buttons (full reset on next login)
+  document.querySelectorAll('.nav-btn.locked').forEach(btn=>{
+    btn.classList.remove('locked');
+    // restore onclick from data attribute
+    const page = btn.getAttribute('data-page');
+    if(page) btn.onclick = function(){ showPage(page,this); };
+  });
+}
+
+function applyAccessRestrictions(){
+  if(sessionAccess === 'full') return; // Mark & Will — unrestricted
+
+  // ── HIDDEN tabs (agent has no business there) ──
+  // Weekly tracker — manager view only
+  const weeklyBtn = document.querySelector(`.nav-btn[onclick*="'weekly'"]`);
+  if(weeklyBtn){
+    weeklyBtn.setAttribute('data-page','weekly');
+    weeklyBtn.classList.add('locked');
+    weeklyBtn.onclick = e => { e.stopPropagation(); toast('🔒 Manager access only'); };
+  }
+  // New Day Reset — admin only
+  const resetBtn = document.querySelector('button[onclick="confirmDailyReset()"]');
+  if(resetBtn) resetBtn.style.display='none';
+
+  // ── CALL TRACKER — lock to own name only ──
+  document.querySelectorAll('#page-calls .pill').forEach(pill => {
+    if(pill.textContent.trim() !== sessionAgent){
+      pill.style.opacity='0.25'; pill.style.cursor='not-allowed';
+      pill.onclick = e => { e.stopPropagation(); toast('🔒 You can only log your own stats'); };
+    }
+  });
+
+  // ── OVERVIEW AP inputs — lock other agents ──
+  agents.forEach(a => {
+    if(a !== sessionAgent){
+      const el = document.getElementById('ap-'+a);
+      if(el){ el.readOnly=true; el.style.opacity='0.25'; el.style.cursor='not-allowed'; el.title='You can only edit your own AP'; }
+    }
+  });
+
+  // ── ISSUED PREMIUM — lock other agents' IP inputs ──
+  agents.forEach(a => {
+    if(a !== sessionAgent){
+      const el = document.getElementById('ip-'+a);
+      if(el){ el.readOnly=true; el.style.opacity='0.25'; el.style.cursor='not-allowed'; el.title='You can only edit your own IP'; }
+    }
+  });
+
+  // ── GOALS — lock other agents' goal pills ──
+  document.querySelectorAll('#page-goals .pill').forEach(pill => {
+    if(pill.textContent.trim() !== sessionAgent){
+      pill.style.opacity='0.25'; pill.style.cursor='not-allowed';
+      pill.onclick = e => { e.stopPropagation(); toast('🔒 You can only edit your own goals'); };
+    }
+  });
+
+  // ── APPOINTMENTS — hide other agents' delete/done buttons after render ──
+  // (handled in renderAppts by checking sessionAgent)
 }
 
 
