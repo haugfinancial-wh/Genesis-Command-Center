@@ -1523,7 +1523,7 @@ body::after {
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
         <button class="agent-login-btn" onclick="selectLoginAgent('Mark',this)">Mark</button>
         <button class="agent-login-btn" onclick="selectLoginAgent('Max',this)">Max</button>
-        <button class="agent-login-btn" onclick="selectLoginAgent('Issac',this)">Issac</button>
+        <button class="agent-login-btn" onclick="selectLoginAgent('Isaac',this)">Isaac</button>
         <button class="agent-login-btn" onclick="selectLoginAgent('McKenna',this)">McKenna</button>
         <button class="agent-login-btn" onclick="selectLoginAgent('Will',this)">Will</button>
       </div>
@@ -1693,7 +1693,7 @@ body::after {
     <div class="team-grid">
       <div class="agent-tile" data-role="manager"><div class="avatar">M</div><div class="agent-name">Mark</div><div class="agent-role">Manager</div></div>
       <div class="agent-tile"><div class="avatar">Mx</div><div class="agent-name">Max</div><div class="agent-role">Agent</div></div>
-      <div class="agent-tile"><div class="avatar">Is</div><div class="agent-name">Issac</div><div class="agent-role">Agent</div></div>
+      <div class="agent-tile"><div class="avatar">Is</div><div class="agent-name">Isaac</div><div class="agent-role">Agent</div></div>
       <div class="agent-tile"><div class="avatar">Mc</div><div class="agent-name">McKenna</div><div class="agent-role">Agent</div></div>
       <div class="agent-tile"><div class="avatar">Wi</div><div class="agent-name">Will</div><div class="agent-role">Agent</div></div>
     </div>
@@ -1755,7 +1755,7 @@ body::after {
       <div class="ap-input-grid">
         <div class="ap-cell"><div class="a-name">Mark</div><input type="number" placeholder="0" id="ap-Mark" oninput="saveAP('Mark')"/><div class="a-sub">AP $</div></div>
         <div class="ap-cell"><div class="a-name">Max</div><input type="number" placeholder="0" id="ap-Max" oninput="saveAP('Max')"/><div class="a-sub">AP $</div></div>
-        <div class="ap-cell"><div class="a-name">Issac</div><input type="number" placeholder="0" id="ap-Issac" oninput="saveAP('Issac')"/><div class="a-sub">AP $</div></div>
+        <div class="ap-cell"><div class="a-name">Isaac</div><input type="number" placeholder="0" id="ap-Isaac" oninput="saveAP('Isaac')"/><div class="a-sub">AP $</div></div>
         <div class="ap-cell"><div class="a-name">McKenna</div><input type="number" placeholder="0" id="ap-McKenna" oninput="saveAP('McKenna')"/><div class="a-sub">AP $</div></div>
         <div class="ap-cell"><div class="a-name">Will</div><input type="number" placeholder="0" id="ap-Will" oninput="saveAP('Will')"/><div class="a-sub">AP $</div></div>
       </div>
@@ -1800,7 +1800,7 @@ body::after {
     <div class="agent-pills">
       <button class="pill active" onclick="selectAgent('Mark',this)">Mark</button>
       <button class="pill" onclick="selectAgent('Max',this)">Max</button>
-      <button class="pill" onclick="selectAgent('Issac',this)">Issac</button>
+      <button class="pill" onclick="selectAgent('Isaac',this)">Isaac</button>
       <button class="pill" onclick="selectAgent('McKenna',this)">McKenna</button>
       <button class="pill" onclick="selectAgent('Will',this)">Will</button>
     </div>
@@ -1888,7 +1888,7 @@ body::after {
       <div class="ip-grid">
         <div class="ip-cell"><div class="ip-name">Mark</div><input type="number" placeholder="0" id="ip-Mark" oninput="saveIP('Mark')"/><div class="ip-lbl">Issued Premium $</div></div>
         <div class="ip-cell"><div class="ip-name">Max</div><input type="number" placeholder="0" id="ip-Max" oninput="saveIP('Max')"/><div class="ip-lbl">Issued Premium $</div></div>
-        <div class="ip-cell"><div class="ip-name">Issac</div><input type="number" placeholder="0" id="ip-Issac" oninput="saveIP('Issac')"/><div class="ip-lbl">Issued Premium $</div></div>
+        <div class="ip-cell"><div class="ip-name">Isaac</div><input type="number" placeholder="0" id="ip-Isaac" oninput="saveIP('Isaac')"/><div class="ip-lbl">Issued Premium $</div></div>
         <div class="ip-cell"><div class="ip-name">McKenna</div><input type="number" placeholder="0" id="ip-McKenna" oninput="saveIP('McKenna')"/><div class="ip-lbl">Issued Premium $</div></div>
         <div class="ip-cell"><div class="ip-name">Will</div><input type="number" placeholder="0" id="ip-Will" oninput="saveIP('Will')"/><div class="ip-lbl">Issued Premium $</div></div>
       </div>
@@ -1972,22 +1972,22 @@ body::after {
         <div class="pipeline-col new-leads">
           <div class="col-header">New Leads <span class="col-count" id="count-new">0</span></div>
           <div id="col-new"></div>
-          <div class="add-form"><input type="text" placeholder="Client name" id="new-name"/><select id="new-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="new-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Issac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('new')">+ Add Lead</button></div>
+          <div class="add-form"><input type="text" placeholder="Client name" id="new-name"/><select id="new-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="new-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('new')">+ Add Lead</button></div>
         </div>
         <div class="pipeline-col contacted">
           <div class="col-header">Contacted <span class="col-count" id="count-contacted">0</span></div>
           <div id="col-contacted"></div>
-          <div class="add-form"><input type="text" placeholder="Client name" id="contacted-name"/><select id="contacted-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="contacted-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Issac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('contacted')">+ Add</button></div>
+          <div class="add-form"><input type="text" placeholder="Client name" id="contacted-name"/><select id="contacted-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="contacted-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('contacted')">+ Add</button></div>
         </div>
         <div class="pipeline-col appt-set">
           <div class="col-header">Appt Set <span class="col-count" id="count-appt">0</span></div>
           <div id="col-appt"></div>
-          <div class="add-form"><input type="text" placeholder="Client name" id="appt-name"/><select id="appt-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="appt-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Issac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('appt')">+ Add</button></div>
+          <div class="add-form"><input type="text" placeholder="Client name" id="appt-name"/><select id="appt-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="appt-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('appt')">+ Add</button></div>
         </div>
         <div class="pipeline-col closed">
           <div class="col-header">AP Written ✓ <span class="col-count" id="count-closed">0</span></div>
           <div id="col-closed"></div>
-          <div class="add-form"><input type="text" placeholder="Client name" id="closed-name"/><select id="closed-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="closed-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Issac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('closed')">+ Add</button></div>
+          <div class="add-form"><input type="text" placeholder="Client name" id="closed-name"/><select id="closed-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="closed-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('closed')">+ Add</button></div>
         </div>
       </div>
     </div>
@@ -2270,7 +2270,7 @@ body::after {
       <div class="win-add-form">
         <select id="win-agent-select">
           <option value="">Agent...</option>
-          <option>Mark</option><option>Max</option><option>Issac</option><option>McKenna</option><option>Will</option>
+          <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
           <option>Team</option>
         </select>
         <select id="win-type-select">
@@ -2434,7 +2434,7 @@ body::after {
     <div class="agent-pills" style="margin-bottom:24px;">
       <button class="pill active" onclick="selectGoalAgent('Mark',this)">Mark</button>
       <button class="pill" onclick="selectGoalAgent('Max',this)">Max</button>
-      <button class="pill" onclick="selectGoalAgent('Issac',this)">Issac</button>
+      <button class="pill" onclick="selectGoalAgent('Isaac',this)">Isaac</button>
       <button class="pill" onclick="selectGoalAgent('McKenna',this)">McKenna</button>
       <button class="pill" onclick="selectGoalAgent('Will',this)">Will</button>
     </div>
@@ -2493,7 +2493,7 @@ body::after {
           <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Agent</div>
           <select id="appt-agent" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
             <option value="">Select...</option>
-            <option>Mark</option><option>Max</option><option>Issac</option><option>McKenna</option><option>Will</option>
+            <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
           </select>
         </div>
         <div>
@@ -2547,7 +2547,7 @@ const SUPABASE_URL = 'https://kgboqatlskbaajevxkow.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnYm9xYXRsc2tiYWFqZXZ4a293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxOTQzMzUsImV4cCI6MjA4ODc3MDMzNX0.eqNe8lECIzIL_kQRfEKmampOLE7ZdKtVwFRjpv4HtSc';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const agents = ['Mark','Max','Issac','McKenna','Will'];
+const agents = ['Mark','Max','Isaac','McKenna','Will'];
 let currentAgent = 'Mark';
 let callCache = {}; agents.forEach(a => callCache[a] = {dials:0,pickups:0,appts:0,closed:0});
 let apCache        = {};
@@ -3351,14 +3351,14 @@ function renderAppts(){
    PIN AUTHENTICATION
    Will & Mark  → full access, no PIN required
    Max          → PIN 1847
-   Issac        → PIN 2931
+   Isaac        → PIN 2931
    McKenna      → PIN 5063
 ═══════════════════════════════════════════════════════ */
 const PIN_CONFIG = {
   Mark:    { pin: '7439', access: 'full'  },
   Will:    { pin: '2512', access: 'full'  },
   Max:     { pin: '1847', access: 'agent' },
-  Issac:   { pin: '2931', access: 'agent' },
+  Isaac:   { pin: '2931', access: 'agent' },
   McKenna: { pin: '5063', access: 'agent' },
 };
 
