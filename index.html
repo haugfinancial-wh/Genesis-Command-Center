@@ -1629,16 +1629,15 @@ body::after {
   <nav class="nav">
     <button class="nav-btn active" onclick="showPage('overview',this)">Overview</button>
     <button class="nav-btn" onclick="showPage('calls',this)">Call Tracker</button>
+    <button class="nav-btn" onclick="showPage('bob',this)">📒 Book of Business</button>
     <button class="nav-btn" onclick="showPage('ip',this)">Issued Premium</button>
+    <button class="nav-btn" onclick="showPage('followup',this)">📞 Follow-Ups</button>
     <button class="nav-btn" onclick="showPage('leaderboard',this)">Leaderboard</button>
     <button class="nav-btn" onclick="showPage('wins',this)">🏆 Team Wins</button>
-    <button class="nav-btn" onclick="showPage('weekly',this)">Weekly</button>
     <button class="nav-btn" onclick="showPage('goals',this)">🎯 My Goals</button>
     <button class="nav-btn" onclick="showPage('appts',this)">📅 Appointments</button>
-    <button class="nav-btn" onclick="showPage('bob',this)">📒 Book of Business</button>
     <button class="nav-btn" onclick="showPage('expenses',this)">💰 Expenses</button>
     <button class="nav-btn" onclick="showPage('submit',this)">📤 Submit Business</button>
-    <button class="nav-btn" onclick="showPage('calc',this)">Calculator</button>
     <button class="nav-btn" onclick="showPage('focus',this)">Focus Timer</button>
     <button class="nav-btn" onclick="showPage('motivation',this)">⚡ Be Great</button>
   </nav>
@@ -1761,20 +1760,6 @@ body::after {
         </div>
       </div>
     </div><!-- end two-column -->
-
-    <div class="card">
-      <div class="s-label">$100K AP Roadmap</div>
-      <table class="data-table">
-        <thead><tr><th>Metric</th><th>Per Agent / Day</th><th>Team / Day</th><th>Team / Month</th></tr></thead>
-        <tbody>
-          <tr><td>Dials needed</td><td class="num c">60–80</td><td style="color:var(--text-soft);font-family:var(--mono)">300–400</td><td style="color:var(--text-soft);font-family:var(--mono)">6,000–8,000</td></tr>
-          <tr><td>Conversations (~15%)</td><td class="num a">9–12</td><td style="color:var(--text-soft);font-family:var(--mono)">45–60</td><td style="color:var(--text-soft);font-family:var(--mono)">900–1,200</td></tr>
-          <tr><td>Appointments set (~30%)</td><td class="num g">3–4</td><td style="color:var(--text-soft);font-family:var(--mono)">15–20</td><td style="color:var(--text-soft);font-family:var(--mono)">300–400</td></tr>
-          <tr><td>Policies closed (~40% of appts)</td><td class="num g">1–2</td><td style="color:var(--text-soft);font-family:var(--mono)">6–8</td><td style="color:var(--text-soft);font-family:var(--mono)">120–160</td></tr>
-          <tr><td>Avg AP per policy ($600–$900)</td><td class="num" style="color:var(--text-mute)">—</td><td class="num" style="color:var(--text-mute)">—</td><td class="num g">$100K+</td></tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 
   <!-- ══════════════════════════════════════
@@ -1995,21 +1980,16 @@ body::after {
 
     <!-- AP Progress Bar -->
     <div class="card accent" style="margin-bottom:20px;">
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;">
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">BOB AP</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Closed Policy AP</div>
           <div style="font-family:var(--display);font-size:26px;font-weight:900;color:var(--tron);text-shadow:var(--tron-glow-sm);">$<span id="ap-written-total">0</span></div>
-          <div style="font-size:10px;color:var(--text-mute);margin-top:3px;">From closed policies</div>
-        </div>
-        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;">
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Manual AP</div>
-          <div style="font-family:var(--display);font-size:26px;font-weight:900;color:var(--amber);">$<span id="bob-manual-ap-display">0</span></div>
-          <div style="font-size:10px;color:var(--text-mute);margin-top:3px;">Manually added</div>
+          <div style="font-size:10px;color:var(--text-mute);margin-top:3px;">From logged policies</div>
         </div>
         <div style="background:var(--surface);border:1px solid rgba(0,255,157,0.2);border-radius:var(--r-sm);padding:14px;text-align:center;">
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Total Combined</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Total AP</div>
           <div style="font-family:var(--display);font-size:26px;font-weight:900;color:var(--green);text-shadow:0 0 12px rgba(0,255,157,0.4);">$<span id="bob-combined-ap">0</span></div>
-          <div style="font-size:10px;color:var(--text-mute);margin-top:3px;">Toward $100K goal</div>
+          <div style="font-size:10px;color:var(--text-mute);margin-top:3px;">Including manual adjustments</div>
         </div>
       </div>
       <div class="s-label" style="margin-bottom:8px;">Team AP Goal Progress</div>
@@ -2427,122 +2407,96 @@ body::after {
   </div>
 
   <!-- ══════════════════════════════════════
-       WEEKLY DIAL TRACKER
+       FOLLOW-UP TRACKER
   ══════════════════════════════════════ -->
-  <div class="page" id="page-weekly">
+  <div class="page" id="page-followup">
     <div class="page-header">
       <div class="brand">
-        <div class="eyebrow">5-Day View</div>
-        <h1>WEEKLY <span>TRACKER</span></h1>
-        <div class="sub">Did each agent hit their 60-dial minimum today?</div>
+        <div class="eyebrow">Never Drop a Lead</div>
+        <h1>FOLLOW-UP <span>TRACKER</span></h1>
+        <div class="sub">Most income lives in follow-ups 3–5. This is where it lives.</div>
+      </div>
+      <div class="goal-chip">
+        <div class="gc-label">Open Follow-Ups</div>
+        <div class="gc-val" id="fu-open-count">0</div>
+        <div class="gc-sub">Due today: <span id="fu-due-today">0</span></div>
       </div>
     </div>
 
+    <!-- Add Follow-Up Form -->
     <div class="card accent">
-      <div class="s-label">Daily 60-Dial Goal — This Week</div>
-      <div class="week-grid" id="week-grid-dials">
-        <div class="wk-header"></div>
-        <div class="wk-header">MON</div>
-        <div class="wk-header">TUE</div>
-        <div class="wk-header">WED</div>
-        <div class="wk-header">THU</div>
-        <div class="wk-header">FRI</div>
+      <div class="s-label">Add a Follow-Up</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Agent</div>
+          <select id="fu-agent" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="">Select...</option>
+            <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Prospect Name</div>
+          <input type="text" id="fu-name" placeholder="John Smith" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Phone</div>
+          <input type="tel" id="fu-phone" placeholder="(555) 000-0000" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Call Back Date</div>
+          <input type="date" id="fu-date" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
       </div>
-      <div class="week-legend">
-        <div class="wl-item"><div class="wl-dot" style="background:var(--green);box-shadow:0 0 4px rgba(0,255,157,0.5)"></div>60+ Dials (Goal Hit)</div>
-        <div class="wl-item"><div class="wl-dot" style="background:var(--amber)"></div>30–59 (Partial)</div>
-        <div class="wl-item"><div class="wl-dot" style="background:var(--red)"></div>Under 30 (Missed)</div>
-        <div class="wl-item"><div class="wl-dot" style="background:var(--text-mute)"></div>Not logged</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="s-label">Log Daily Dials</div>
-      <div id="weekly-log-form" style="display:grid;gap:10px;"></div>
-    </div>
-
-    <div class="card">
-      <div class="s-label">Week Summary</div>
-      <table class="data-table" id="week-summary-table">
-        <thead><tr><th>Agent</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Total</th><th>Goal Days</th></tr></thead>
-        <tbody id="week-summary-body"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════
-       CONVERSION RATE CALCULATOR
-  ══════════════════════════════════════ -->
-  <div class="page" id="page-calc">
-    <div class="page-header">
-      <div class="brand">
-        <div class="eyebrow">Know Your Numbers</div>
-        <h1>RATE <span>CALCULATOR</span></h1>
-        <div class="sub">Plug in your dials. See exactly what it takes to hit any goal.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Lead Type</div>
+          <select id="fu-type" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="farmer">🌾 Farmer</option>
+            <option value="mp">🏠 Mortgage Protection</option>
+            <option value="ethos">⚡ Aged Ethos</option>
+            <option value="aged">📋 Other Aged</option>
+            <option value="referral">🤝 Referral</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Notes</div>
+          <input type="text" id="fu-notes" placeholder="e.g. Interested but wants to think about it, call back Thursday..." style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <button class="btn c" onclick="addFollowUp()" style="padding:9px 20px;white-space:nowrap;">+ Add</button>
       </div>
     </div>
 
-    <div class="card accent">
-      <div class="s-label">Your Conversion Inputs</div>
-      <div class="calc-grid">
-        <div class="calc-cell">
-          <label>Total Dials</label>
-          <input type="number" id="calc-dials" placeholder="100" oninput="runCalc()"/>
-        </div>
-        <div class="calc-cell">
-          <label>Pickups / Contacts</label>
-          <input type="number" id="calc-pickups" placeholder="15" oninput="runCalc()"/>
-        </div>
-        <div class="calc-cell">
-          <label>Appointments Set</label>
-          <input type="number" id="calc-appts" placeholder="5" oninput="runCalc()"/>
-        </div>
-        <div class="calc-cell">
-          <label>Policies Closed</label>
-          <input type="number" id="calc-closed" placeholder="2" oninput="runCalc()"/>
-        </div>
-        <div class="calc-cell">
-          <label>Avg AP Per Policy ($)</label>
-          <input type="number" id="calc-ap" placeholder="700" oninput="runCalc()"/>
-        </div>
-        <div class="calc-cell">
-          <label>Monthly Income Goal ($)</label>
-          <input type="number" id="calc-goal" placeholder="10000" oninput="runCalc()"/>
-        </div>
-      </div>
-      <div class="s-label">Your Conversion Rates</div>
-      <div class="calc-results">
-        <div class="calc-result"><div class="cr-num num c" id="cr-contact-rate">—</div><div class="cr-lbl">Contact Rate</div></div>
-        <div class="calc-result"><div class="cr-num num a" id="cr-appt-rate">—</div><div class="cr-lbl">Appt Rate</div></div>
-        <div class="calc-result"><div class="cr-num num g" id="cr-close-rate">—</div><div class="cr-lbl">Close Rate</div></div>
-        <div class="calc-result"><div class="cr-num" style="color:var(--purple)" id="cr-dial-to-close">—</div><div class="cr-lbl">Dials Per Close</div></div>
+    <!-- Filter pills -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+      <button class="stab active" onclick="filterFollowUps('open',this)">📞 Open</button>
+      <button class="stab" onclick="filterFollowUps('today',this)">🔥 Due Today</button>
+      <button class="stab" onclick="filterFollowUps('overdue',this)">⚠️ Overdue</button>
+      <button class="stab" onclick="filterFollowUps('done',this)">✅ Completed</button>
+      <button class="stab" onclick="filterFollowUps('all',this)">All</button>
+      <div style="margin-left:auto;">
+        <select id="fu-agent-filter" onchange="renderFollowUps()" style="background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text-soft);font-family:var(--mono);font-size:11px;padding:6px 10px;outline:none;">
+          <option value="all">All Agents</option>
+          <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
+        </select>
       </div>
     </div>
 
-    <div class="card">
-      <div class="s-label">To Hit Your Monthly Goal</div>
-      <div class="calc-results" style="margin-bottom:16px;">
-        <div class="calc-result"><div class="cr-num num c" id="cr-dials-needed">—</div><div class="cr-lbl">Dials Needed / Mo</div></div>
-        <div class="calc-result"><div class="cr-num num c" id="cr-dials-per-day">—</div><div class="cr-lbl">Dials / Day (22 days)</div></div>
-        <div class="calc-result"><div class="cr-num num g" id="cr-closes-needed">—</div><div class="cr-lbl">Closes Needed</div></div>
-        <div class="calc-result"><div class="cr-num num a" id="cr-ap-needed">—</div><div class="cr-lbl">AP Needed</div></div>
-      </div>
-      <div id="calc-insight" style="background:var(--tron-dim);border:1px solid rgba(0,255,255,0.12);border-radius:var(--r-sm);padding:14px 18px;font-size:13px;color:var(--text-soft);line-height:1.8;display:none;"></div>
+    <!-- Follow-Up List -->
+    <div id="followup-list" style="display:grid;gap:8px;">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--text-mute);text-align:center;padding:30px 0;">No follow-ups yet. Every lead you don't close today is a follow-up for tomorrow.</div>
     </div>
 
-    <div class="card">
-      <div class="s-label">Team Benchmarks</div>
+    <!-- Stats -->
+    <div class="card" style="margin-top:20px;">
+      <div class="s-label">Follow-Up Stats by Agent</div>
       <table class="data-table">
-        <thead><tr><th>Agent</th><th>Dials</th><th>Contact Rate</th><th>Close Rate</th><th>AP</th><th>Per-Dial Value</th></tr></thead>
-        <tbody id="agent-benchmarks"></tbody>
+        <thead><tr><th>Agent</th><th>Open</th><th>Due Today</th><th>Overdue</th><th>Completed</th><th>Total</th></tr></thead>
+        <tbody id="fu-stats-table"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════
-       PERSONAL GOALS
-  ══════════════════════════════════════ -->
-  <div class="page" id="page-goals">
+    <div class="page" id="page-goals">
     <div class="page-header">
       <div class="brand">
         <div class="eyebrow">Individual Targets</div>
@@ -2592,6 +2546,67 @@ body::after {
         <thead><tr><th>Agent</th><th>AP Goal</th><th>AP Written</th><th>Progress</th><th>Income Goal</th><th>Dial Goal</th></tr></thead>
         <tbody id="all-goals-table"></tbody>
       </table>
+    </div>
+
+    <!-- Conversion Calculator (moved here from its own tab) -->
+    <div class="card" style="margin-top:4px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="toggleSection('calc-section',this)">
+        <div class="s-label" style="margin-bottom:0;">Conversion Calculator</div>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text-mute);letter-spacing:1px;">▼ EXPAND</span>
+      </div>
+      <div id="calc-section" style="display:none;margin-top:16px;">
+        <div style="font-size:12px;color:var(--text-mute);margin-bottom:14px;">Enter your numbers to see exactly how many dials you need to hit your goal.</div>
+        <div class="calc-grid" style="margin-bottom:14px;">
+          <div class="calc-cell"><label>Dials</label><input type="number" id="calc-dials" placeholder="0" oninput="runCalc()"/></div>
+          <div class="calc-cell"><label>Pickups</label><input type="number" id="calc-pickups" placeholder="0" oninput="runCalc()"/></div>
+          <div class="calc-cell"><label>Appointments</label><input type="number" id="calc-appts" placeholder="0" oninput="runCalc()"/></div>
+          <div class="calc-cell"><label>Closed</label><input type="number" id="calc-closed" placeholder="0" oninput="runCalc()"/></div>
+          <div class="calc-cell"><label>Avg AP ($)</label><input type="number" id="calc-ap" placeholder="700" oninput="runCalc()"/></div>
+          <div class="calc-cell"><label>Monthly Goal ($)</label><input type="number" id="calc-goal" placeholder="10000" oninput="runCalc()"/></div>
+        </div>
+        <div class="s-label">Conversion Rates</div>
+        <div class="calc-results" style="margin-bottom:14px;">
+          <div class="calc-result"><div class="cr-num num c" id="cr-contact-rate">—</div><div class="cr-lbl">Contact Rate</div></div>
+          <div class="calc-result"><div class="cr-num num a" id="cr-appt-rate">—</div><div class="cr-lbl">Appt Rate</div></div>
+          <div class="calc-result"><div class="cr-num num g" id="cr-close-rate">—</div><div class="cr-lbl">Close Rate</div></div>
+          <div class="calc-result"><div class="cr-num" style="color:var(--purple)" id="cr-dial-to-close">—</div><div class="cr-lbl">Dials Per Close</div></div>
+        </div>
+        <div class="s-label">To Hit Your Monthly Goal</div>
+        <div class="calc-results" style="margin-bottom:12px;">
+          <div class="calc-result"><div class="cr-num num c" id="cr-dials-needed">—</div><div class="cr-lbl">Dials Needed / Mo</div></div>
+          <div class="calc-result"><div class="cr-num num c" id="cr-dials-per-day">—</div><div class="cr-lbl">Dials / Day (22 days)</div></div>
+          <div class="calc-result"><div class="cr-num num g" id="cr-closes-needed">—</div><div class="cr-lbl">Closes Needed</div></div>
+          <div class="calc-result"><div class="cr-num num a" id="cr-ap-needed">—</div><div class="cr-lbl">AP Needed</div></div>
+        </div>
+        <div id="calc-insight" style="background:var(--tron-dim);border:1px solid rgba(0,255,255,0.12);border-radius:var(--r-sm);padding:14px 18px;font-size:13px;color:var(--text-soft);line-height:1.8;display:none;"></div>
+        <div class="card" style="margin-top:14px;padding:16px;">
+          <div class="s-label" style="margin-bottom:10px;">Team Benchmarks</div>
+          <table class="data-table" style="margin:0;">
+            <thead><tr><th>Agent</th><th>Dials</th><th>Contact Rate</th><th>Close Rate</th><th>AP</th><th>Per-Dial Value</th></tr></thead>
+            <tbody id="agent-benchmarks"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Roadmap reference -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="toggleSection('roadmap-section',this)">
+        <div class="s-label" style="margin-bottom:0;">$100K AP Roadmap</div>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text-mute);letter-spacing:1px;">▼ EXPAND</span>
+      </div>
+      <div id="roadmap-section" style="display:none;margin-top:16px;">
+        <table class="data-table">
+          <thead><tr><th>Metric</th><th>Per Agent / Day</th><th>Team / Day</th><th>Team / Month</th></tr></thead>
+          <tbody>
+            <tr><td>Dials needed</td><td class="num c">60–80</td><td style="color:var(--text-soft);font-family:var(--mono)">300–400</td><td style="color:var(--text-soft);font-family:var(--mono)">6,000–8,000</td></tr>
+            <tr><td>Conversations (~15%)</td><td class="num a">9–12</td><td style="color:var(--text-soft);font-family:var(--mono)">45–60</td><td style="color:var(--text-soft);font-family:var(--mono)">900–1,200</td></tr>
+            <tr><td>Appointments set (~30%)</td><td class="num g">3–4</td><td style="color:var(--text-soft);font-family:var(--mono)">15–20</td><td style="color:var(--text-soft);font-family:var(--mono)">300–400</td></tr>
+            <tr><td>Policies closed (~40% of appts)</td><td class="num g">1–2</td><td style="color:var(--text-soft);font-family:var(--mono)">6–8</td><td style="color:var(--text-soft);font-family:var(--mono)">120–160</td></tr>
+            <tr><td>Avg AP per policy ($600–$900)</td><td class="num" style="color:var(--text-mute)">—</td><td class="num" style="color:var(--text-mute)">—</td><td class="num g">$100K+</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -2940,10 +2955,9 @@ function showPage(id, btn){
   if(id==='ip')          { renderIPComparison(); updateIPTotal(); }
   if(id==='motivation')  newAffirmation();
   if(id==='wins')        renderWinsWall();
-  if(id==='weekly')      { buildWeeklyGrid(); buildWeeklyLogForm(); }
-  if(id==='calc')        renderAgentBenchmarks();
   if(id==='bob')         { renderBobTable(); renderBobSummary(); updateBobAPBar(); loadManualAP(); }
-  if(id==='goals')       { renderGoalProgress(); renderAllGoalsTable(); }
+  if(id==='goals')       { renderGoalProgress(); renderAllGoalsTable(); renderAgentBenchmarks(); }
+  if(id==='followup')    { renderFollowUps(); renderFUStats(); }
   if(id==='appts')       renderAppts();
   if(id==='expenses')    { loadExpenseFields(); renderExpenseTotals(); renderTeamExpenseTable(); }
   if(id==='submit')      {}
@@ -3432,44 +3446,17 @@ function renderWinStats(){
   }).join('');
 }
 
-/* ═══════════════════════════════════════════════════════
-   WEEKLY DIAL TRACKER
-═══════════════════════════════════════════════════════ */
-const weekDays=['Mon','Tue','Wed','Thu','Fri'];
-let weeklyData={}; try{weeklyData=JSON.parse(localStorage.getItem('genesis_weekly')||'{}');}catch(e){}
 
-function buildWeeklyGrid(){
-  const grid=document.getElementById('week-grid-dials'); if(!grid) return;
-  while(grid.children.length>6) grid.removeChild(grid.lastChild);
-  agents.forEach(agent=>{
-    const nc=document.createElement('div'); nc.className='wk-name'; nc.textContent=agent; grid.appendChild(nc);
-    weekDays.forEach((_,di)=>{
-      const val=(weeklyData[agent]||[])[di];
-      const cell=document.createElement('div');
-      cell.className='wk-cell'+(val>=60?' achieved':val>=30?' partial':val>0?' missed':'');
-      cell.innerHTML=val>0?`<span class="wk-val">${val}</span>`:`<div class="wk-dot"></div>`;
-      grid.appendChild(cell);
-    });
-  });
-  renderWeekSummary();
-}
-function buildWeeklyLogForm(){
-  const form=document.getElementById('weekly-log-form'); if(!form) return;
-  form.innerHTML=agents.map(agent=>`<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><div style="font-family:var(--mono);font-size:11px;color:var(--text-soft);letter-spacing:1px;text-transform:uppercase;width:80px;flex-shrink:0;">${agent}</div>${weekDays.map((d,i)=>`<div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:1px;">${d}</div><input type="number" placeholder="0" style="width:56px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--tron);font-family:var(--mono);font-size:14px;font-weight:500;text-align:center;padding:6px 4px;outline:none;" value="${(weeklyData[agent]||[])[i]||''}" oninput="saveWeekly('${agent}',${i},this.value)"/></div>`).join('')}</div>`).join('');
-}
-function saveWeekly(agent,dayIdx,val){
-  playSound('save');
-  if(!weeklyData[agent]) weeklyData[agent]=Array(5).fill(0);
-  weeklyData[agent][dayIdx]=parseInt(val)||0;
-  try{localStorage.setItem('genesis_weekly',JSON.stringify(weeklyData));}catch(e){}
-  buildWeeklyGrid();
-}
-function renderWeekSummary(){
-  const tbody=document.getElementById('week-summary-body'); if(!tbody) return;
-  tbody.innerHTML=agents.map(agent=>{
-    const data=weeklyData[agent]||Array(5).fill(0), total=data.reduce((s,v)=>s+v,0), goalDays=data.filter(v=>v>=60).length;
-    return `<tr><td><div class="td-name"><div class="td-av">${agent[0]}</div>${agent}</div></td>${data.map(v=>`<td class="num ${v>=60?'g':v>=30?'a':v>0?'r':''}">${v||'—'}</td>`).join('')}<td class="num c">${total}</td><td class="num ${goalDays>=4?'g':goalDays>=2?'a':'r'}">${goalDays}/5</td></tr>`;
-  }).join('');
+/* ═══════════════════════════════════════════════════════
+   TOGGLE SECTION (collapsible cards)
+═══════════════════════════════════════════════════════ */
+function toggleSection(id, btn){
+  playSound('click');
+  const el=document.getElementById(id); if(!el) return;
+  const open=el.style.display!=='none';
+  el.style.display=open?'none':'block';
+  const label=btn?.querySelector('span');
+  if(label) label.textContent=open?'▼ EXPAND':'▲ COLLAPSE';
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -3496,6 +3483,144 @@ function renderAgentBenchmarks(){
   tbody.innerHTML=agents.map(a=>{
     const d=callCache[a], ap=apCache[a]||0;
     return `<tr><td><div class="td-name"><div class="td-av">${a[0]}</div>${a}</div></td><td class="num c">${d.dials}</td><td class="num a">${d.dials>0?((d.pickups/d.dials)*100).toFixed(1)+'%':'—'}</td><td class="num g">${d.appts>0?((d.closed/d.appts)*100).toFixed(1)+'%':'—'}</td><td class="num g">$${ap.toLocaleString()}</td><td class="num" style="color:var(--purple)">${d.dials>0?'$'+(ap/d.dials).toFixed(2):'—'}</td></tr>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   FOLLOW-UP TRACKER
+═══════════════════════════════════════════════════════ */
+let followUpData=[];
+try{ followUpData=JSON.parse(localStorage.getItem('genesis_followups')||'[]'); }catch(e){}
+let fuFilter='open';
+
+const fuTypeLabels={farmer:'🌾 Farmer',mp:'🏠 Mortgage',ethos:'⚡ Ethos',aged:'📋 Aged',referral:'🤝 Referral'};
+
+function addFollowUp(){
+  playSound('click');
+  const agent = document.getElementById('fu-agent')?.value;
+  const name  = document.getElementById('fu-name')?.value.trim();
+  const phone = document.getElementById('fu-phone')?.value.trim();
+  const date  = document.getElementById('fu-date')?.value;
+  const type  = document.getElementById('fu-type')?.value||'farmer';
+  const notes = document.getElementById('fu-notes')?.value.trim();
+  if(!agent||!name){ toast('Agent and name are required'); return; }
+  const fu={id:Date.now(),agent,name,phone,date,type,notes,status:'open',attempt:1,added:new Date().toLocaleDateString()};
+  followUpData.unshift(fu);
+  saveFollowUps();
+  // Clear form
+  ['fu-agent','fu-name','fu-phone','fu-date','fu-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderFollowUps(); renderFUStats();
+  playSound('appt');
+  toast(`📞 Follow-up added for ${name}`);
+}
+
+function saveFollowUps(){
+  try{ localStorage.setItem('genesis_followups',JSON.stringify(followUpData)); }catch(e){}
+}
+
+function markFUDone(id){
+  playSound('click');
+  const fu=followUpData.find(f=>f.id===id);
+  if(fu){ fu.status='done'; fu.completedOn=new Date().toLocaleDateString(); }
+  saveFollowUps(); renderFollowUps(); renderFUStats();
+  toast('✅ Follow-up marked complete!');
+}
+
+function incrementAttempt(id){
+  playSound('click');
+  const fu=followUpData.find(f=>f.id===id);
+  if(fu){ fu.attempt=(fu.attempt||1)+1; fu.lastCalled=new Date().toLocaleDateString(); }
+  saveFollowUps(); renderFollowUps();
+  toast('📞 Attempt logged!');
+}
+
+function deleteFU(id){
+  followUpData=followUpData.filter(f=>f.id!==id);
+  saveFollowUps(); renderFollowUps(); renderFUStats();
+}
+
+function filterFollowUps(filter,btn){
+  playSound('click');
+  fuFilter=filter;
+  document.querySelectorAll('#page-followup .stab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderFollowUps();
+}
+
+function renderFollowUps(){
+  const list=document.getElementById('followup-list'); if(!list) return;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const agentFilter=document.getElementById('fu-agent-filter')?.value||'all';
+
+  let filtered=followUpData;
+  if(agentFilter!=='all') filtered=filtered.filter(f=>f.agent===agentFilter);
+  if(fuFilter==='open')    filtered=filtered.filter(f=>f.status==='open');
+  if(fuFilter==='done')    filtered=filtered.filter(f=>f.status==='done');
+  if(fuFilter==='today')   filtered=filtered.filter(f=>f.status==='open'&&f.date&&new Date(f.date+'T00:00:00').toDateString()===today.toDateString());
+  if(fuFilter==='overdue') filtered=filtered.filter(f=>f.status==='open'&&f.date&&new Date(f.date+'T00:00:00')<today);
+
+  // Update header counts
+  const open=followUpData.filter(f=>f.status==='open').length;
+  const dueToday=followUpData.filter(f=>f.status==='open'&&f.date&&new Date(f.date+'T00:00:00').toDateString()===today.toDateString()).length;
+  const oc=document.getElementById('fu-open-count'); if(oc) oc.textContent=open;
+  const dt=document.getElementById('fu-due-today'); if(dt) dt.textContent=dueToday;
+
+  if(!filtered.length){
+    list.innerHTML=`<div style="font-family:var(--mono);font-size:11px;color:var(--text-mute);text-align:center;padding:24px 0;">No follow-ups match this filter.</div>`;
+    return;
+  }
+
+  list.innerHTML=filtered.map(fu=>{
+    const fuDate=fu.date?new Date(fu.date+'T00:00:00'):null;
+    const isToday=fuDate&&fuDate.toDateString()===today.toDateString();
+    const isOverdue=fuDate&&fuDate<today&&fu.status==='open';
+    const isDone=fu.status==='done';
+    const attemptColor=fu.attempt>=5?'var(--red)':fu.attempt>=3?'var(--amber)':'var(--green)';
+    const borderColor=isDone?'var(--text-mute)':isOverdue?'var(--red)':isToday?'var(--amber)':'var(--tron)';
+    const canEdit=sessionAccess==='full'||fu.agent===sessionAgent;
+
+    return `<div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid ${borderColor};border-radius:var(--r-sm);padding:14px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;opacity:${isDone?'0.5':'1'};">
+      <div style="flex:1;min-width:160px;">
+        <div style="font-weight:700;font-size:14px;color:var(--text);margin-bottom:3px;">${fu.name} ${isDone?'<span style="font-size:10px;color:var(--green);font-family:var(--mono);">✓ DONE</span>':''}</div>
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono);">${fu.agent} · ${fuTypeLabels[fu.type]||fu.type}${fu.phone?' · '+fu.phone:''}</div>
+        ${fu.notes?`<div style="font-size:11px;color:var(--text-mute);margin-top:4px;font-style:italic;">${fu.notes}</div>`:''}
+      </div>
+      <div style="text-align:center;flex:0 0 80px;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:1px;margin-bottom:2px;">CALL BACK</div>
+        <div style="font-size:12px;color:${isToday?'var(--amber)':isOverdue?'var(--red)':'var(--text-soft)'};font-weight:600;">${fu.date||'—'}</div>
+        ${isToday?'<div style="font-size:9px;color:var(--amber);font-family:var(--mono);">TODAY</div>':''}
+        ${isOverdue?'<div style="font-size:9px;color:var(--red);font-family:var(--mono);">OVERDUE</div>':''}
+      </div>
+      <div style="text-align:center;flex:0 0 70px;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:1px;margin-bottom:2px;">ATTEMPT</div>
+        <div style="font-family:var(--display);font-size:22px;font-weight:900;color:${attemptColor};">${fu.attempt||1}</div>
+        <div style="font-size:9px;color:var(--text-mute);font-family:var(--mono);">of 5</div>
+      </div>
+      ${canEdit&&!isDone?`<div style="display:flex;flex-direction:column;gap:6px;">
+        <button onclick="incrementAttempt(${fu.id})" style="background:var(--tron-dim);border:1px solid rgba(0,255,255,0.25);border-radius:6px;color:var(--tron);font-family:var(--mono);font-size:10px;padding:6px 10px;cursor:pointer;white-space:nowrap;">📞 +Attempt</button>
+        <button onclick="markFUDone(${fu.id})" style="background:var(--green-dim);border:1px solid rgba(0,255,157,0.25);border-radius:6px;color:var(--green);font-family:var(--mono);font-size:10px;padding:6px 10px;cursor:pointer;">✅ Done</button>
+        <button onclick="deleteFU(${fu.id})" style="background:var(--red-dim);border:1px solid rgba(255,61,90,0.2);border-radius:6px;color:var(--red);font-family:var(--mono);font-size:10px;padding:6px 10px;cursor:pointer;">✕</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderFUStats(){
+  const tbody=document.getElementById('fu-stats-table'); if(!tbody) return;
+  const today=new Date(); today.setHours(0,0,0,0);
+  tbody.innerHTML=agents.map(a=>{
+    const all=followUpData.filter(f=>f.agent===a);
+    const open=all.filter(f=>f.status==='open').length;
+    const dueToday=all.filter(f=>f.status==='open'&&f.date&&new Date(f.date+'T00:00:00').toDateString()===today.toDateString()).length;
+    const overdue=all.filter(f=>f.status==='open'&&f.date&&new Date(f.date+'T00:00:00')<today).length;
+    const done=all.filter(f=>f.status==='done').length;
+    return `<tr><td><div class="td-name"><div class="td-av">${a[0]}</div>${a}</div></td>
+      <td class="num c">${open}</td>
+      <td class="num a">${dueToday}</td>
+      <td class="num r">${overdue}</td>
+      <td class="num g">${done}</td>
+      <td class="num" style="color:var(--text-mute)">${all.length}</td>
+    </tr>`;
   }).join('');
 }
 
@@ -3831,14 +3956,6 @@ function logoutSession(){
 function applyAccessRestrictions(){
   if(sessionAccess === 'full') return; // Mark & Will — unrestricted
 
-  // ── HIDDEN tabs (agent has no business there) ──
-  // Weekly tracker — manager view only
-  const weeklyBtn = document.querySelector(`.nav-btn[onclick*="'weekly'"]`);
-  if(weeklyBtn){
-    weeklyBtn.setAttribute('data-page','weekly');
-    weeklyBtn.classList.add('locked');
-    weeklyBtn.onclick = e => { e.stopPropagation(); toast('🔒 Manager access only'); };
-  }
   // New Day Reset — admin only
   const resetBtn = document.querySelector('button[onclick="confirmDailyReset()"]');
   if(resetBtn) resetBtn.style.display='none';
@@ -3855,7 +3972,7 @@ function applyAccessRestrictions(){
   agents.forEach(a => {
     if(a !== sessionAgent){
       const el = document.getElementById('ap-'+a);
-      if(el){ el.readOnly=true; el.style.opacity='0.25'; el.style.cursor='not-allowed'; el.title='You can only edit your own AP'; }
+      if(el){ el.readOnly=true; el.style.opacity='0.25'; el.style.cursor='not-allowed'; }
     }
   });
 
@@ -3863,7 +3980,7 @@ function applyAccessRestrictions(){
   agents.forEach(a => {
     if(a !== sessionAgent){
       const el = document.getElementById('ip-'+a);
-      if(el){ el.readOnly=true; el.style.opacity='0.25'; el.style.cursor='not-allowed'; el.title='You can only edit your own IP'; }
+      if(el){ el.readOnly=true; el.style.opacity='0.25'; el.style.cursor='not-allowed'; }
     }
   });
 
@@ -3875,26 +3992,23 @@ function applyAccessRestrictions(){
     }
   });
 
-  // ── APPOINTMENTS — hide other agents' delete/done buttons after render ──
-  // (handled in renderAppts by checking sessionAgent)
-  // ── EXPENSES — hide team overview for agents ──
-  if(sessionAccess !== 'full'){
-    const teamExp=document.getElementById('team-expense-overview');
-    if(teamExp) teamExp.style.display='none';
-    // Lock expense pills to own agent
-    document.querySelectorAll('#page-expenses .pill').forEach(pill=>{
-      if(pill.textContent.trim()!==sessionAgent){
-        pill.style.opacity='0.25'; pill.style.cursor='not-allowed';
-        pill.onclick=e=>{e.stopPropagation();toast('🔒 You can only edit your own expenses');};
-      }
-    });
-    // Lock close deal modal agent to own name
-    const modalAgent=document.getElementById('modal-agent');
-    if(modalAgent){ modalAgent.value=sessionAgent; modalAgent.disabled=true; modalAgent.style.opacity='0.5'; }
-    // Lock BOB agent select to own name
-    const bobAgentEl=document.getElementById('bob-agent');
-    if(bobAgentEl){ bobAgentEl.value=sessionAgent; bobAgentEl.disabled=true; bobAgentEl.style.opacity='0.5'; }
-  }
+  // ── FOLLOW-UP — lock agent select to own name ──
+  const fuAgentEl = document.getElementById('fu-agent');
+  if(fuAgentEl){ fuAgentEl.value=sessionAgent; fuAgentEl.disabled=true; fuAgentEl.style.opacity='0.5'; }
+
+  // ── EXPENSES — hide team overview, lock to own agent ──
+  const teamExp=document.getElementById('team-expense-overview');
+  if(teamExp) teamExp.style.display='none';
+  document.querySelectorAll('#page-expenses .pill').forEach(pill=>{
+    if(pill.textContent.trim()!==sessionAgent){
+      pill.style.opacity='0.25'; pill.style.cursor='not-allowed';
+      pill.onclick=e=>{e.stopPropagation();toast('🔒 You can only edit your own expenses');};
+    }
+  });
+
+  // ── BOB — lock agent select to own name ──
+  const bobAgentEl=document.getElementById('bob-agent');
+  if(bobAgentEl){ bobAgentEl.value=sessionAgent; bobAgentEl.disabled=true; bobAgentEl.style.opacity='0.5'; }
 }
 
 
@@ -4105,19 +4219,27 @@ let manualAPData={};
 try{ manualAPData=JSON.parse(localStorage.getItem('genesis_manual_ap')||'{}'); }catch(e){}
 
 function saveManualAP(){
+  let total=0;
   agents.forEach(a=>{
     const val=parseFloat(document.getElementById('manual-ap-'+a)?.value)||0;
     manualAPData[a]=val;
+    total+=val;
   });
   try{ localStorage.setItem('genesis_manual_ap',JSON.stringify(manualAPData)); }catch(e){}
+  // Update the manual total display directly
+  const manualTotalEl=document.getElementById('manual-ap-total');
+  if(manualTotalEl) manualTotalEl.textContent=total.toLocaleString();
   updateBobAPBar();
 }
 
 function loadManualAP(){
+  let total=0;
   agents.forEach(a=>{
     const el=document.getElementById('manual-ap-'+a);
-    if(el&&manualAPData[a]) el.value=manualAPData[a];
+    if(el&&manualAPData[a]){ el.value=manualAPData[a]; total+=manualAPData[a]; }
   });
+  const manualTotalEl=document.getElementById('manual-ap-total');
+  if(manualTotalEl) manualTotalEl.textContent=total.toLocaleString();
 }
 
 function updateBobAPBar(){
@@ -4125,20 +4247,20 @@ function updateBobAPBar(){
   const manualAP=agents.reduce((s,a)=>s+(manualAPData[a]||0),0);
   const combined=bobAP+manualAP;
   const pct=Math.min((combined/100000)*100,100);
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
   // Update bar
   const bar=document.getElementById('ap-written-bar'); if(bar) bar.style.width=pct+'%';
-  // Update display elements
-  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  // BOB page displays
   set('ap-written-total',bobAP.toLocaleString());
-  set('bob-manual-ap-display',manualAP.toLocaleString());
+  set('manual-ap-total',manualAP.toLocaleString());
   set('bob-combined-ap',combined.toLocaleString());
   set('bob-total-count',bobData.length);
   set('bob-total-ap',bobAP.toLocaleString());
   set('bob-ap-pct',Math.round(pct)+'% of $100,000 goal');
-  // Sync combined AP to overview
-  const overviewEl=document.getElementById('overview-total'); if(overviewEl) overviewEl.textContent=combined.toLocaleString();
-  const overviewBar=document.getElementById('overview-bar'); if(overviewBar) overviewBar.style.width=pct+'%';
-  const overviewPct=document.getElementById('overview-pct'); if(overviewPct) overviewPct.textContent=Math.round(pct)+'% of $100,000 goal';
+  // Overview syncs to BOB AP only (manual is internal)
+  const overviewEl=document.getElementById('overview-total'); if(overviewEl) overviewEl.textContent=bobAP.toLocaleString();
+  const overviewBar=document.getElementById('overview-bar'); if(overviewBar) overviewBar.style.width=Math.min((bobAP/100000)*100,100)+'%';
+  const overviewPct=document.getElementById('overview-pct'); if(overviewPct) overviewPct.textContent=Math.round((bobAP/100000)*100)+'% of $100,000 goal';
   checkMilestones(combined);
 }
 
@@ -4228,6 +4350,8 @@ loadManualAP();
 loadExpenseFields();
 renderExpenseTotals();
 renderTeamExpenseTable();
+renderFollowUps();
+renderFUStats();
 
 </script>
 </body>
