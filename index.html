@@ -1296,186 +1296,173 @@ body::after {
 
 /* ═══════════ PIN SCREEN ═══════════ */
 #pin-screen {
-  position: fixed; inset: 0; background: var(--bg);
+  position: fixed; inset: 0;
+  background: #010508;
   z-index: 5000; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
 }
 .pin-grid-bg {
   position: fixed; inset: 0; pointer-events: none;
   background-image:
-    linear-gradient(rgba(0,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,255,0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
-  animation: gridPulse 4s ease-in-out infinite;
-}
-@keyframes gridPulse {
-  0%,100% { opacity: 0.6; }
-  50%      { opacity: 1;   }
+    linear-gradient(rgba(0,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 .pin-scan-line {
-  position: fixed; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.6), transparent);
-  box-shadow: 0 0 20px rgba(0,255,255,0.5), 0 0 60px rgba(0,255,255,0.2);
-  animation: scanDown 5s linear infinite;
-  pointer-events: none;
+  position: fixed; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 5%, rgba(0,255,255,0.5) 50%, transparent 95%);
+  box-shadow: 0 0 12px rgba(0,255,255,0.3);
+  animation: scanDown 6s linear infinite;
+  pointer-events: none; opacity: 0.7;
 }
 @keyframes scanDown { from { top: -2px; } to { top: 100vh; } }
 .pin-corner {
-  position: fixed; width: 60px; height: 60px; pointer-events: none;
+  position: fixed; width: 28px; height: 28px; pointer-events: none;
 }
-.pin-corner.tl { top: 16px; left: 16px; border-top: 2px solid var(--tron); border-left: 2px solid var(--tron); box-shadow: -4px -4px 12px rgba(0,255,255,0.3), inset -4px -4px 12px rgba(0,255,255,0.05); }
-.pin-corner.tr { top: 16px; right: 16px; border-top: 2px solid var(--tron); border-right: 2px solid var(--tron); box-shadow: 4px -4px 12px rgba(0,255,255,0.3), inset 4px -4px 12px rgba(0,255,255,0.05); }
-.pin-corner.bl { bottom: 16px; left: 16px; border-bottom: 2px solid var(--tron); border-left: 2px solid var(--tron); box-shadow: -4px 4px 12px rgba(0,255,255,0.3); }
-.pin-corner.br { bottom: 16px; right: 16px; border-bottom: 2px solid var(--tron); border-right: 2px solid var(--tron); box-shadow: 4px 4px 12px rgba(0,255,255,0.3); }
+.pin-corner.tl { top: 20px; left: 20px; border-top: 1px solid rgba(0,255,255,0.5); border-left: 1px solid rgba(0,255,255,0.5); }
+.pin-corner.tr { top: 20px; right: 20px; border-top: 1px solid rgba(0,255,255,0.5); border-right: 1px solid rgba(0,255,255,0.5); }
+.pin-corner.bl { bottom: 20px; left: 20px; border-bottom: 1px solid rgba(0,255,255,0.5); border-left: 1px solid rgba(0,255,255,0.5); }
+.pin-corner.br { bottom: 20px; right: 20px; border-bottom: 1px solid rgba(0,255,255,0.5); border-right: 1px solid rgba(0,255,255,0.5); }
 
 .pin-card {
   position: relative; z-index: 2;
-  background: rgba(6,12,20,0.95);
-  border: 1px solid rgba(0,255,255,0.25);
-  border-radius: 16px;
-  padding: 36px 32px 32px;
-  width: 100%; max-width: 420px;
-  margin: 0 24px;
-  box-shadow:
-    0 0 0 1px rgba(0,255,255,0.05),
-    0 0 40px rgba(0,255,255,0.08),
-    0 0 80px rgba(0,255,255,0.04),
-    inset 0 1px 0 rgba(0,255,255,0.1);
+  background: rgba(4,10,18,0.98);
+  border: 1px solid rgba(0,255,255,0.18);
+  border-radius: 12px;
+  padding: 40px 36px 36px;
+  width: 100%; max-width: 400px;
+  margin: 0 20px;
+  box-shadow: 0 0 60px rgba(0,255,255,0.06), 0 24px 48px rgba(0,0,0,0.6);
   text-align: center;
 }
 .pin-card::before {
   content:'';
-  position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--tron), var(--green), var(--tron), transparent);
-  box-shadow: 0 0 12px rgba(0,255,255,0.8);
+  position: absolute; top: 0; left: 20%; right: 20%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.7), transparent);
 }
-.pin-logo-wrap { margin-bottom: 32px; }
+.pin-logo-wrap { margin-bottom: 28px; }
 .pin-logo-main {
   font-family: var(--display);
-  font-size: 42px; font-weight: 900;
+  font-size: 38px; font-weight: 900;
   color: var(--tron);
-  letter-spacing: 8px;
-  text-shadow: 0 0 20px rgba(0,255,255,0.9), 0 0 40px rgba(0,255,255,0.4), 0 0 80px rgba(0,255,255,0.15);
-  animation: logoPulse 3s ease-in-out infinite;
+  letter-spacing: 10px;
+  text-shadow: 0 0 16px rgba(0,255,255,0.6), 0 0 32px rgba(0,255,255,0.15);
+  animation: logoPulse 4s ease-in-out infinite;
 }
 @keyframes logoPulse {
-  0%,100% { text-shadow: 0 0 20px rgba(0,255,255,0.9), 0 0 40px rgba(0,255,255,0.4), 0 0 80px rgba(0,255,255,0.15); }
-  50%      { text-shadow: 0 0 30px rgba(0,255,255,1),   0 0 60px rgba(0,255,255,0.6), 0 0 100px rgba(0,255,255,0.2); }
+  0%,100% { opacity: 0.92; }
+  50%      { opacity: 1; text-shadow: 0 0 20px rgba(0,255,255,0.8), 0 0 40px rgba(0,255,255,0.2); }
+}
+.pin-logo-solutions {
+  font-family: var(--display);
+  font-size: 15px; font-weight: 900;
+  color: rgba(0,255,157,0.85);
+  letter-spacing: 8px;
+  text-shadow: 0 0 10px rgba(0,255,157,0.4);
+  margin-top: 2px;
 }
 .pin-logo-sub {
   font-family: var(--mono); font-size: 9px;
-  color: var(--text-soft); letter-spacing: 5px;
-  text-transform: uppercase; margin-top: 6px;
+  color: rgba(74,122,155,0.8); letter-spacing: 4px;
+  text-transform: uppercase; margin-top: 8px;
 }
 .pin-divider {
-  height: 1px; margin: 20px 0;
-  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.2), transparent);
+  height: 1px; margin: 22px 0;
+  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.12), transparent);
 }
 .pin-section-label {
   font-family: var(--mono); font-size: 9px;
-  color: var(--tron); letter-spacing: 4px;
+  color: rgba(0,255,255,0.5); letter-spacing: 3px;
   text-transform: uppercase; margin-bottom: 12px;
-  text-shadow: var(--tron-glow-sm);
 }
 .agent-login-btn {
-  background: rgba(6,12,20,0.8);
-  border: 1px solid rgba(0,255,255,0.15);
-  border-radius: 8px;
-  color: var(--text-soft);
+  background: rgba(0,255,255,0.03);
+  border: 1px solid rgba(0,255,255,0.1);
+  border-radius: 6px;
+  color: rgba(160,200,220,0.7);
   font-family: var(--mono);
-  font-size: 12px; font-weight: 600;
-  padding: 11px 8px;
+  font-size: 11px; font-weight: 600;
+  padding: 10px 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.18s;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 .agent-login-btn:hover {
-  border-color: rgba(0,255,255,0.5);
+  border-color: rgba(0,255,255,0.35);
   color: var(--tron);
-  box-shadow: 0 0 12px rgba(0,255,255,0.15), inset 0 0 12px rgba(0,255,255,0.04);
-  text-shadow: var(--tron-glow-sm);
+  background: rgba(0,255,255,0.05);
 }
 .agent-login-btn.selected {
   background: rgba(0,255,255,0.08);
-  border-color: var(--tron);
+  border-color: rgba(0,255,255,0.5);
   color: var(--tron);
-  text-shadow: var(--tron-glow);
-  box-shadow: 0 0 16px rgba(0,255,255,0.25), inset 0 0 16px rgba(0,255,255,0.06);
+  box-shadow: 0 0 10px rgba(0,255,255,0.1);
 }
 .pin-dot {
-  width: 18px; height: 18px;
+  width: 14px; height: 14px;
   border-radius: 50%;
-  border: 2px solid rgba(0,255,255,0.3);
+  border: 1px solid rgba(0,255,255,0.25);
   background: transparent;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 .pin-dot.filled {
   background: var(--tron);
   border-color: var(--tron);
-  box-shadow: 0 0 10px rgba(0,255,255,0.9), 0 0 20px rgba(0,255,255,0.4);
+  box-shadow: 0 0 8px rgba(0,255,255,0.7);
 }
 .pin-dot.error {
   background: var(--red);
   border-color: var(--red);
-  box-shadow: 0 0 10px rgba(255,61,90,0.9);
+  box-shadow: 0 0 8px rgba(255,61,90,0.7);
   animation: shake 0.4s ease;
 }
 @keyframes shake {
   0%,100%{transform:translateX(0);}
-  20%{transform:translateX(-7px);}
-  40%{transform:translateX(7px);}
+  20%{transform:translateX(-6px);}
+  40%{transform:translateX(6px);}
   60%{transform:translateX(-4px);}
   80%{transform:translateX(4px);}
 }
 .pin-key {
-  background: rgba(10,18,32,0.9);
-  border: 1px solid rgba(0,255,255,0.2);
-  border-radius: 10px;
-  color: var(--text);
+  background: rgba(6,14,24,0.9);
+  border: 1px solid rgba(0,255,255,0.12);
+  border-radius: 8px;
+  color: rgba(200,230,255,0.85);
   font-family: var(--display);
-  font-size: 22px; font-weight: 900;
-  padding: 16px 8px;
+  font-size: 20px; font-weight: 900;
+  padding: 15px 8px;
   cursor: pointer;
   transition: all 0.12s;
-  position: relative; overflow: hidden;
 }
-.pin-key::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at center, rgba(0,255,255,0.15), transparent 70%);
-  opacity: 0; transition: opacity 0.15s;
+.pin-key:hover {
+  border-color: rgba(0,255,255,0.4);
+  color: var(--tron);
+  background: rgba(0,255,255,0.05);
+  box-shadow: 0 0 8px rgba(0,255,255,0.08);
 }
-.pin-key:hover { border-color: rgba(0,255,255,0.6); color: var(--tron); box-shadow: 0 0 14px rgba(0,255,255,0.2), inset 0 0 14px rgba(0,255,255,0.05); text-shadow: var(--tron-glow-sm); }
-.pin-key:hover::after { opacity: 1; }
-.pin-key:active { transform: scale(0.93); box-shadow: 0 0 20px rgba(0,255,255,0.4); }
+.pin-key:active { transform: scale(0.95); }
 .pin-key.ghost {
-  background: transparent; border-color: rgba(0,255,255,0.1);
-  color: var(--text-mute); font-family: var(--mono);
-  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  background: transparent; border-color: rgba(0,255,255,0.07);
+  color: rgba(74,122,155,0.8); font-family: var(--mono);
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
 }
-.pin-key.ghost:hover { border-color: rgba(0,255,255,0.3); color: var(--text-soft); box-shadow: none; }
+.pin-key.ghost:hover { border-color: rgba(0,255,255,0.2); color: var(--text-soft); box-shadow: none; }
 .pin-enter-btn {
-  width: 100%; padding: 14px;
-  background: linear-gradient(135deg, rgba(0,255,255,0.12), rgba(0,255,157,0.08));
-  border: 1px solid rgba(0,255,255,0.5);
-  border-radius: 10px;
+  width: 100%; padding: 13px;
+  background: rgba(0,255,255,0.06);
+  border: 1px solid rgba(0,255,255,0.3);
+  border-radius: 8px;
   color: var(--tron); font-family: var(--display);
-  font-size: 15px; font-weight: 900; letter-spacing: 4px;
+  font-size: 13px; font-weight: 900; letter-spacing: 3px;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(0,255,255,0.2), inset 0 1px 0 rgba(0,255,255,0.2);
-  text-shadow: var(--tron-glow);
+  text-shadow: 0 0 8px rgba(0,255,255,0.4);
   transition: all 0.2s;
-  animation: enterPulse 2s ease-in-out infinite;
 }
 .pin-enter-btn:hover {
-  background: linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,255,157,0.12));
-  box-shadow: 0 0 30px rgba(0,255,255,0.4), inset 0 1px 0 rgba(0,255,255,0.3);
-  transform: translateY(-1px);
-}
-@keyframes enterPulse {
-  0%,100% { box-shadow: 0 0 20px rgba(0,255,255,0.2), inset 0 1px 0 rgba(0,255,255,0.2); }
-  50%      { box-shadow: 0 0 30px rgba(0,255,255,0.35), inset 0 1px 0 rgba(0,255,255,0.3); }
+  background: rgba(0,255,255,0.1);
+  border-color: rgba(0,255,255,0.5);
+  box-shadow: 0 0 20px rgba(0,255,255,0.12);
 }
 
 /* locked nav items */
@@ -1484,15 +1471,15 @@ body::after {
 /* logout button */
 #logout-btn {
   position: fixed; bottom: 20px; right: 20px; z-index: 999;
-  background: rgba(6,12,20,0.9);
-  border: 1px solid rgba(0,255,255,0.2);
-  border-radius: 8px;
-  color: var(--text-soft); font-family: var(--mono);
+  background: rgba(4,10,18,0.9);
+  border: 1px solid rgba(0,255,255,0.15);
+  border-radius: 6px;
+  color: rgba(74,122,155,0.8); font-family: var(--mono);
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-  padding: 8px 16px; cursor: pointer;
+  padding: 7px 14px; cursor: pointer;
   transition: all 0.2s; display: none;
 }
-#logout-btn:hover { border-color: var(--tron); color: var(--tron); box-shadow: var(--tron-glow-sm); }
+#logout-btn:hover { border-color: rgba(0,255,255,0.35); color: var(--tron); }
 
 </style>
 </head>
@@ -1511,8 +1498,8 @@ body::after {
     <!-- Logo -->
     <div class="pin-logo-wrap">
       <div class="pin-logo-main">GENESIS</div>
-      <div style="font-family:var(--display);font-size:22px;font-weight:900;color:var(--green);letter-spacing:10px;text-shadow:0 0 16px rgba(0,255,157,0.7),0 0 32px rgba(0,255,157,0.3);margin-top:-4px;">SOLUTIONS</div>
-      <div class="pin-logo-sub" style="margin-top:8px;">Command Center</div>
+      <div class="pin-logo-solutions">SOLUTIONS</div>
+      <div class="pin-logo-sub">Command Center</div>
     </div>
 
     <div class="pin-divider"></div>
@@ -1564,7 +1551,7 @@ body::after {
     <!-- Full access (Mark & Will) -->
     <div id="full-access-notice" style="display:none;">
       <div class="pin-divider"></div>
-      <div id="full-access-label" style="font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;text-shadow:0 0 8px rgba(0,255,157,0.5);">⚡ Full Admin Access Granted</div>
+      <div id="full-access-label" style="font-family:var(--mono);font-size:10px;color:rgba(0,255,157,0.7);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;">⚡ Full Access Granted</div>
       <button class="pin-enter-btn" onclick="loginFullAccess()">ENTER COMMAND CENTER</button>
     </div>
   </div>
@@ -1643,7 +1630,6 @@ body::after {
     <button class="nav-btn active" onclick="showPage('overview',this)">Overview</button>
     <button class="nav-btn" onclick="showPage('calls',this)">Call Tracker</button>
     <button class="nav-btn" onclick="showPage('ip',this)">Issued Premium</button>
-    <button class="nav-btn" onclick="showPage('pipeline',this)">Pipeline</button>
     <button class="nav-btn" onclick="showPage('leaderboard',this)">Leaderboard</button>
     <button class="nav-btn" onclick="showPage('wins',this)">🏆 Team Wins</button>
     <button class="nav-btn" onclick="showPage('weekly',this)">Weekly</button>
@@ -1651,8 +1637,8 @@ body::after {
     <button class="nav-btn" onclick="showPage('appts',this)">📅 Appointments</button>
     <button class="nav-btn" onclick="showPage('bob',this)">📒 Book of Business</button>
     <button class="nav-btn" onclick="showPage('expenses',this)">💰 Expenses</button>
+    <button class="nav-btn" onclick="showPage('submit',this)">📤 Submit Business</button>
     <button class="nav-btn" onclick="showPage('calc',this)">Calculator</button>
-    <button class="nav-btn" onclick="showPage('scripts',this)">Scripts</button>
     <button class="nav-btn" onclick="showPage('focus',this)">Focus Timer</button>
     <button class="nav-btn" onclick="showPage('motivation',this)">⚡ Be Great</button>
   </nav>
@@ -1989,64 +1975,192 @@ body::after {
   </div>
 
   <!-- ══════════════════════════════════════
-       PIPELINE / AP WRITTEN
+       BOOK OF BUSINESS
   ══════════════════════════════════════ -->
-  <div class="page" id="page-pipeline">
+  <div class="page" id="page-bob">
+
+    <!-- Header -->
     <div class="page-header">
       <div class="brand">
-        <div class="eyebrow">Score Tracking</div>
-        <h1>AP <span>WRITTEN</span></h1>
-        <div class="sub">Log every policy written · Live team score · Click a card to remove</div>
+        <div class="eyebrow">Closed Policies</div>
+        <h1>BOOK OF <span>BUSINESS</span></h1>
+        <div class="sub">Every policy closed · Source of truth for team AP</div>
       </div>
       <div class="goal-chip">
-        <div class="gc-label">Team AP Written</div>
-        <div class="gc-val" id="ap-written-total">$0</div>
-        <div class="gc-sub">This month — all agents</div>
+        <div class="gc-label">Total Policies</div>
+        <div class="gc-val" id="bob-total-count">0</div>
+        <div class="gc-sub">Total AP: $<span id="bob-total-ap">0</span></div>
       </div>
     </div>
 
-    <!-- AP Written Input Grid -->
+    <!-- AP Progress Bar -->
     <div class="card accent" style="margin-bottom:20px;">
-      <div class="s-label">Log AP Written — By Agent</div>
-      <div class="ap-written-grid" id="ap-written-grid">
-        <!-- filled by JS -->
-      </div>
-      <div style="margin-top:16px;">
-        <div class="big-track"><div class="big-fill" id="ap-written-bar" style="width:0%"></div></div>
-        <div style="display:flex;justify-content:space-between;margin-top:6px;">
-          <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">$0</div>
-          <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">$25K</div>
-          <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">$50K</div>
-          <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">$75K</div>
-          <div style="font-size:11px;color:var(--text-soft);font-family:var(--mono)">$100K 🏆</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">BOB AP</div>
+          <div style="font-family:var(--display);font-size:26px;font-weight:900;color:var(--tron);text-shadow:var(--tron-glow-sm);">$<span id="ap-written-total">0</span></div>
+          <div style="font-size:10px;color:var(--text-mute);margin-top:3px;">From closed policies</div>
         </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Manual AP</div>
+          <div style="font-family:var(--display);font-size:26px;font-weight:900;color:var(--amber);">$<span id="bob-manual-ap-display">0</span></div>
+          <div style="font-size:10px;color:var(--text-mute);margin-top:3px;">Manually added</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid rgba(0,255,157,0.2);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;">Total Combined</div>
+          <div style="font-family:var(--display);font-size:26px;font-weight:900;color:var(--green);text-shadow:0 0 12px rgba(0,255,157,0.4);">$<span id="bob-combined-ap">0</span></div>
+          <div style="font-size:10px;color:var(--text-mute);margin-top:3px;">Toward $100K goal</div>
+        </div>
+      </div>
+      <div class="s-label" style="margin-bottom:8px;">Team AP Goal Progress</div>
+      <div class="big-track"><div class="big-fill" id="ap-written-bar" style="width:0%"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">$0</div>
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">$25K</div>
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">$50K</div>
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">$75K</div>
+        <div style="font-size:11px;color:var(--text-soft);font-family:var(--mono)">$100K 🏆</div>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-mute);text-align:right;margin-top:4px;" id="bob-ap-pct">0% of $100,000 goal</div>
+    </div>
+
+    <!-- Add Policy Form -->
+    <div class="card accent">
+      <div class="s-label">Log a Closed Policy</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Agent *</div>
+          <select id="bob-agent" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="">Select...</option>
+            <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Client Name *</div>
+          <input type="text" id="bob-client" placeholder="John Smith" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Client Phone</div>
+          <input type="tel" id="bob-phone" placeholder="(555) 000-0000" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Carrier *</div>
+          <select id="bob-carrier" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="">Select carrier...</option>
+            <option>Americo</option><option>Mutual of Omaha</option><option>Transamerica</option>
+            <option>American Amicable</option><option>Ethos / TruStage</option><option>InstaBrain</option>
+            <option>Corebridge</option><option>Aetna</option><option>Other</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Lead Type</div>
+          <select id="bob-leadtype" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="">Select type...</option>
+            <option value="farmer">🌾 Farmer</option><option value="mp">🏠 Mortgage Protection</option>
+            <option value="ethos">⚡ Aged Ethos</option><option value="aged">📋 Other Aged</option>
+            <option value="referral">🤝 Referral</option><option value="other">📁 Other</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Effective Date</div>
+          <input type="date" id="bob-effdate" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">AP ($) *</div>
+          <input type="number" id="bob-ap" placeholder="0" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--tron);font-family:var(--mono);font-size:20px;padding:9px 12px;outline:none;text-shadow:var(--tron-glow-sm);"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Face Amount ($)</div>
+          <input type="number" id="bob-face" placeholder="0" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Status</div>
+          <select id="bob-status" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="pending">⏳ Pending</option>
+            <option value="issued">✅ Issued</option>
+            <option value="declined">❌ Declined</option>
+            <option value="lapsed">⚠️ Lapsed</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Notes (optional)</div>
+        <input type="text" id="bob-notes" placeholder="e.g. Whole life 20-pay, EFT confirmed, called back after 3rd follow-up..." style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+      </div>
+      <button class="btn c" onclick="addBobPolicy()" style="width:100%;padding:13px;font-size:14px;letter-spacing:1px;">🔥 Add to Book of Business</button>
+    </div>
+
+    <!-- Filters -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+      <button class="stab active" onclick="filterBob('all',this)">All</button>
+      <button class="stab" onclick="filterBob('pending',this)">⏳ Pending</button>
+      <button class="stab" onclick="filterBob('issued',this)">✅ Issued</button>
+      <button class="stab" onclick="filterBob('declined',this)">❌ Declined</button>
+      <button class="stab" onclick="filterBob('lapsed',this)">⚠️ Lapsed</button>
+      <div style="margin-left:auto;">
+        <select id="bob-agent-filter" onchange="renderBobTable()" style="background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text-soft);font-family:var(--mono);font-size:11px;padding:6px 10px;outline:none;">
+          <option value="all">All Agents</option>
+          <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
+        </select>
       </div>
     </div>
 
-    <!-- Deal Pipeline Board -->
-    <div class="card">
-      <div class="s-label">Deal Pipeline Board</div>
-      <div class="pipeline-cols">
-        <div class="pipeline-col new-leads">
-          <div class="col-header">New Leads <span class="col-count" id="count-new">0</span></div>
-          <div id="col-new"></div>
-          <div class="add-form"><input type="text" placeholder="Client name" id="new-name"/><select id="new-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="new-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('new')">+ Add Lead</button></div>
+    <!-- Policy Table -->
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="overflow-x:auto;">
+        <table class="data-table" style="margin:0;">
+          <thead>
+            <tr>
+              <th>Client</th><th>Agent</th><th>Carrier</th><th>Lead Type</th>
+              <th>AP</th><th>Face Amount</th><th>Eff. Date</th><th>Status</th><th>Notes</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="bob-table-body">
+            <tr><td colspan="10" style="text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:11px;padding:30px;">No policies logged yet. Close something and put it on the board.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Agent Production Summary -->
+    <div class="card" style="margin-top:20px;">
+      <div class="s-label">Agent Production Summary</div>
+      <table class="data-table">
+        <thead><tr><th>Agent</th><th>Policies</th><th>Total AP</th><th>Issued</th><th>Pending</th><th>Avg AP</th></tr></thead>
+        <tbody id="bob-agent-summary"></tbody>
+      </table>
+    </div>
+
+    <!-- Manual AP Adjustment -->
+    <div class="card" style="margin-top:20px;border:1px solid rgba(255,190,0,0.2);">
+      <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);box-shadow:0 0 8px rgba(255,190,0,0.4);"></div>
+      <div class="s-label" style="color:var(--amber);">Manual AP Adjustment</div>
+      <div style="font-size:12px;color:var(--text-mute);margin-bottom:16px;line-height:1.7;">Use this to manually add AP that isn't tracked through a policy entry — corrections, adjustments, or AP from outside the team's Book of Business.</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Mark</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><span style="font-family:var(--mono);font-size:14px;color:var(--amber);opacity:0.6;">$</span><input type="number" placeholder="0" id="manual-ap-Mark" oninput="saveManualAP()" style="width:70px;background:transparent;border:none;color:var(--amber);font-family:var(--mono);font-size:18px;font-weight:500;text-align:center;outline:none;"/></div>
         </div>
-        <div class="pipeline-col contacted">
-          <div class="col-header">Contacted <span class="col-count" id="count-contacted">0</span></div>
-          <div id="col-contacted"></div>
-          <div class="add-form"><input type="text" placeholder="Client name" id="contacted-name"/><select id="contacted-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="contacted-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('contacted')">+ Add</button></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Max</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><span style="font-family:var(--mono);font-size:14px;color:var(--amber);opacity:0.6;">$</span><input type="number" placeholder="0" id="manual-ap-Max" oninput="saveManualAP()" style="width:70px;background:transparent;border:none;color:var(--amber);font-family:var(--mono);font-size:18px;font-weight:500;text-align:center;outline:none;"/></div>
         </div>
-        <div class="pipeline-col appt-set">
-          <div class="col-header">Appt Set <span class="col-count" id="count-appt">0</span></div>
-          <div id="col-appt"></div>
-          <div class="add-form"><input type="text" placeholder="Client name" id="pipe-appt-name"/><select id="pipe-appt-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="pipe-appt-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('appt')">+ Add</button></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Isaac</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><span style="font-family:var(--mono);font-size:14px;color:var(--amber);opacity:0.6;">$</span><input type="number" placeholder="0" id="manual-ap-Isaac" oninput="saveManualAP()" style="width:70px;background:transparent;border:none;color:var(--amber);font-family:var(--mono);font-size:18px;font-weight:500;text-align:center;outline:none;"/></div>
         </div>
-        <div class="pipeline-col closed">
-          <div class="col-header">AP Written ✓ <span class="col-count" id="count-closed">0</span></div>
-          <div id="col-closed"></div>
-          <div class="add-form"><input type="text" placeholder="Client name" id="closed-name"/><select id="closed-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="closed-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('closed')">+ Add</button></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">McKenna</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><span style="font-family:var(--mono);font-size:14px;color:var(--amber);opacity:0.6;">$</span><input type="number" placeholder="0" id="manual-ap-McKenna" oninput="saveManualAP()" style="width:70px;background:transparent;border:none;color:var(--amber);font-family:var(--mono);font-size:18px;font-weight:500;text-align:center;outline:none;"/></div>
         </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Will</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:3px;"><span style="font-family:var(--mono);font-size:14px;color:var(--amber);opacity:0.6;">$</span><input type="number" placeholder="0" id="manual-ap-Will" oninput="saveManualAP()" style="width:70px;background:transparent;border:none;color:var(--amber);font-family:var(--mono);font-size:18px;font-weight:500;text-align:center;outline:none;"/></div>
+        </div>
+      </div>
+      <div style="background:var(--amber-dim);border:1px solid rgba(255,190,0,0.15);border-radius:var(--r-sm);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:12px;color:var(--text-soft);">Total Manual AP</div>
+        <div style="font-family:var(--display);font-size:22px;font-weight:900;color:var(--amber);">$<span id="manual-ap-total">0</span></div>
       </div>
     </div>
   </div>
@@ -2065,57 +2179,6 @@ body::after {
     <div class="card accent"><div class="s-label">AP Leaderboard</div><div id="ap-leaderboard"></div></div>
     <div class="card"><div class="s-label">IP Leaderboard</div><div id="ip-leaderboard"></div></div>
     <div class="card"><div class="s-label">Dials Leaderboard — Today</div><div id="dial-leaderboard"></div></div>
-  </div>
-
-  <!-- ══════════════════════════════════════
-       SCRIPTS
-  ══════════════════════════════════════ -->
-  <div class="page" id="page-scripts">
-    <div class="page-header">
-      <div class="brand">
-        <div class="eyebrow">Team Playbook</div>
-        <h1>SCRIPTS & <span>REBUTTALS</span></h1>
-        <div class="sub">Tap any objection to reveal the response</div>
-      </div>
-    </div>
-    <div class="card accent">
-      <div class="script-tabs">
-        <button class="stab active" onclick="showScript('farmers',this)">Farmer Leads</button>
-        <button class="stab" onclick="showScript('mp',this)">Mortgage Protection</button>
-        <button class="stab" onclick="showScript('ethos',this)">Aged Ethos</button>
-        <button class="stab" onclick="showScript('aged',this)">Other Aged</button>
-        <button class="stab" onclick="showScript('followup',this)">Follow-Up</button>
-        <button class="stab" onclick="showScript('objections',this)">Objections</button>
-      </div>
-      <div class="script-panel active" id="sp-farmers"><div class="script-opener">"Hi, is this [Name]? Hey [Name] — this is [Your Name] calling. I work with farmers and agricultural families in [area] helping them make sure their family is protected if something unexpected happens. Quick question — do you currently have any life insurance coverage in place, or is that something that's kind of been on the back burner?"</div><div class="script-note"><strong>Key:</strong> Lead with their identity. Keep it under 20 seconds. Ask ONE question and stop talking. Silence is your friend.</div></div>
-      <div class="script-panel" id="sp-mp"><div class="script-opener">"Hi [Name] — this is [Your Name]. You recently purchased a home in [area] — congratulations on that. I specialize in mortgage protection insurance, which ensures your family keeps the home if something unexpected happens to you. Do you have a few minutes to see if you'd even qualify?"</div><div class="script-note"><strong>Key:</strong> They're emotionally invested in the home. "Qualify" language lowers resistance.</div></div>
-      <div class="script-panel" id="sp-ethos"><div class="script-opener">"Hi [Name] — this is [Your Name]. You had previously looked into a life insurance plan through Ethos. I'm following up to see if you ever got that squared away or if life just got in the way. Do you have 5 minutes?"</div><div class="script-note"><strong>Key:</strong> They already showed intent. Remove the friction — make it feel easy.</div></div>
-      <div class="script-panel" id="sp-aged"><div class="script-opener">"Hi [Name] — this is [Your Name]. At some point you expressed interest in life insurance for your family. I know that was a while back — things come up. I just want to make sure you're not still going without protection. Is now a decent time to chat?"</div><div class="script-note"><strong>Key:</strong> Be warm and human. They wanted coverage — life got in the way. Make it easy to say yes now.</div></div>
-      <div class="script-panel" id="sp-followup"><div class="script-opener">"Hey [Name] — it's [Your Name] again. We spoke [X days ago] about protecting your family. I didn't want to leave you without getting this in front of you properly. Do you have 5 minutes today or is later this week better?"</div><div class="script-note"><strong>Key:</strong> Most income lives in follow-ups #3–5. Always give two time options, never a yes/no.</div></div>
-      <div class="script-panel" id="sp-objections">
-        <div class="s-label" style="margin-top:0">Objections — Tap to Reveal</div>
-        <div class="obj-list">
-          <div class="obj-item" onclick="toggleObj(this);playSound('click')"><div class="obj-q">"I'm not interested." <span class="chev">▼</span></div><div class="obj-a">"Totally fair — most people aren't until they see the numbers. I'm not here to sell you anything today. I just want to see if you'd even qualify. Takes 3 minutes. Would that be alright?"</div></div>
-          <div class="obj-item" onclick="toggleObj(this);playSound('click')"><div class="obj-q">"I already have insurance." <span class="chev">▼</span></div><div class="obj-a">"That's great — most people I talk to do. I'm not here to replace what you have. I just want to make sure you're not overpaying and there are no gaps. Would you be open to a free second opinion?"</div></div>
-          <div class="obj-item" onclick="toggleObj(this);playSound('click')"><div class="obj-q">"I need to talk to my spouse." <span class="chev">▼</span></div><div class="obj-a">"Absolutely — this affects both of you. Can we schedule a time to go over it together? I can do a quick 20-minute call with both of you. What day works — Tuesday or Thursday?"</div></div>
-          <div class="obj-item" onclick="toggleObj(this);playSound('click')"><div class="obj-q">"I can't afford it." <span class="chev">▼</span></div><div class="obj-a">"I understand — that's exactly why I want to show you the options before assuming. Some plans start under $30 a month. Can I at least show you what's available so you can make an informed decision?"</div></div>
-          <div class="obj-item" onclick="toggleObj(this);playSound('click')"><div class="obj-q">"Just send me something." <span class="chev">▼</span></div><div class="obj-a">"I can do that — but the mailers never do it justice. What I'd rather do is take 5 minutes right now to walk you through the key points so you actually understand what you're looking at. Does that work?"</div></div>
-          <div class="obj-item" onclick="toggleObj(this);playSound('click')"><div class="obj-q">"I had a bad experience before." <span class="chev">▼</span></div><div class="obj-a">"I'm sorry to hear that — that's more common than it should be. I only work with carriers I'd put my own family on. Can I show you the difference? 10 minutes."</div></div>
-          <div class="obj-item" onclick="toggleObj(this);playSound('click')"><div class="obj-q">"Call me back next month." <span class="chev">▼</span></div><div class="obj-a">"Of course — I'll do that. Can I ask though, is there a specific reason you'd rather wait? Health rating factors can affect your options, and locking something in now can actually save you money long term."</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="s-label">Genesis Solutions — Team Standards</div>
-      <div class="standards-grid">
-        <div class="standard-block" style="border-color:var(--tron)"><div class="s-head">60 Dials Minimum</div><div class="s-body">Every agent, every day. Volume is the foundation everything else is built on.</div></div>
-        <div class="standard-block" style="border-color:var(--green)"><div class="s-head">Log Every Outcome</div><div class="s-body">If it's not in the system, it didn't happen. One line per call, right after it ends.</div></div>
-        <div class="standard-block" style="border-color:var(--amber)"><div class="s-head">5 Follow-Ups Per Lead</div><div class="s-body">Most of our income is in follow-ups we're not making. Don't give up before #5.</div></div>
-        <div class="standard-block" style="border-color:var(--purple)"><div class="s-head">Submit Same Day</div><div class="s-body">Every closed policy gets submitted the same day. Delayed submission = delayed pay.</div></div>
-        <div class="standard-block" style="border-color:var(--red)"><div class="s-head">Stop Talking, Start Listening</div><div class="s-body">Ask the question. Stop. Whoever speaks first after the silence loses.</div></div>
-        <div class="standard-block" style="border-color:var(--tron)"><div class="s-head">Team Wins Together</div><div class="s-body">Share what's working. A script that closes for Will can close for McKenna.</div></div>
-      </div>
-    </div>
   </div>
 
   <!-- ══════════════════════════════════════
@@ -2596,149 +2659,6 @@ body::after {
   </div>
 
   <!-- ══════════════════════════════════════
-       BOOK OF BUSINESS
-  ══════════════════════════════════════ -->
-  <div class="page" id="page-bob">
-    <div class="page-header">
-      <div class="brand">
-        <div class="eyebrow">Closed Policies</div>
-        <h1>BOOK OF <span>BUSINESS</span></h1>
-        <div class="sub">Every policy your team has closed — the permanent record</div>
-      </div>
-      <div class="goal-chip">
-        <div class="gc-label">Total Policies</div>
-        <div class="gc-val" id="bob-total-count">0</div>
-        <div class="gc-sub">Total AP: $<span id="bob-total-ap">0</span></div>
-      </div>
-    </div>
-
-    <!-- Add Policy Form -->
-    <div class="card accent">
-      <div class="s-label">Log a Closed Policy</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Agent</div>
-          <select id="bob-agent" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
-            <option value="">Select...</option>
-            <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
-          </select>
-        </div>
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Client Name</div>
-          <input type="text" id="bob-client" placeholder="John Smith" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
-        </div>
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Client Phone</div>
-          <input type="tel" id="bob-phone" placeholder="(555) 000-0000" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
-        </div>
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Carrier</div>
-          <select id="bob-carrier" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
-            <option value="">Select carrier...</option>
-            <option>Americo</option>
-            <option>Mutual of Omaha</option>
-            <option>Transamerica</option>
-            <option>American Amicable</option>
-            <option>Ethos / TruStage</option>
-            <option>InstaBrain</option>
-            <option>Corebridge</option>
-            <option>Aetna</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Lead Type</div>
-          <select id="bob-leadtype" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
-            <option value="">Select type...</option>
-            <option value="farmer">🌾 Farmer</option>
-            <option value="mp">🏠 Mortgage Protection</option>
-            <option value="ethos">⚡ Aged Ethos</option>
-            <option value="aged">📋 Other Aged</option>
-            <option value="referral">🤝 Referral</option>
-            <option value="other">📁 Other</option>
-          </select>
-        </div>
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Effective Date</div>
-          <input type="date" id="bob-effdate" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
-        </div>
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">AP ($)</div>
-          <input type="number" id="bob-ap" placeholder="0" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--tron);font-family:var(--mono);font-size:18px;padding:9px 12px;outline:none;"/>
-        </div>
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Face Amount ($)</div>
-          <input type="number" id="bob-face" placeholder="0" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
-        </div>
-        <div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Status</div>
-          <select id="bob-status" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
-            <option value="pending">⏳ Pending</option>
-            <option value="issued">✅ Issued</option>
-            <option value="declined">❌ Declined</option>
-            <option value="lapsed">⚠️ Lapsed</option>
-          </select>
-        </div>
-      </div>
-      <div style="margin-bottom:10px;">
-        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Notes (optional)</div>
-        <input type="text" id="bob-notes" placeholder="e.g. Client called back after 3rd follow-up, whole life 20-pay..." style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
-      </div>
-      <button class="btn c" onclick="addBobPolicy()" style="width:100%;padding:12px;">+ Add to Book of Business</button>
-    </div>
-
-    <!-- Filters -->
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
-      <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-right:4px;">Filter:</div>
-      <button class="stab active" onclick="filterBob('all',this)">All</button>
-      <button class="stab" onclick="filterBob('pending',this)">⏳ Pending</button>
-      <button class="stab" onclick="filterBob('issued',this)">✅ Issued</button>
-      <button class="stab" onclick="filterBob('declined',this)">❌ Declined</button>
-      <button class="stab" onclick="filterBob('lapsed',this)">⚠️ Lapsed</button>
-      <div style="margin-left:auto;">
-        <select id="bob-agent-filter" onchange="renderBobTable()" style="background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text-soft);font-family:var(--mono);font-size:11px;padding:6px 10px;outline:none;">
-          <option value="all">All Agents</option>
-          <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Policy Table -->
-    <div class="card" style="padding:0;overflow:hidden;">
-      <div style="overflow-x:auto;">
-        <table class="data-table" style="margin:0;">
-          <thead>
-            <tr>
-              <th>Client</th>
-              <th>Agent</th>
-              <th>Carrier</th>
-              <th>Lead Type</th>
-              <th>AP</th>
-              <th>Face Amount</th>
-              <th>Eff. Date</th>
-              <th>Status</th>
-              <th>Notes</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="bob-table-body">
-            <tr><td colspan="10" style="text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:11px;padding:30px;">No policies logged yet. Close something and put it on the board.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Agent breakdown summary -->
-    <div class="card" style="margin-top:20px;">
-      <div class="s-label">Agent Production Summary</div>
-      <table class="data-table">
-        <thead><tr><th>Agent</th><th>Policies</th><th>Total AP</th><th>Issued</th><th>Pending</th><th>Avg AP</th></tr></thead>
-        <tbody id="bob-agent-summary"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════
        EXPENSES
   ══════════════════════════════════════ -->
   <div class="page" id="page-expenses">
@@ -2833,6 +2753,46 @@ body::after {
         <thead><tr><th>Agent</th><th>Lead Costs</th><th>Business Costs</th><th>Total Expenses</th><th>AP Goal</th><th>Net</th></tr></thead>
         <tbody id="team-expense-table"></tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SUBMIT BUSINESS
+  ══════════════════════════════════════ -->
+  <div class="page" id="page-submit">
+    <div class="page-header">
+      <div class="brand">
+        <div class="eyebrow">Genesis Solutions</div>
+        <h1>SUBMIT <span>BUSINESS</span></h1>
+        <div class="sub">Let's get it 🔥</div>
+      </div>
+    </div>
+
+    <div class="card accent" style="text-align:center;padding:56px 32px;">
+      <div style="font-size:64px;margin-bottom:24px;filter:drop-shadow(0 0 20px rgba(0,255,255,0.5));">📤</div>
+      <div style="font-family:var(--display);font-size:32px;font-weight:900;color:var(--tron);letter-spacing:4px;text-shadow:var(--tron-glow);margin-bottom:12px;">LET'S GO</div>
+      <div style="font-size:14px;color:var(--text-soft);margin-bottom:36px;">Hit the button. Get it done.</div>
+      <a href="https://leaderboard-submit.netlify.app/" target="_blank" rel="noopener" style="
+        display:inline-block;
+        background:linear-gradient(135deg,rgba(0,255,255,0.15),rgba(0,255,157,0.1));
+        border:1px solid rgba(0,255,255,0.5);
+        border-radius:12px;
+        color:var(--tron);
+        font-family:var(--display);
+        font-size:20px;
+        font-weight:900;
+        letter-spacing:4px;
+        padding:22px 64px;
+        text-decoration:none;
+        text-shadow:var(--tron-glow);
+        box-shadow:0 0 30px rgba(0,255,255,0.2),inset 0 1px 0 rgba(0,255,255,0.2);
+        transition:all 0.2s;
+        animation:enterPulse 2.5s ease-in-out infinite;
+      " onmouseover="this.style.boxShadow='0 0 50px rgba(0,255,255,0.4),inset 0 1px 0 rgba(0,255,255,0.3)';this.style.transform='translateY(-2px)'"
+         onmouseout="this.style.boxShadow='0 0 30px rgba(0,255,255,0.2),inset 0 1px 0 rgba(0,255,255,0.2)';this.style.transform='translateY(0)'">
+        SUBMIT ⚡
+      </a>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-mute);margin-top:20px;letter-spacing:2px;">OPENS IN A NEW TAB</div>
     </div>
   </div>
 
@@ -2982,11 +2942,11 @@ function showPage(id, btn){
   if(id==='wins')        renderWinsWall();
   if(id==='weekly')      { buildWeeklyGrid(); buildWeeklyLogForm(); }
   if(id==='calc')        renderAgentBenchmarks();
-  if(id==='pipeline')    buildAPWrittenGrid();
+  if(id==='bob')         { renderBobTable(); renderBobSummary(); updateBobAPBar(); loadManualAP(); }
   if(id==='goals')       { renderGoalProgress(); renderAllGoalsTable(); }
   if(id==='appts')       renderAppts();
-  if(id==='bob')         { renderBobTable(); renderBobSummary(); }
   if(id==='expenses')    { loadExpenseFields(); renderExpenseTotals(); renderTeamExpenseTable(); }
+  if(id==='submit')      {}
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -3322,19 +3282,6 @@ function renderLeaderboards(){
 /* ═══════════════════════════════════════════════════════
    SCRIPTS PAGE
 ═══════════════════════════════════════════════════════ */
-function showScript(id,btn){
-  playSound('click');
-  document.querySelectorAll('.script-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
-  const sp=document.getElementById('sp-'+id); if(sp) sp.classList.add('active');
-  if(btn) btn.classList.add('active');
-}
-function toggleObj(el){
-  const a=el.querySelector('.obj-a'), isOpen=a.classList.contains('open');
-  document.querySelectorAll('.obj-a').forEach(x=>x.classList.remove('open'));
-  document.querySelectorAll('.obj-item').forEach(x=>x.classList.remove('open'));
-  if(!isOpen){a.classList.add('open');el.classList.add('open');}
-}
 
 /* ═══════════════════════════════════════════════════════
    FOCUS TIMER
@@ -3941,15 +3888,96 @@ function applyAccessRestrictions(){
         pill.onclick=e=>{e.stopPropagation();toast('🔒 You can only edit your own expenses');};
       }
     });
-    // Lock BOB agent select and filter to own agent
-    const bobAgent=document.getElementById('bob-agent');
-    if(bobAgent){ bobAgent.value=sessionAgent; bobAgent.disabled=true; bobAgent.style.opacity='0.5'; }
+    // Lock close deal modal agent to own name
+    const modalAgent=document.getElementById('modal-agent');
+    if(modalAgent){ modalAgent.value=sessionAgent; modalAgent.disabled=true; modalAgent.style.opacity='0.5'; }
+    // Lock BOB agent select to own name
+    const bobAgentEl=document.getElementById('bob-agent');
+    if(bobAgentEl){ bobAgentEl.value=sessionAgent; bobAgentEl.disabled=true; bobAgentEl.style.opacity='0.5'; }
   }
 }
 
+
 /* ═══════════════════════════════════════════════════════
-   BOOK OF BUSINESS
+   CLOSE DEAL MODAL — Pipeline → BOB
 ═══════════════════════════════════════════════════════ */
+function showCloseModal(){
+  playSound('click');
+  // Pre-fill client name from the closed-name input if filled
+  const nameEl = document.getElementById('closed-name');
+  const agentEl = document.getElementById('closed-agent');
+  const typeEl = document.getElementById('closed-type');
+  const modalClient = document.getElementById('modal-client');
+  const modalAgent = document.getElementById('modal-agent');
+  const modalLeadtype = document.getElementById('modal-leadtype');
+  if(modalClient && nameEl?.value) modalClient.value = nameEl.value;
+  if(modalAgent && agentEl?.value) modalAgent.value = agentEl.value;
+  if(modalLeadtype && typeEl?.value) modalLeadtype.value = typeEl.value;
+  const modal = document.getElementById('close-deal-modal');
+  if(modal) modal.style.display = 'flex';
+}
+
+async function confirmCloseDeal(){
+  const g = id => document.getElementById(id)?.value?.trim();
+  const client  = g('modal-client');
+  const agent   = g('modal-agent');
+  const carrier = g('modal-carrier');
+  const ap      = parseFloat(document.getElementById('modal-ap')?.value)||0;
+  if(!client || !agent || !carrier || !ap){
+    toast('Fill in client, agent, carrier and AP'); return;
+  }
+  const phone    = g('modal-phone');
+  const leadtype = g('modal-leadtype')||'other';
+  const effdate  = g('modal-effdate');
+  const face     = parseFloat(document.getElementById('modal-face')?.value)||0;
+  const notes    = g('modal-notes');
+
+  // Add to pipeline closed stage
+  const closedName = document.getElementById('closed-name');
+  if(closedName) closedName.value = client;
+  try{
+    await sb.from('pipeline').insert({stage:'closed',client_name:client,lead_type:leadtype,agent});
+  }catch(e){}
+
+  // Add to Book of Business
+  const policy = {
+    id:Date.now(), agent, client, phone, carrier, leadtype,
+    effdate, ap, face, status:'pending', notes,
+    logged: new Date().toLocaleDateString()
+  };
+  bobData.unshift(policy);
+  try{ localStorage.setItem('genesis_bob', JSON.stringify(bobData)); }catch(e){}
+
+  // Update AP totals — BOB drives AP now
+  apWrittenCache[agent] = (apWrittenCache[agent]||0) + ap;
+  apCache[agent] = apWrittenCache[agent];
+  updateOverviewAP();
+  updateAPWrittenTotal();
+  const apEl = document.getElementById('ap-'+agent);
+  if(apEl) apEl.value = apWrittenCache[agent];
+  try{
+    await sb.from('ap_data').upsert({agent, amount:apWrittenCache[agent], updated_at:new Date().toISOString()},{onConflict:'agent'});
+  }catch(e){}
+
+  // Clear modal fields
+  ['modal-client','modal-phone','modal-agent','modal-carrier','modal-leadtype','modal-effdate','modal-ap','modal-face','modal-notes']
+    .forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  ['closed-name','closed-agent','closed-type'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+
+  // Close modal
+  document.getElementById('close-deal-modal').style.display='none';
+
+  // Render updates
+  renderBobTable(); renderBobSummary(); renderLeaderboards();
+
+  // Celebrate
+  playSound('closed');
+  showRewardBanner(agent);
+  checkClosedMilestones(agent);
+  toast(`🔥 ${client} closed! $${ap.toLocaleString()} AP added to ${agent}'s BOB!`);
+}
+
+
 let bobData=[];
 try{ bobData=JSON.parse(localStorage.getItem('genesis_bob')||'[]'); }catch(e){}
 let bobFilter='all';
@@ -3961,27 +3989,35 @@ const bobCarrierColors={'Americo':'var(--tron)','Mutual of Omaha':'var(--green)'
 
 function addBobPolicy(){
   playSound('click');
-  const agent=document.getElementById('bob-agent')?.value;
-  const client=document.getElementById('bob-client')?.value.trim();
-  const phone=document.getElementById('bob-phone')?.value.trim();
-  const carrier=document.getElementById('bob-carrier')?.value;
-  const leadtype=document.getElementById('bob-leadtype')?.value;
-  const effdate=document.getElementById('bob-effdate')?.value;
-  const ap=parseFloat(document.getElementById('bob-ap')?.value)||0;
-  const face=parseFloat(document.getElementById('bob-face')?.value)||0;
-  const status=document.getElementById('bob-status')?.value||'pending';
-  const notes=document.getElementById('bob-notes')?.value.trim();
-  if(!agent||!client||!carrier||!ap){ toast('Fill in agent, client, carrier, and AP at minimum'); return; }
+  const agent   = document.getElementById('bob-agent')?.value;
+  const client  = document.getElementById('bob-client')?.value.trim();
+  const phone   = document.getElementById('bob-phone')?.value.trim();
+  const carrier = document.getElementById('bob-carrier')?.value;
+  const leadtype= document.getElementById('bob-leadtype')?.value;
+  const effdate = document.getElementById('bob-effdate')?.value;
+  const ap      = parseFloat(document.getElementById('bob-ap')?.value)||0;
+  const face    = parseFloat(document.getElementById('bob-face')?.value)||0;
+  const status  = document.getElementById('bob-status')?.value||'pending';
+  const notes   = document.getElementById('bob-notes')?.value.trim();
+  if(!agent||!client||!carrier||!ap){ toast('Fill in agent, client, carrier and AP'); return; }
   const policy={id:Date.now(),agent,client,phone,carrier,leadtype,effdate,ap,face,status,notes,logged:new Date().toLocaleDateString()};
   bobData.unshift(policy);
   try{ localStorage.setItem('genesis_bob',JSON.stringify(bobData)); }catch(e){}
+  // Update AP totals — BOB drives AP now
+  apWrittenCache[agent]=(apWrittenCache[agent]||0)+ap;
+  apCache[agent]=apWrittenCache[agent];
+  updateOverviewAP(); updateAPWrittenTotal();
+  const apEl=document.getElementById('ap-'+agent); if(apEl) apEl.value=apWrittenCache[agent];
+  sb.from('ap_data').upsert({agent,amount:apWrittenCache[agent],updated_at:new Date().toISOString()},{onConflict:'agent'}).catch(()=>{});
   // Clear form
-  ['bob-client','bob-phone','bob-ap','bob-face','bob-notes'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-  ['bob-agent','bob-carrier','bob-leadtype','bob-status'].forEach(id=>{ const el=document.getElementById(id); if(el&&id!=='bob-status') el.value=''; });
+  ['bob-client','bob-phone','bob-ap','bob-face','bob-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('bob-agent').value='';
+  document.getElementById('bob-carrier').value='';
+  document.getElementById('bob-leadtype').value='';
   document.getElementById('bob-status').value='pending';
-  renderBobTable(); renderBobSummary();
-  playSound('closed');
-  toast(`📒 ${client} added to Book of Business!`);
+  renderBobTable(); renderBobSummary(); renderLeaderboards();
+  playSound('closed'); showRewardBanner(agent); checkClosedMilestones(agent);
+  toast(`🔥 ${client} added! $${ap.toLocaleString()} AP logged for ${agent}!`);
 }
 
 function filterBob(status, btn){
@@ -4065,9 +4101,48 @@ function renderBobSummary(){
   }).join('');
 }
 
-/* ═══════════════════════════════════════════════════════
-   EXPENSES
-═══════════════════════════════════════════════════════ */
+let manualAPData={};
+try{ manualAPData=JSON.parse(localStorage.getItem('genesis_manual_ap')||'{}'); }catch(e){}
+
+function saveManualAP(){
+  agents.forEach(a=>{
+    const val=parseFloat(document.getElementById('manual-ap-'+a)?.value)||0;
+    manualAPData[a]=val;
+  });
+  try{ localStorage.setItem('genesis_manual_ap',JSON.stringify(manualAPData)); }catch(e){}
+  updateBobAPBar();
+}
+
+function loadManualAP(){
+  agents.forEach(a=>{
+    const el=document.getElementById('manual-ap-'+a);
+    if(el&&manualAPData[a]) el.value=manualAPData[a];
+  });
+}
+
+function updateBobAPBar(){
+  const bobAP=bobData.reduce((s,p)=>s+p.ap,0);
+  const manualAP=agents.reduce((s,a)=>s+(manualAPData[a]||0),0);
+  const combined=bobAP+manualAP;
+  const pct=Math.min((combined/100000)*100,100);
+  // Update bar
+  const bar=document.getElementById('ap-written-bar'); if(bar) bar.style.width=pct+'%';
+  // Update display elements
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('ap-written-total',bobAP.toLocaleString());
+  set('bob-manual-ap-display',manualAP.toLocaleString());
+  set('bob-combined-ap',combined.toLocaleString());
+  set('bob-total-count',bobData.length);
+  set('bob-total-ap',bobAP.toLocaleString());
+  set('bob-ap-pct',Math.round(pct)+'% of $100,000 goal');
+  // Sync combined AP to overview
+  const overviewEl=document.getElementById('overview-total'); if(overviewEl) overviewEl.textContent=combined.toLocaleString();
+  const overviewBar=document.getElementById('overview-bar'); if(overviewBar) overviewBar.style.width=pct+'%';
+  const overviewPct=document.getElementById('overview-pct'); if(overviewPct) overviewPct.textContent=Math.round(pct)+'% of $100,000 goal';
+  checkMilestones(combined);
+}
+
+
 let expenseData={};
 try{ expenseData=JSON.parse(localStorage.getItem('genesis_expenses')||'{}'); }catch(e){}
 let currentExpenseAgent='Mark';
@@ -4148,6 +4223,8 @@ renderAppts();
 renderAllGoalsTable();
 renderBobTable();
 renderBobSummary();
+updateBobAPBar();
+loadManualAP();
 loadExpenseFields();
 renderExpenseTotals();
 renderTeamExpenseTable();
