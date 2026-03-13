@@ -1649,6 +1649,8 @@ body::after {
     <button class="nav-btn" onclick="showPage('weekly',this)">Weekly</button>
     <button class="nav-btn" onclick="showPage('goals',this)">🎯 My Goals</button>
     <button class="nav-btn" onclick="showPage('appts',this)">📅 Appointments</button>
+    <button class="nav-btn" onclick="showPage('bob',this)">📒 Book of Business</button>
+    <button class="nav-btn" onclick="showPage('expenses',this)">💰 Expenses</button>
     <button class="nav-btn" onclick="showPage('calc',this)">Calculator</button>
     <button class="nav-btn" onclick="showPage('scripts',this)">Scripts</button>
     <button class="nav-btn" onclick="showPage('focus',this)">Focus Timer</button>
@@ -1728,7 +1730,7 @@ body::after {
       <div class="prog-note">Updates live as agents enter their numbers</div>
 
       <div class="s-label">Daily Team Activity</div>
-      <div class="daily-goals">
+      <div class="daily-goals" style="grid-template-columns:repeat(5,1fr);">
         <div class="dg-cell">
           <div class="dg-label">Team Dials Today</div>
           <div class="dg-progress"><div class="dg-num" id="dg-dials">0</div><div class="dg-target">/ 300 goal</div></div>
@@ -1743,6 +1745,11 @@ body::after {
           <div class="dg-label">Appts Set Today</div>
           <div class="dg-progress"><div class="dg-num" id="dg-appts" style="color:var(--amber)">0</div><div class="dg-target">/ 15 goal</div></div>
           <div class="dg-track"><div class="dg-fill" id="dg-appts-bar" style="width:0%;background:var(--amber)"></div></div>
+        </div>
+        <div class="dg-cell" style="border:1px solid rgba(191,159,255,0.15);background:rgba(191,159,255,0.03);">
+          <div class="dg-label">Team Presentations</div>
+          <div class="dg-progress"><div class="dg-num" id="dg-presentations" style="color:var(--purple)">0</div><div class="dg-target">/ 10 goal</div></div>
+          <div class="dg-track"><div class="dg-fill" id="dg-presentations-bar" style="width:0%;background:var(--purple)"></div></div>
         </div>
         <div class="dg-cell">
           <div class="dg-label">Closed Today</div>
@@ -1807,19 +1814,70 @@ body::after {
 
     <div class="card accent">
       <div class="s-label" id="tracker-agent-title">Mark's Stats Today</div>
-      <div class="stat-grid">
+      <div class="stat-grid" style="grid-template-columns:repeat(5,1fr);">
         <div class="stat-box"><div class="stat-num num c" id="t-dials">0</div><div class="stat-lbl">Dials</div></div>
         <div class="stat-box"><div class="stat-num num g" id="t-pickups">0</div><div class="stat-lbl">Pickups</div></div>
         <div class="stat-box"><div class="stat-num num a" id="t-appts">0</div><div class="stat-lbl">Appts Set</div></div>
+        <div class="stat-box" style="border:1px solid rgba(191,159,255,0.2);background:rgba(191,159,255,0.04);"><div class="stat-num" style="color:var(--purple);text-shadow:0 0 12px rgba(191,159,255,0.4);" id="t-presentations">0</div><div class="stat-lbl">Presentations</div></div>
         <div class="stat-box"><div class="stat-num num r" id="t-closed">0</div><div class="stat-lbl">Closed</div></div>
       </div>
       <div class="btn-row">
         <button class="btn c" onclick="trackInc('dials')">+ Dial</button>
         <button class="btn g" onclick="trackInc('pickups')">+ Pickup</button>
         <button class="btn a" onclick="trackInc('appts')">+ Appt Set</button>
+        <button class="btn" style="color:var(--purple);border-color:rgba(191,159,255,0.4);background:rgba(191,159,255,0.06);" onclick="trackInc('presentations')">+ Presentation 📋</button>
         <button class="btn r" onclick="trackInc('closed')">+ CLOSED 🔥</button>
         <button class="btn ghost" onclick="resetAgent()">Reset My Day</button>
       </div>
+    </div>
+
+    <!-- Presentation Breakdown Card -->
+    <div class="card" id="presentation-breakdown-card">
+      <div class="s-label">Presentation Breakdown</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+        <div style="background:var(--surface);border:1px solid rgba(191,159,255,0.2);border-radius:var(--r-sm);padding:16px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Total Given</div>
+          <div style="font-family:var(--display);font-size:32px;font-weight:900;color:var(--purple);text-shadow:0 0 12px rgba(191,159,255,0.4);" id="pb-total">0</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid rgba(0,255,157,0.15);border-radius:var(--r-sm);padding:16px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Closed</div>
+          <div style="font-family:var(--display);font-size:32px;font-weight:900;color:var(--green);text-shadow:0 0 10px rgba(0,255,157,0.4);" id="pb-closed">0</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid rgba(255,190,0,0.15);border-radius:var(--r-sm);padding:16px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Callbacks</div>
+          <div style="font-family:var(--display);font-size:32px;font-weight:900;color:var(--amber);" id="pb-callbacks">0</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid rgba(255,61,90,0.15);border-radius:var(--r-sm);padding:16px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">No-Sales</div>
+          <div style="font-family:var(--display);font-size:32px;font-weight:900;color:var(--red);" id="pb-nosales">0</div>
+        </div>
+      </div>
+
+      <!-- Close rate from presentations -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Presentation Close Rate</div>
+          <div style="font-size:12px;color:var(--text-soft);">Closes ÷ Presentations given today</div>
+        </div>
+        <div style="font-family:var(--display);font-size:28px;font-weight:900;color:var(--purple);text-shadow:0 0 10px rgba(191,159,255,0.4);" id="pb-close-rate">—</div>
+      </div>
+
+      <!-- Log outcome buttons -->
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-soft);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">Log Presentation Outcome</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn" style="color:var(--green);border-color:rgba(0,255,157,0.4);background:rgba(0,255,157,0.06);" onclick="logPresOutcome('closed')">✅ Closed It</button>
+        <button class="btn" style="color:var(--amber);border-color:rgba(255,190,0,0.4);background:rgba(255,190,0,0.06);" onclick="logPresOutcome('callbacks')">📞 Callback</button>
+        <button class="btn" style="color:var(--red);border-color:rgba(255,61,90,0.3);background:rgba(255,61,90,0.05);" onclick="logPresOutcome('nosales')">❌ No-Sale</button>
+      </div>
+    </div>
+
+    <!-- Team Presentation Summary -->
+    <div class="card">
+      <div class="s-label">Team Presentation Summary — Today</div>
+      <table class="data-table">
+        <thead><tr><th>Agent</th><th>Presentations</th><th>Closed</th><th>Callbacks</th><th>No-Sales</th><th>Close Rate</th></tr></thead>
+        <tbody id="team-pres-summary"></tbody>
+      </table>
     </div>
 
     <div class="card">
@@ -1847,7 +1905,7 @@ body::after {
     <div class="card">
       <div class="s-label">Team Call Summary</div>
       <table class="data-table">
-        <thead><tr><th>Agent</th><th>Dials</th><th>Pickups</th><th>Appts</th><th>Closed</th><th>Conv. Rate</th></tr></thead>
+        <thead><tr><th>Agent</th><th>Dials</th><th>Pickups</th><th>Appts</th><th>Presentations</th><th>Closed</th><th>Conv. Rate</th></tr></thead>
         <tbody id="team-call-summary"></tbody>
       </table>
     </div>
@@ -1982,7 +2040,7 @@ body::after {
         <div class="pipeline-col appt-set">
           <div class="col-header">Appt Set <span class="col-count" id="count-appt">0</span></div>
           <div id="col-appt"></div>
-          <div class="add-form"><input type="text" placeholder="Client name" id="appt-name"/><select id="appt-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="appt-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('appt')">+ Add</button></div>
+          <div class="add-form"><input type="text" placeholder="Client name" id="pipe-appt-name"/><select id="pipe-appt-type"><option value="">Lead type...</option><option>Farmer Lead</option><option>Mortgage Protection</option><option>Aged Ethos</option><option>Other Aged</option></select><select id="pipe-appt-agent"><option value="">Assign agent...</option><option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option></select><button onclick="addLead('appt')">+ Add</button></div>
         </div>
         <div class="pipeline-col closed">
           <div class="col-header">AP Written ✓ <span class="col-count" id="count-closed">0</span></div>
@@ -2537,6 +2595,247 @@ body::after {
     </div>
   </div>
 
+  <!-- ══════════════════════════════════════
+       BOOK OF BUSINESS
+  ══════════════════════════════════════ -->
+  <div class="page" id="page-bob">
+    <div class="page-header">
+      <div class="brand">
+        <div class="eyebrow">Closed Policies</div>
+        <h1>BOOK OF <span>BUSINESS</span></h1>
+        <div class="sub">Every policy your team has closed — the permanent record</div>
+      </div>
+      <div class="goal-chip">
+        <div class="gc-label">Total Policies</div>
+        <div class="gc-val" id="bob-total-count">0</div>
+        <div class="gc-sub">Total AP: $<span id="bob-total-ap">0</span></div>
+      </div>
+    </div>
+
+    <!-- Add Policy Form -->
+    <div class="card accent">
+      <div class="s-label">Log a Closed Policy</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Agent</div>
+          <select id="bob-agent" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="">Select...</option>
+            <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Client Name</div>
+          <input type="text" id="bob-client" placeholder="John Smith" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Client Phone</div>
+          <input type="tel" id="bob-phone" placeholder="(555) 000-0000" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Carrier</div>
+          <select id="bob-carrier" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="">Select carrier...</option>
+            <option>Americo</option>
+            <option>Mutual of Omaha</option>
+            <option>Transamerica</option>
+            <option>American Amicable</option>
+            <option>Ethos / TruStage</option>
+            <option>InstaBrain</option>
+            <option>Corebridge</option>
+            <option>Aetna</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Lead Type</div>
+          <select id="bob-leadtype" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="">Select type...</option>
+            <option value="farmer">🌾 Farmer</option>
+            <option value="mp">🏠 Mortgage Protection</option>
+            <option value="ethos">⚡ Aged Ethos</option>
+            <option value="aged">📋 Other Aged</option>
+            <option value="referral">🤝 Referral</option>
+            <option value="other">📁 Other</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Effective Date</div>
+          <input type="date" id="bob-effdate" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">AP ($)</div>
+          <input type="number" id="bob-ap" placeholder="0" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--tron);font-family:var(--mono);font-size:18px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Face Amount ($)</div>
+          <input type="number" id="bob-face" placeholder="0" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Status</div>
+          <select id="bob-status" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="pending">⏳ Pending</option>
+            <option value="issued">✅ Issued</option>
+            <option value="declined">❌ Declined</option>
+            <option value="lapsed">⚠️ Lapsed</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Notes (optional)</div>
+        <input type="text" id="bob-notes" placeholder="e.g. Client called back after 3rd follow-up, whole life 20-pay..." style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+      </div>
+      <button class="btn c" onclick="addBobPolicy()" style="width:100%;padding:12px;">+ Add to Book of Business</button>
+    </div>
+
+    <!-- Filters -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-right:4px;">Filter:</div>
+      <button class="stab active" onclick="filterBob('all',this)">All</button>
+      <button class="stab" onclick="filterBob('pending',this)">⏳ Pending</button>
+      <button class="stab" onclick="filterBob('issued',this)">✅ Issued</button>
+      <button class="stab" onclick="filterBob('declined',this)">❌ Declined</button>
+      <button class="stab" onclick="filterBob('lapsed',this)">⚠️ Lapsed</button>
+      <div style="margin-left:auto;">
+        <select id="bob-agent-filter" onchange="renderBobTable()" style="background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text-soft);font-family:var(--mono);font-size:11px;padding:6px 10px;outline:none;">
+          <option value="all">All Agents</option>
+          <option>Mark</option><option>Max</option><option>Isaac</option><option>McKenna</option><option>Will</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Policy Table -->
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="overflow-x:auto;">
+        <table class="data-table" style="margin:0;">
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Agent</th>
+              <th>Carrier</th>
+              <th>Lead Type</th>
+              <th>AP</th>
+              <th>Face Amount</th>
+              <th>Eff. Date</th>
+              <th>Status</th>
+              <th>Notes</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="bob-table-body">
+            <tr><td colspan="10" style="text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:11px;padding:30px;">No policies logged yet. Close something and put it on the board.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Agent breakdown summary -->
+    <div class="card" style="margin-top:20px;">
+      <div class="s-label">Agent Production Summary</div>
+      <table class="data-table">
+        <thead><tr><th>Agent</th><th>Policies</th><th>Total AP</th><th>Issued</th><th>Pending</th><th>Avg AP</th></tr></thead>
+        <tbody id="bob-agent-summary"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       EXPENSES
+  ══════════════════════════════════════ -->
+  <div class="page" id="page-expenses">
+    <div class="page-header">
+      <div class="brand">
+        <div class="eyebrow">Know Your Numbers</div>
+        <h1>MONTHLY <span>EXPENSES</span></h1>
+        <div class="sub">Track what you spend to know what you actually keep</div>
+      </div>
+    </div>
+
+    <div class="s-label">Select Your Name</div>
+    <div class="agent-pills" style="margin-bottom:24px;">
+      <button class="pill active" onclick="selectExpenseAgent('Mark',this)">Mark</button>
+      <button class="pill" onclick="selectExpenseAgent('Max',this)">Max</button>
+      <button class="pill" onclick="selectExpenseAgent('Isaac',this)">Isaac</button>
+      <button class="pill" onclick="selectExpenseAgent('McKenna',this)">McKenna</button>
+      <button class="pill" onclick="selectExpenseAgent('Will',this)">Will</button>
+    </div>
+
+    <div class="card accent">
+      <div class="s-label" id="expense-card-title">Mark's Monthly Expenses</div>
+
+      <!-- Lead Costs -->
+      <div style="font-family:var(--mono);font-size:10px;color:var(--tron);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;text-shadow:var(--tron-glow-sm);">Lead Costs</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Farmer Leads ($)</div>
+          <input type="number" placeholder="0" id="exp-farmer" oninput="saveExpenses()" style="width:100%;background:transparent;border:none;color:var(--tron);font-family:var(--mono);font-size:20px;font-weight:500;outline:none;text-shadow:var(--tron-glow-sm);"/>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Mortgage Protection ($)</div>
+          <input type="number" placeholder="0" id="exp-mp" oninput="saveExpenses()" style="width:100%;background:transparent;border:none;color:var(--tron);font-family:var(--mono);font-size:20px;font-weight:500;outline:none;text-shadow:var(--tron-glow-sm);"/>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Aged / Ethos Leads ($)</div>
+          <input type="number" placeholder="0" id="exp-aged" oninput="saveExpenses()" style="width:100%;background:transparent;border:none;color:var(--tron);font-family:var(--mono);font-size:20px;font-weight:500;outline:none;text-shadow:var(--tron-glow-sm);"/>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Other Lead Costs ($)</div>
+          <input type="number" placeholder="0" id="exp-otherleads" oninput="saveExpenses()" style="width:100%;background:transparent;border:none;color:var(--tron);font-family:var(--mono);font-size:20px;font-weight:500;outline:none;text-shadow:var(--tron-glow-sm);"/>
+        </div>
+      </div>
+
+      <!-- Business Expenses -->
+      <div style="font-family:var(--mono);font-size:10px;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;text-shadow:0 0 8px rgba(0,255,157,0.4);">Business Expenses</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Phone / Dialer ($)</div>
+          <input type="number" placeholder="0" id="exp-phone" oninput="saveExpenses()" style="width:100%;background:transparent;border:none;color:var(--green);font-family:var(--mono);font-size:20px;font-weight:500;outline:none;"/>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Gas / Travel ($)</div>
+          <input type="number" placeholder="0" id="exp-gas" oninput="saveExpenses()" style="width:100%;background:transparent;border:none;color:var(--green);font-family:var(--mono);font-size:20px;font-weight:500;outline:none;"/>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Software / Tools ($)</div>
+          <input type="number" placeholder="0" id="exp-software" oninput="saveExpenses()" style="width:100%;background:transparent;border:none;color:var(--green);font-family:var(--mono);font-size:20px;font-weight:500;outline:none;"/>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Other Business ($)</div>
+          <input type="number" placeholder="0" id="exp-other" oninput="saveExpenses()" style="width:100%;background:transparent;border:none;color:var(--green);font-family:var(--mono);font-size:20px;font-weight:500;outline:none;"/>
+        </div>
+      </div>
+
+      <!-- Totals + Net -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+        <div style="background:var(--tron-dim);border:1px solid rgba(0,255,255,0.2);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Lead Costs</div>
+          <div style="font-family:var(--display);font-size:22px;font-weight:900;color:var(--tron);">$<span id="exp-total-leads">0</span></div>
+        </div>
+        <div style="background:var(--green-dim);border:1px solid rgba(0,255,157,0.15);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Business Costs</div>
+          <div style="font-family:var(--display);font-size:22px;font-weight:900;color:var(--green);">$<span id="exp-total-biz">0</span></div>
+        </div>
+        <div style="background:var(--red-dim);border:1px solid rgba(255,61,90,0.15);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Total Expenses</div>
+          <div style="font-family:var(--display);font-size:22px;font-weight:900;color:var(--red);">$<span id="exp-total-all">0</span></div>
+        </div>
+        <div style="background:var(--amber-dim);border:1px solid rgba(255,190,0,0.2);border-radius:var(--r-sm);padding:14px;text-align:center;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Net After Expenses</div>
+          <div style="font-family:var(--display);font-size:22px;font-weight:900;color:var(--amber);">$<span id="exp-net">—</span></div>
+          <div style="font-size:9px;color:var(--text-mute);margin-top:4px;">Based on your AP goal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team Expense Overview (admin only) -->
+    <div class="card" id="team-expense-overview">
+      <div class="s-label">Team Expense Overview</div>
+      <table class="data-table">
+        <thead><tr><th>Agent</th><th>Lead Costs</th><th>Business Costs</th><th>Total Expenses</th><th>AP Goal</th><th>Net</th></tr></thead>
+        <tbody id="team-expense-table"></tbody>
+      </table>
+    </div>
+  </div>
+
 </div><!-- end wrap -->
 
 <script>
@@ -2549,7 +2848,8 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const agents = ['Mark','Max','Isaac','McKenna','Will'];
 let currentAgent = 'Mark';
-let callCache = {}; agents.forEach(a => callCache[a] = {dials:0,pickups:0,appts:0,closed:0});
+let callCache = {}; agents.forEach(a => callCache[a] = {dials:0,pickups:0,appts:0,closed:0,presentations:0});
+let presCache = {}; agents.forEach(a => presCache[a] = {closed:0,callbacks:0,nosales:0});
 let apCache        = {};
 let ipCache        = {};
 let pipelineCache  = [];
@@ -2575,9 +2875,45 @@ function playSound(type){
       save:   ()=>{o.type='sine';o.frequency.setValueAtTime(880,t);o.frequency.exponentialRampToValueAtTime(1100,t+.06);g.gain.setValueAtTime(.04,t);g.gain.exponentialRampToValueAtTime(.001,t+.1);o.start(t);o.stop(t+.1);},
     };
     if(type==='appt'){
-      [440,660].forEach((f,i)=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.connect(g2);g2.connect(ctx.destination);o2.type='sine';o2.frequency.setValueAtTime(f,t+i*.12);g2.gain.setValueAtTime(.1,t+i*.12);g2.gain.exponentialRampToValueAtTime(.001,t+i*.12+.25);o2.start(t+i*.12);o2.stop(t+i*.12+.28);});
+      // Bright two-tone chime
+      [523,784].forEach((f,i)=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.connect(g2);g2.connect(ctx.destination);o2.type='sine';o2.frequency.setValueAtTime(f,t+i*.13);g2.gain.setValueAtTime(.12,t+i*.13);g2.gain.exponentialRampToValueAtTime(.001,t+i*.13+.35);o2.start(t+i*.13);o2.stop(t+i*.13+.38);});
     } else if(type==='closed'){
-      [523,659,784,1047].forEach((f,i)=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.connect(g2);g2.connect(ctx.destination);o2.type='sawtooth';o2.frequency.setValueAtTime(f,t+i*.1);g2.gain.setValueAtTime(.12,t+i*.1);g2.gain.exponentialRampToValueAtTime(.001,t+i*.1+.25);o2.start(t+i*.1);o2.stop(t+i*.1+.3);});
+      // Epic win fanfare — layered sine + triangle with reverb tail
+      // Layer 1: punchy low hit
+      (()=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.setValueAtTime(130,t);o.frequency.exponentialRampToValueAtTime(80,t+.12);g.gain.setValueAtTime(.28,t);g.gain.exponentialRampToValueAtTime(.001,t+.18);o.start(t);o.stop(t+.2);})();
+      // Layer 2: rising triumphant arpeggio — C maj pentatonic, bright sine
+      [[523,0],[659,.1],[784,.2],[1047,.32],[1319,.46]].forEach(([f,delay])=>{
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.type='sine';
+        o.frequency.setValueAtTime(f,t+delay);
+        o.frequency.exponentialRampToValueAtTime(f*1.008,t+delay+.18);
+        g.gain.setValueAtTime(.0,t+delay);
+        g.gain.linearRampToValueAtTime(.15,t+delay+.02);
+        g.gain.exponentialRampToValueAtTime(.001,t+delay+.45);
+        o.start(t+delay);o.stop(t+delay+.5);
+      });
+      // Layer 3: harmony triangle wave underneath arpeggio
+      [[392,0],[523,.1],[659,.2],[784,.32]].forEach(([f,delay])=>{
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.type='triangle';
+        o.frequency.setValueAtTime(f,t+delay);
+        g.gain.setValueAtTime(.07,t+delay);
+        g.gain.exponentialRampToValueAtTime(.001,t+delay+.5);
+        o.start(t+delay);o.stop(t+delay+.55);
+      });
+      // Layer 4: final high sparkle chord at the top
+      [1047,1319,1568].forEach((f,i)=>{
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.type='sine';
+        o.frequency.setValueAtTime(f,t+.55);
+        g.gain.setValueAtTime(.0,t+.55);
+        g.gain.linearRampToValueAtTime(.1,t+.57);
+        g.gain.exponentialRampToValueAtTime(.001,t+.55+.6);
+        o.start(t+.55);o.stop(t+1.2);
+      });
     } else if(type==='milestone'){
       [[523,659,784],[659,784,1047],[784,1047,1319]].forEach((ch,ci)=>ch.forEach(f=>{const o2=ctx.createOscillator(),g2=ctx.createGain();o2.connect(g2);g2.connect(ctx.destination);o2.type='sine';o2.frequency.setValueAtTime(f,t+ci*.25);g2.gain.setValueAtTime(.08,t+ci*.25);g2.gain.exponentialRampToValueAtTime(.001,t+ci*.25+.5);o2.start(t+ci*.25);o2.stop(t+ci*.25+.55);}));
     } else if(type==='timer_end'){
@@ -2652,6 +2988,8 @@ function showPage(id, btn){
   if(id==='pipeline')    buildAPWrittenGrid();
   if(id==='goals')       { renderGoalProgress(); renderAllGoalsTable(); }
   if(id==='appts')       renderAppts();
+  if(id==='bob')         { renderBobTable(); renderBobSummary(); }
+  if(id==='expenses')    { loadExpenseFields(); renderExpenseTotals(); renderTeamExpenseTable(); }
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -2670,12 +3008,13 @@ async function loadAll(){
       const el=document.getElementById('ap-'+r.agent); if(el&&r.amount>0) el.value=r.amount;
     });
     if(ipRes.data)   ipRes.data.forEach(r=>{ ipCache[r.agent]=r.amount; const el=document.getElementById('ip-'+r.agent); if(el&&r.amount>0) el.value=r.amount; });
-    if(callRes.data) callRes.data.forEach(r=>{ callCache[r.agent]={dials:r.dials,pickups:r.pickups,appts:r.appts,closed:r.closed}; });
+    if(callRes.data) callRes.data.forEach(r=>{ callCache[r.agent]={dials:r.dials,pickups:r.pickups,appts:r.appts,closed:r.closed,presentations:r.presentations||0}; });
     if(pipeRes.data) pipelineCache=pipeRes.data;
   } catch(e){ console.warn('Load error:',e); }
 
   updateOverviewAP(); updateIPTotal(); renderTracker(); renderTeamCallSummary();
   renderPipeline(); renderLeaderboards(); renderIPComparison(); updateDailyGoals(); updateAOTD();
+  renderPresBreakdown(); renderTeamPresSummary();
   document.getElementById('loading-screen').style.display='none';
 }
 
@@ -2693,9 +3032,9 @@ function setupRealtime(){
         updateIPTotal(); renderLeaderboards(); renderIPComparison();
       })
       .on('postgres_changes',{event:'*',schema:'public',table:'call_data'},p=>{
-        const r=p.new; callCache[r.agent]={dials:r.dials,pickups:r.pickups,appts:r.appts,closed:r.closed};
+        const r=p.new; callCache[r.agent]={dials:r.dials,pickups:r.pickups,appts:r.appts,closed:r.closed,presentations:r.presentations||0};
         if(r.agent===currentAgent) renderTracker();
-        renderTeamCallSummary(); renderLeaderboards(); updateDailyGoals(); updateAOTD();
+        renderTeamCallSummary(); renderLeaderboards(); updateDailyGoals(); updateAOTD(); renderTeamPresSummary();
       })
       .on('postgres_changes',{event:'*',schema:'public',table:'pipeline'},async ()=>{
         const {data}=await sb.from('pipeline').select('*').order('created_at',{ascending:true});
@@ -2769,38 +3108,43 @@ function selectAgent(name,btn){
 }
 function renderTracker(){
   const d=callCache[currentAgent];
-  ['dials','pickups','appts','closed'].forEach(k=>{ const el=document.getElementById('t-'+k); if(el) el.textContent=d[k]; });
+  ['dials','pickups','appts','closed','presentations'].forEach(k=>{ const el=document.getElementById('t-'+k); if(el) el.textContent=d[k]||0; });
+  renderPresBreakdown();
 }
 async function trackInc(stat){
-  const soundMap={dials:'dial',pickups:'pickup',appts:'appt',closed:'closed'};
+  const soundMap={dials:'dial',pickups:'pickup',appts:'appt',closed:'closed',presentations:'click'};
   playSound(soundMap[stat]||'click');
-  callCache[currentAgent][stat]++;
+  callCache[currentAgent][stat]=(callCache[currentAgent][stat]||0)+1;
   const el=document.getElementById('t-'+stat); if(el){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');}
   renderTracker(); renderTeamCallSummary(); updateDailyGoals(); updateAOTD();
-  const feedText={dials:'logged a dial',pickups:'got a pickup — someone answered!',appts:'booked an appointment 📅',closed:'CLOSED A POLICY 🔥'};
+  const feedText={dials:'logged a dial',pickups:'got a pickup — someone answered!',appts:'booked an appointment 📅',presentations:'gave a presentation 📋',closed:'CLOSED A POLICY 🔥'};
   addToWinFeed(stat,currentAgent,feedText[stat]||stat);
   if(stat==='closed'){ checkClosedMilestones(currentAgent); showRewardBanner(currentAgent); }
+  if(stat==='presentations') toast(`📋 Presentation logged — log the outcome below!`);
   const d=callCache[currentAgent];
-  try{ await sb.from('call_data').upsert({agent:currentAgent,dials:d.dials,pickups:d.pickups,appts:d.appts,closed:d.closed,updated_at:new Date().toISOString()},{onConflict:'agent'}); }catch(e){}
+  try{ await sb.from('call_data').upsert({agent:currentAgent,dials:d.dials,pickups:d.pickups,appts:d.appts,closed:d.closed,presentations:d.presentations||0,updated_at:new Date().toISOString()},{onConflict:'agent'}); }catch(e){}
   renderLeaderboards();
 }
 async function resetAgent(){
-  playSound('click'); callCache[currentAgent]={dials:0,pickups:0,appts:0,closed:0};
-  renderTracker(); renderTeamCallSummary(); updateDailyGoals();
-  try{ await sb.from('call_data').upsert({agent:currentAgent,dials:0,pickups:0,appts:0,closed:0,updated_at:new Date().toISOString()},{onConflict:'agent'}); }catch(e){}
+  playSound('click');
+  callCache[currentAgent]={dials:0,pickups:0,appts:0,closed:0,presentations:0};
+  presCache[currentAgent]={closed:0,callbacks:0,nosales:0};
+  renderTracker(); renderTeamCallSummary(); updateDailyGoals(); renderPresBreakdown(); renderTeamPresSummary();
+  try{ await sb.from('call_data').upsert({agent:currentAgent,dials:0,pickups:0,appts:0,closed:0,presentations:0,updated_at:new Date().toISOString()},{onConflict:'agent'}); }catch(e){}
   toast(currentAgent+"'s stats reset");
 }
 function renderTeamCallSummary(){
   const tbody=document.getElementById('team-call-summary'); if(!tbody) return;
   tbody.innerHTML=agents.map(a=>{
     const d=callCache[a], rate=d.dials>0?Math.round((d.pickups/d.dials)*100):0;
-    return `<tr><td><div class="td-name"><div class="td-av">${a[0]}</div>${a}</div></td><td class="num c">${d.dials}</td><td class="num g">${d.pickups}</td><td class="num a">${d.appts}</td><td class="num r">${d.closed}</td><td><div class="mini-track" style="width:80px;display:inline-block;vertical-align:middle;"><div class="mini-fill" style="width:${rate}%"></div></div><span style="font-size:11px;color:var(--text-mute);margin-left:6px;">${rate}%</span></td></tr>`;
+    return `<tr><td><div class="td-name"><div class="td-av">${a[0]}</div>${a}</div></td><td class="num c">${d.dials}</td><td class="num g">${d.pickups}</td><td class="num a">${d.appts}</td><td class="num" style="color:var(--purple)">${d.presentations||0}</td><td class="num r">${d.closed}</td><td><div class="mini-track" style="width:80px;display:inline-block;vertical-align:middle;"><div class="mini-fill" style="width:${rate}%"></div></div><span style="font-size:11px;color:var(--text-mute);margin-left:6px;">${rate}%</span></td></tr>`;
   }).join('');
+  renderTeamPresSummary();
 }
 function updateDailyGoals(){
-  const totals={dials:0,pickups:0,appts:0,closed:0};
-  agents.forEach(a=>Object.keys(totals).forEach(k=>totals[k]+=callCache[a][k]));
-  const goals={dials:300,pickups:45,appts:15,closed:6};
+  const totals={dials:0,pickups:0,appts:0,closed:0,presentations:0};
+  agents.forEach(a=>Object.keys(totals).forEach(k=>totals[k]+=(callCache[a][k]||0)));
+  const goals={dials:300,pickups:45,appts:15,closed:6,presentations:10};
   Object.keys(totals).forEach(k=>{
     const el=document.getElementById('dg-'+k), bar=document.getElementById('dg-'+k+'-bar');
     if(el) el.textContent=totals[k];
@@ -2809,8 +3153,62 @@ function updateDailyGoals(){
 }
 
 /* ═══════════════════════════════════════════════════════
-   WIN FEED
+   PRESENTATION TRACKER
 ═══════════════════════════════════════════════════════ */
+function logPresOutcome(outcome){
+  playSound('click');
+  presCache[currentAgent][outcome]=(presCache[currentAgent][outcome]||0)+1;
+  // Also auto-increment closed in callCache if outcome is a close
+  if(outcome==='closed'){
+    callCache[currentAgent].closed=(callCache[currentAgent].closed||0)+1;
+    const el=document.getElementById('t-closed'); if(el){el.classList.remove('bump');void el.offsetWidth;el.classList.add('bump');}
+    playSound('closed');
+    checkClosedMilestones(currentAgent);
+    showRewardBanner(currentAgent);
+    addToWinFeed('closed',currentAgent,'CLOSED A POLICY from a presentation 🔥');
+    const d=callCache[currentAgent];
+    sb.from('call_data').upsert({agent:currentAgent,dials:d.dials,pickups:d.pickups,appts:d.appts,closed:d.closed,presentations:d.presentations||0,updated_at:new Date().toISOString()},{onConflict:'agent'}).catch(()=>{});
+  }
+  const labels={closed:'✅ Close logged!',callbacks:'📞 Callback logged — follow up!',nosales:'❌ No-sale logged. On to the next.'};
+  toast(labels[outcome]||'Outcome logged');
+  renderPresBreakdown();
+  renderTeamCallSummary();
+  renderTracker();
+}
+
+function renderPresBreakdown(){
+  const p=presCache[currentAgent]||{closed:0,callbacks:0,nosales:0};
+  const total=callCache[currentAgent]?.presentations||0;
+  const closeRate=total>0?Math.round((p.closed/total)*100):null;
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('pb-total',total);
+  set('pb-closed',p.closed||0);
+  set('pb-callbacks',p.callbacks||0);
+  set('pb-nosales',p.nosales||0);
+  set('pb-close-rate',closeRate!==null?closeRate+'%':'—');
+  const rateEl=document.getElementById('pb-close-rate');
+  if(rateEl) rateEl.style.color=closeRate>=50?'var(--green)':closeRate>=30?'var(--amber)':'var(--purple)';
+}
+
+function renderTeamPresSummary(){
+  const tbody=document.getElementById('team-pres-summary'); if(!tbody) return;
+  tbody.innerHTML=agents.map(a=>{
+    const p=presCache[a]||{closed:0,callbacks:0,nosales:0};
+    const total=callCache[a]?.presentations||0;
+    const rate=total>0?Math.round((p.closed/total)*100):null;
+    const rateColor=rate>=50?'var(--green)':rate>=30?'var(--amber)':'var(--text-mute)';
+    return `<tr>
+      <td><div class="td-name"><div class="td-av">${a[0]}</div>${a}</div></td>
+      <td class="num" style="color:var(--purple)">${total}</td>
+      <td class="num g">${p.closed||0}</td>
+      <td class="num a">${p.callbacks||0}</td>
+      <td class="num r">${p.nosales||0}</td>
+      <td class="num" style="color:${rateColor}">${rate!==null?rate+'%':'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+
 function addToWinFeed(type,agent,text){
   const feed=document.getElementById('win-feed'); if(!feed) return;
   const placeholder=feed.querySelector('div[style]'); if(placeholder) placeholder.remove();
@@ -2847,7 +3245,8 @@ function showRewardBanner(agent){
 ═══════════════════════════════════════════════════════ */
 async function addLead(stage){
   playSound('click');
-  const nameEl=document.getElementById(stage+'-name'), typeEl=document.getElementById(stage+'-type'), agentEl=document.getElementById(stage+'-agent');
+  const prefix = stage==='appt' ? 'pipe-appt' : stage;
+  const nameEl=document.getElementById(prefix+'-name'), typeEl=document.getElementById(prefix+'-type'), agentEl=document.getElementById(prefix+'-agent');
   const name=nameEl?.value.trim(); if(!name) return;
   try{
     const {error}=await sb.from('pipeline').insert({stage,client_name:name,lead_type:typeEl?.value||'Unknown',agent:agentEl?.value||'—'});
@@ -3179,10 +3578,13 @@ function confirmDailyReset(){
 
 async function executeDailyReset(){
   playSound('milestone');
-  agents.forEach(a=>{ callCache[a]={dials:0,pickups:0,appts:0,closed:0}; });
-  renderTracker(); renderTeamCallSummary(); updateDailyGoals(); updateAOTD();
+  agents.forEach(a=>{
+    callCache[a]={dials:0,pickups:0,appts:0,closed:0,presentations:0};
+    presCache[a]={closed:0,callbacks:0,nosales:0};
+  });
+  renderTracker(); renderTeamCallSummary(); updateDailyGoals(); updateAOTD(); renderPresBreakdown(); renderTeamPresSummary();
   try{
-    await Promise.all(agents.map(a=>sb.from('call_data').upsert({agent:a,dials:0,pickups:0,appts:0,closed:0,updated_at:new Date().toISOString()},{onConflict:'agent'})));
+    await Promise.all(agents.map(a=>sb.from('call_data').upsert({agent:a,dials:0,pickups:0,appts:0,closed:0,presentations:0,updated_at:new Date().toISOString()},{onConflict:'agent'})));
   }catch(e){}
   toast('🌅 New day started — call stats reset. Let\'s go!');
   showMilestone('🌅 NEW DAY — GENESIS SHOWS UP AGAIN!','🌅');
@@ -3526,8 +3928,211 @@ function applyAccessRestrictions(){
 
   // ── APPOINTMENTS — hide other agents' delete/done buttons after render ──
   // (handled in renderAppts by checking sessionAgent)
+  // ── EXPENSES — hide team overview for agents ──
+  if(sessionAccess !== 'full'){
+    const teamExp=document.getElementById('team-expense-overview');
+    if(teamExp) teamExp.style.display='none';
+    // Lock expense pills to own agent
+    document.querySelectorAll('#page-expenses .pill').forEach(pill=>{
+      if(pill.textContent.trim()!==sessionAgent){
+        pill.style.opacity='0.25'; pill.style.cursor='not-allowed';
+        pill.onclick=e=>{e.stopPropagation();toast('🔒 You can only edit your own expenses');};
+      }
+    });
+    // Lock BOB agent select and filter to own agent
+    const bobAgent=document.getElementById('bob-agent');
+    if(bobAgent){ bobAgent.value=sessionAgent; bobAgent.disabled=true; bobAgent.style.opacity='0.5'; }
+  }
 }
 
+/* ═══════════════════════════════════════════════════════
+   BOOK OF BUSINESS
+═══════════════════════════════════════════════════════ */
+let bobData=[];
+try{ bobData=JSON.parse(localStorage.getItem('genesis_bob')||'[]'); }catch(e){}
+let bobFilter='all';
+
+const bobLeadLabels={farmer:'🌾 Farmer',mp:'🏠 Mortgage',ethos:'⚡ Ethos',aged:'📋 Aged',referral:'🤝 Referral',other:'📁 Other'};
+const bobStatusColors={pending:'var(--amber)',issued:'var(--green)',declined:'var(--red)',lapsed:'var(--text-mute)'};
+const bobStatusLabels={pending:'⏳ Pending',issued:'✅ Issued',declined:'❌ Declined',lapsed:'⚠️ Lapsed'};
+const bobCarrierColors={'Americo':'var(--tron)','Mutual of Omaha':'var(--green)','Transamerica':'var(--red)','American Amicable':'var(--tron2)','Ethos / TruStage':'var(--purple)','InstaBrain':'var(--amber)','Corebridge':'var(--green)','Aetna':'var(--tron)','Other':'var(--text-soft)'};
+
+function addBobPolicy(){
+  playSound('click');
+  const agent=document.getElementById('bob-agent')?.value;
+  const client=document.getElementById('bob-client')?.value.trim();
+  const phone=document.getElementById('bob-phone')?.value.trim();
+  const carrier=document.getElementById('bob-carrier')?.value;
+  const leadtype=document.getElementById('bob-leadtype')?.value;
+  const effdate=document.getElementById('bob-effdate')?.value;
+  const ap=parseFloat(document.getElementById('bob-ap')?.value)||0;
+  const face=parseFloat(document.getElementById('bob-face')?.value)||0;
+  const status=document.getElementById('bob-status')?.value||'pending';
+  const notes=document.getElementById('bob-notes')?.value.trim();
+  if(!agent||!client||!carrier||!ap){ toast('Fill in agent, client, carrier, and AP at minimum'); return; }
+  const policy={id:Date.now(),agent,client,phone,carrier,leadtype,effdate,ap,face,status,notes,logged:new Date().toLocaleDateString()};
+  bobData.unshift(policy);
+  try{ localStorage.setItem('genesis_bob',JSON.stringify(bobData)); }catch(e){}
+  // Clear form
+  ['bob-client','bob-phone','bob-ap','bob-face','bob-notes'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  ['bob-agent','bob-carrier','bob-leadtype','bob-status'].forEach(id=>{ const el=document.getElementById(id); if(el&&id!=='bob-status') el.value=''; });
+  document.getElementById('bob-status').value='pending';
+  renderBobTable(); renderBobSummary();
+  playSound('closed');
+  toast(`📒 ${client} added to Book of Business!`);
+}
+
+function filterBob(status, btn){
+  playSound('click');
+  bobFilter=status;
+  document.querySelectorAll('#page-bob .stab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderBobTable();
+}
+
+function updateBobStatus(id, newStatus){
+  const policy=bobData.find(p=>p.id===id);
+  if(policy){ policy.status=newStatus; try{ localStorage.setItem('genesis_bob',JSON.stringify(bobData)); }catch(e){} }
+  renderBobTable(); renderBobSummary();
+  toast(`Status updated to ${bobStatusLabels[newStatus]}`);
+}
+
+function deleteBobPolicy(id){
+  if(!confirm('Remove this policy from the Book of Business?')) return;
+  bobData=bobData.filter(p=>p.id!==id);
+  try{ localStorage.setItem('genesis_bob',JSON.stringify(bobData)); }catch(e){}
+  renderBobTable(); renderBobSummary();
+  toast('Policy removed');
+}
+
+function renderBobTable(){
+  const tbody=document.getElementById('bob-table-body'); if(!tbody) return;
+  const agentFilter=document.getElementById('bob-agent-filter')?.value||'all';
+  let filtered=bobData;
+  if(bobFilter!=='all') filtered=filtered.filter(p=>p.status===bobFilter);
+  if(agentFilter!=='all') filtered=filtered.filter(p=>p.agent===agentFilter);
+  // Update header counts
+  const total=bobData.length, totalAP=bobData.reduce((s,p)=>s+p.ap,0);
+  const tc=document.getElementById('bob-total-count'); if(tc) tc.textContent=total;
+  const ta=document.getElementById('bob-total-ap'); if(ta) ta.textContent=totalAP.toLocaleString();
+  if(!filtered.length){
+    tbody.innerHTML=`<tr><td colspan="10" style="text-align:center;color:var(--text-mute);font-family:var(--mono);font-size:11px;padding:30px;">No policies match this filter.</td></tr>`;
+    return;
+  }
+  tbody.innerHTML=filtered.map(p=>{
+    const statusColor=bobStatusColors[p.status]||'var(--text-mute)';
+    const carrierColor=bobCarrierColors[p.carrier]||'var(--text-soft)';
+    const canEdit=sessionAccess==='full'||p.agent===sessionAgent;
+    return `<tr>
+      <td><div style="font-weight:700;font-size:13px;color:var(--text);">${p.client}</div>${p.phone?`<div style="font-size:10px;color:var(--text-mute);font-family:var(--mono);">${p.phone}</div>`:''}</td>
+      <td><div class="td-name"><div class="td-av" style="width:28px;height:28px;font-size:11px;">${p.agent[0]}</div>${p.agent}</div></td>
+      <td style="color:${carrierColor};font-weight:600;font-size:12px;">${p.carrier||'—'}</td>
+      <td style="font-size:11px;color:var(--text-soft);">${bobLeadLabels[p.leadtype]||p.leadtype||'—'}</td>
+      <td class="num c" style="font-size:15px;">$${p.ap.toLocaleString()}</td>
+      <td class="num" style="color:var(--text-soft);">${p.face?'$'+p.face.toLocaleString():'—'}</td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--text-soft);">${p.effdate||'—'}</td>
+      <td>${canEdit?`<select onchange="updateBobStatus(${p.id},this.value)" style="background:var(--card);border:1px solid ${statusColor};border-radius:5px;color:${statusColor};font-family:var(--mono);font-size:10px;padding:4px 6px;outline:none;cursor:pointer;">
+        <option value="pending" ${p.status==='pending'?'selected':''}>⏳ Pending</option>
+        <option value="issued" ${p.status==='issued'?'selected':''}>✅ Issued</option>
+        <option value="declined" ${p.status==='declined'?'selected':''}>❌ Declined</option>
+        <option value="lapsed" ${p.status==='lapsed'?'selected':''}>⚠️ Lapsed</option>
+      </select>`:`<span style="color:${statusColor};font-size:11px;">${bobStatusLabels[p.status]}</span>`}</td>
+      <td style="font-size:11px;color:var(--text-mute);max-width:140px;">${p.notes||'—'}</td>
+      <td>${canEdit?`<button onclick="deleteBobPolicy(${p.id})" style="background:var(--red-dim);border:1px solid rgba(255,61,90,0.2);border-radius:5px;color:var(--red);font-size:10px;padding:4px 8px;cursor:pointer;">✕</button>`:''}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderBobSummary(){
+  const tbody=document.getElementById('bob-agent-summary'); if(!tbody) return;
+  tbody.innerHTML=agents.map(a=>{
+    const policies=bobData.filter(p=>p.agent===a);
+    const totalAP=policies.reduce((s,p)=>s+p.ap,0);
+    const issued=policies.filter(p=>p.status==='issued').length;
+    const pending=policies.filter(p=>p.status==='pending').length;
+    const avg=policies.length?Math.round(totalAP/policies.length):0;
+    return `<tr>
+      <td><div class="td-name"><div class="td-av">${a[0]}</div>${a}</div></td>
+      <td class="num" style="color:var(--purple)">${policies.length}</td>
+      <td class="num c">$${totalAP.toLocaleString()}</td>
+      <td class="num g">${issued}</td>
+      <td class="num a">${pending}</td>
+      <td class="num" style="color:var(--text-soft);">${avg?'$'+avg.toLocaleString():'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   EXPENSES
+═══════════════════════════════════════════════════════ */
+let expenseData={};
+try{ expenseData=JSON.parse(localStorage.getItem('genesis_expenses')||'{}'); }catch(e){}
+let currentExpenseAgent='Mark';
+const expFields=['farmer','mp','aged','otherleads','phone','gas','software','other'];
+
+function selectExpenseAgent(agent,btn){
+  playSound('click');
+  currentExpenseAgent=agent;
+  document.querySelectorAll('#page-expenses .pill').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const title=document.getElementById('expense-card-title');
+  if(title) title.textContent=agent+"'s Monthly Expenses";
+  loadExpenseFields();
+  renderExpenseTotals();
+  renderTeamExpenseTable();
+}
+
+function loadExpenseFields(){
+  const d=expenseData[currentExpenseAgent]||{};
+  expFields.forEach(f=>{ const el=document.getElementById('exp-'+f); if(el) el.value=d[f]||''; });
+}
+
+function saveExpenses(){
+  const d={};
+  expFields.forEach(f=>{ d[f]=parseFloat(document.getElementById('exp-'+f)?.value)||0; });
+  expenseData[currentExpenseAgent]=d;
+  try{ localStorage.setItem('genesis_expenses',JSON.stringify(expenseData)); }catch(e){}
+  renderExpenseTotals();
+  renderTeamExpenseTable();
+}
+
+function renderExpenseTotals(){
+  const d=expenseData[currentExpenseAgent]||{};
+  const leadTotal=(d.farmer||0)+(d.mp||0)+(d.aged||0)+(d.otherleads||0);
+  const bizTotal=(d.phone||0)+(d.gas||0)+(d.software||0)+(d.other||0);
+  const allTotal=leadTotal+bizTotal;
+  const apGoal=(goalsData[currentExpenseAgent]?.ap)||0;
+  const net=apGoal>0?apGoal-allTotal:null;
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('exp-total-leads',leadTotal.toLocaleString());
+  set('exp-total-biz',bizTotal.toLocaleString());
+  set('exp-total-all',allTotal.toLocaleString());
+  set('exp-net',net!==null?net.toLocaleString():'—');
+  const netEl=document.getElementById('exp-net');
+  if(netEl&&net!==null) netEl.style.color=net>0?'var(--green)':net===0?'var(--amber)':'var(--red)';
+}
+
+function renderTeamExpenseTable(){
+  const tbody=document.getElementById('team-expense-table'); if(!tbody) return;
+  tbody.innerHTML=agents.map(a=>{
+    const d=expenseData[a]||{};
+    const leadTotal=(d.farmer||0)+(d.mp||0)+(d.aged||0)+(d.otherleads||0);
+    const bizTotal=(d.phone||0)+(d.gas||0)+(d.software||0)+(d.other||0);
+    const allTotal=leadTotal+bizTotal;
+    const apGoal=(goalsData[a]?.ap)||0;
+    const net=apGoal>0?apGoal-allTotal:null;
+    const netColor=net===null?'var(--text-mute)':net>0?'var(--green)':net===0?'var(--amber)':'var(--red)';
+    return `<tr>
+      <td><div class="td-name"><div class="td-av">${a[0]}</div>${a}</div></td>
+      <td class="num c">$${leadTotal.toLocaleString()}</td>
+      <td class="num g">$${bizTotal.toLocaleString()}</td>
+      <td class="num r">$${allTotal.toLocaleString()}</td>
+      <td class="num a">${apGoal?'$'+apGoal.toLocaleString():'—'}</td>
+      <td class="num" style="color:${netColor}">${net!==null?'$'+net.toLocaleString():'—'}</td>
+    </tr>`;
+  }).join('');
+}
 
 newAffirmation();
 buildMoodGrid();
@@ -3539,6 +4144,12 @@ loadAll();
 setupRealtime();
 renderAppts();
 renderAllGoalsTable();
+renderBobTable();
+renderBobSummary();
+loadExpenseFields();
+renderExpenseTotals();
+renderTeamExpenseTable();
+
 </script>
 </body>
 </html>
