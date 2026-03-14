@@ -2013,27 +2013,6 @@ body::after {
       <button class="pill" onclick="selectAgent('Will',this)">Will</button>
     </div>
 
-    <!-- Daily Scoreboard -->
-    <div class="scoreboard-wrap">
-      <div class="score-header">
-        <div>
-          <div class="score-title">⚡ DAILY SCOREBOARD</div>
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;margin-top:3px;" id="score-agent-label">MARK'S POINTS TODAY</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;margin-bottom:3px;">YOUR SCORE</div>
-          <div class="score-total"><span id="score-total">0</span> <span style="font-size:14px;color:var(--text-mute);font-family:var(--font);font-weight:400;">pts</span></div>
-        </div>
-      </div>
-      <div class="score-items" id="score-items">
-        <!-- populated by JS -->
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
-        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;">TEAM SCORES TODAY</div>
-        <div id="team-scores" style="display:flex;gap:12px;flex-wrap:wrap;"></div>
-      </div>
-    </div>
-
     <div class="card accent">
       <div class="s-label" id="tracker-agent-title">Mark's Stats Today</div>
       <div class="stat-grid" style="grid-template-columns:repeat(5,1fr);">
@@ -2074,8 +2053,6 @@ body::after {
           <div style="font-family:var(--display);font-size:32px;font-weight:900;color:var(--red);" id="pb-nosales">0</div>
         </div>
       </div>
-
-      <!-- Close rate from presentations -->
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
         <div>
           <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">Presentation Close Rate</div>
@@ -2083,8 +2060,6 @@ body::after {
         </div>
         <div style="font-family:var(--display);font-size:28px;font-weight:900;color:var(--purple);text-shadow:0 0 10px rgba(191,159,255,0.4);" id="pb-close-rate">—</div>
       </div>
-
-      <!-- Log outcome buttons -->
       <div style="font-family:var(--mono);font-size:9px;color:var(--text-soft);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">Log Presentation Outcome</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="btn" style="color:var(--green);border-color:rgba(0,255,157,0.4);background:rgba(0,255,157,0.06);" onclick="logPresOutcome('closed')">✅ Closed It</button>
@@ -2103,33 +2078,32 @@ body::after {
     </div>
 
     <div class="card">
-      <div class="s-label">Lead Type Breakdown</div>
-      <div class="lead-grid">
-        <div class="lead-cell">
-          <div class="lc-header"><div class="lc-title">🌾 Farmer Leads</div><div class="lc-badge" id="fl-total">0 dials</div></div>
-          <div class="lc-fields"><div class="lc-field"><label>Dials</label><input type="number" placeholder="0" id="fl-dials" oninput="updateLeadTotal('fl')"/></div><div class="lc-field"><label>Appts</label><input type="number" placeholder="0" id="fl-appts"/></div></div>
-        </div>
-        <div class="lead-cell">
-          <div class="lc-header"><div class="lc-title">🏠 Mortgage Protection</div><div class="lc-badge" id="mp-total">0 dials</div></div>
-          <div class="lc-fields"><div class="lc-field"><label>Dials</label><input type="number" placeholder="0" id="mp-dials" oninput="updateLeadTotal('mp')"/></div><div class="lc-field"><label>Appts</label><input type="number" placeholder="0" id="mp-appts"/></div></div>
-        </div>
-        <div class="lead-cell">
-          <div class="lc-header"><div class="lc-title">⚡ Aged Ethos</div><div class="lc-badge" id="ae-total">0 dials</div></div>
-          <div class="lc-fields"><div class="lc-field"><label>Dials</label><input type="number" placeholder="0" id="ae-dials" oninput="updateLeadTotal('ae')"/></div><div class="lc-field"><label>Appts</label><input type="number" placeholder="0" id="ae-appts"/></div></div>
-        </div>
-        <div class="lead-cell">
-          <div class="lc-header"><div class="lc-title">📋 Other Aged</div><div class="lc-badge" id="al-total">0 dials</div></div>
-          <div class="lc-fields"><div class="lc-field"><label>Dials</label><input type="number" placeholder="0" id="al-dials" oninput="updateLeadTotal('al')"/></div><div class="lc-field"><label>Appts</label><input type="number" placeholder="0" id="al-appts"/></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
       <div class="s-label">Team Call Summary</div>
       <table class="data-table">
         <thead><tr><th>Agent</th><th>Dials</th><th>Pickups</th><th>Appts</th><th>Presentations</th><th>Closed</th><th>Conv. Rate</th></tr></thead>
         <tbody id="team-call-summary"></tbody>
       </table>
+    </div>
+
+    <!-- Daily Scoreboard — bottom of Call Tracker -->
+    <div class="scoreboard-wrap">
+      <div class="score-header">
+        <div>
+          <div class="score-title">⚡ DAILY SCOREBOARD</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;margin-top:3px;" id="score-agent-label">MARK'S POINTS TODAY</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;margin-bottom:3px;">YOUR SCORE</div>
+          <div class="score-total"><span id="score-total">0</span> <span style="font-size:14px;color:var(--text-mute);font-family:var(--font);font-weight:400;">pts</span></div>
+        </div>
+      </div>
+      <div class="score-items" id="score-items">
+        <!-- populated by JS -->
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;">TEAM SCORES TODAY</div>
+        <div id="team-scores" style="display:flex;gap:12px;flex-wrap:wrap;"></div>
+      </div>
     </div>
   </div>
 
@@ -3446,9 +3420,11 @@ function addToWinFeed(type,agent,text){
   entry.innerHTML=`<span class="we-icon">${icons[type]||'⚡'}</span><span class="we-text"><strong>${agent}</strong> ${text}</span><span class="we-time">${now}</span>`;
   feed.prepend(entry);
   if(feed.children.length>20) feed.lastChild?.remove();
-  // Fire ticker
-  const tickerIcon=type==='closed'?'🔥':type==='appts'?'📅':type==='presentations'?'📋':'📞';
-  addTickerEvent(agent, text, tickerIcon);
+  // Fire ticker only for meaningful events — not every dial or pickup
+  if(type==='closed'||type==='appts'||type==='presentations'){
+    const tickerIcon=type==='closed'?'🔥':type==='appts'?'📅':'📋';
+    addTickerEvent(agent, text, tickerIcon);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════
