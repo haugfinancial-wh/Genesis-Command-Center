@@ -1835,6 +1835,7 @@ body::after {
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
       <button onclick="confirmDailyReset()" style="background:var(--red-dim);border:1px solid rgba(255,61,90,0.3);border-radius:6px;color:var(--red);font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:6px 14px;cursor:pointer;text-transform:uppercase;">↺ New Day Reset</button>
+      <button onclick="confirmMonthlyReset()" style="background:rgba(191,159,255,0.08);border:1px solid rgba(191,159,255,0.3);border-radius:6px;color:var(--purple);font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:6px 14px;cursor:pointer;text-transform:uppercase;">📅 New Month</button>
       <div id="clock-display">--:--:--</div>
     </div>
   </div>
@@ -1848,6 +1849,7 @@ body::after {
     <button class="nav-btn" onclick="showPage('leaderboard',this)">Leaderboard</button>
     <button class="nav-btn" onclick="showPage('wins',this)">🏆 Team Wins</button>
     <button class="nav-btn" onclick="showPage('goals',this)">🎯 My Goals</button>
+    <button class="nav-btn" onclick="showPage('income',this)">💵 Income</button>
     <button class="nav-btn" onclick="showPage('appts',this)">📅 Appointments</button>
     <button class="nav-btn" onclick="showPage('expenses',this)">💰 Expenses</button>
     <button class="nav-btn" onclick="showPage('submit',this)">📤 Submit Business</button>
@@ -1873,6 +1875,28 @@ body::after {
         <span class="ticker-item">📞 60 DIALS MINIMUM · EVERY AGENT · EVERY DAY <span class="ticker-sep">·</span></span>
         <span class="ticker-item">💡 FOLLOW UP 5 TIMES BEFORE YOU MOVE ON <span class="ticker-sep">·</span></span>
         <span class="ticker-item">🔒 SUBMIT SAME DAY. GET PAID SAME WEEK. <span class="ticker-sep">·</span></span>
+      </div>
+    </div>
+
+    <!-- Team Announcements Banner -->
+    <div id="announcement-banner" style="display:none;background:linear-gradient(90deg,rgba(255,190,0,0.08),rgba(255,190,0,0.04));border:1px solid rgba(255,190,0,0.25);border-radius:var(--r-sm);padding:12px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+      <div style="font-size:20px;flex-shrink:0;">📣</div>
+      <div style="flex:1;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:3px;text-transform:uppercase;margin-bottom:3px;">Team Announcement</div>
+        <div id="announcement-text" style="font-size:13px;color:var(--text);line-height:1.6;"></div>
+        <div id="announcement-meta" style="font-family:var(--mono);font-size:10px;color:var(--text-mute);margin-top:4px;"></div>
+      </div>
+      <button id="announcement-dismiss" onclick="dismissAnnouncement()" style="background:transparent;border:1px solid rgba(255,190,0,0.2);border-radius:5px;color:var(--text-mute);font-size:11px;padding:4px 10px;cursor:pointer;flex-shrink:0;">✕</button>
+    </div>
+
+    <!-- Announcement Composer (admin only) -->
+    <div id="announcement-composer" style="display:none;background:var(--surface);border:1px solid rgba(255,190,0,0.15);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:16px;">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--amber);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;">📣 Post Team Announcement</div>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="announcement-input" placeholder="Type your message for the team..." maxlength="200"
+          style="flex:1;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        <button onclick="postAnnouncement()" class="btn" style="color:var(--amber);border-color:rgba(255,190,0,0.4);background:rgba(255,190,0,0.06);white-space:nowrap;">📣 Post</button>
+        <button onclick="clearAnnouncement()" class="btn ghost" style="white-space:nowrap;">Clear</button>
       </div>
     </div>
 
@@ -3001,7 +3025,113 @@ body::after {
     </div>
   </div>
 
+
   <!-- ══════════════════════════════════════
+       INCOME TRACKER
+  ══════════════════════════════════════ -->
+  <div class="page" id="page-income">
+    <div class="page-header">
+      <div class="brand">
+        <div class="eyebrow">Your Real Numbers</div>
+        <h1>INCOME <span>TRACKER</span></h1>
+        <div class="sub">Private — only you can see your income</div>
+      </div>
+      <div class="goal-chip">
+        <div class="gc-label">This Month</div>
+        <div class="gc-val" id="inc-month-total" style="color:var(--green);">$0</div>
+        <div class="gc-sub">All time: $<span id="inc-alltime-total">0</span></div>
+      </div>
+    </div>
+
+    <!-- Agent buttons — shown/hidden by JS after login -->
+    <div id="inc-agent-row" style="margin-bottom:20px;display:none;">
+      <div class="s-label">Select Agent</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button id="inc-btn-Mark"    class="stab" onclick="incSelectAgent('Mark')">Mark</button>
+        <button id="inc-btn-Max"     class="stab" onclick="incSelectAgent('Max')">Max</button>
+        <button id="inc-btn-Isaac"   class="stab" onclick="incSelectAgent('Isaac')">Isaac</button>
+        <button id="inc-btn-McKenna" class="stab" onclick="incSelectAgent('McKenna')">McKenna</button>
+        <button id="inc-btn-Will"    class="stab" onclick="incSelectAgent('Will')">Will</button>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
+      <div style="background:var(--surface);border:1px solid rgba(0,255,157,0.2);border-radius:var(--r-sm);padding:16px;text-align:center;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">This Month</div>
+        <div style="font-family:var(--display);font-size:28px;font-weight:900;color:var(--green);" id="inc-card-month">$0</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;text-align:center;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">vs Goal</div>
+        <div style="font-family:var(--display);font-size:28px;font-weight:900;color:var(--text-mute);" id="inc-vs-goal">—</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;text-align:center;">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">All Time</div>
+        <div style="font-family:var(--display);font-size:28px;font-weight:900;color:var(--amber);" id="inc-card-alltime">$0</div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="card accent" style="margin-bottom:20px;">
+      <div class="s-label" id="inc-bar-label" style="margin-bottom:8px;">Income This Month</div>
+      <div class="big-track"><div class="big-fill" id="inc-bar" style="width:0%;background:linear-gradient(90deg,var(--green),var(--tron))"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono);">$0</div>
+        <div style="font-size:11px;color:var(--text-soft);font-family:var(--mono);" id="inc-bar-goal">Goal: not set</div>
+      </div>
+    </div>
+
+    <!-- Log payment -->
+    <div class="card accent">
+      <div class="s-label">Log a Payment</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px;">
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Amount ($) *</div>
+          <input type="number" id="inc-amount" placeholder="0"
+            style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--green);font-family:var(--mono);font-size:22px;font-weight:500;padding:9px 12px;outline:none;"/>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Source</div>
+          <select id="inc-source" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;">
+            <option value="commission">💰 Commission</option>
+            <option value="bonus">⚡ Bonus</option>
+            <option value="override">📈 Override</option>
+            <option value="other">📁 Other</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Date</div>
+          <input type="date" id="inc-date"
+            style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+        </div>
+        <button class="btn g" onclick="incLogPayment()" style="padding:10px 20px;white-space:nowrap;">+ Log</button>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-mute);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Notes (optional)</div>
+        <input type="text" id="inc-notes" placeholder="e.g. Americo batch — 3 policies..."
+          style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;"/>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="card">
+      <div class="s-label">Payment History</div>
+      <div id="inc-list">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-mute);text-align:center;padding:24px 0;">No payments logged yet.</div>
+      </div>
+    </div>
+
+    <!-- 6-month chart -->
+    <div class="card">
+      <div class="s-label">Monthly Trend</div>
+      <div id="inc-chart" style="display:flex;align-items:flex-end;gap:6px;height:100px;padding:8px 0;"></div>
+      <div id="inc-chart-labels" style="display:flex;gap:6px;margin-top:4px;"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SUBMIT BUSINESS
+  ══════════════════════════════════════ -->  <!-- ══════════════════════════════════════
        SUBMIT BUSINESS
   ══════════════════════════════════════ -->
   <div class="page" id="page-submit">
@@ -3047,20 +3177,78 @@ body::after {
 /* ═══════════════════════════════════════════════════════
    ALL STATE — declared first, no hoisting surprises
 ═══════════════════════════════════════════════════════ */
-const SUPABASE_URL = 'https://kgboqatlskbaajevxkow.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnYm9xYXRsc2tiYWFqZXZ4a293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxOTQzMzUsImV4cCI6MjA4ODc3MDMzNX0.eqNe8lECIzIL_kQRfEKmampOLE7ZdKtVwFRjpv4HtSc';
+
+/* ═══════════════════════════════════════════════════════
+   CONFIG — change values here, they apply everywhere
+   ─────────────────────────────────────────────────────
+   ⚠️  SECURITY NOTE: The Supabase anon key below is
+   safe to expose in a client-side app when Row Level
+   Security (RLS) is enabled on your Supabase tables.
+   To fully secure this app, enable RLS in your Supabase
+   dashboard: Table Editor → each table → Enable RLS,
+   then add policies so only authenticated users can
+   read/write. Until then, anyone with this key can
+   query your tables — fine for a small internal team
+   but worth locking down when you scale.
+═══════════════════════════════════════════════════════ */
+const CONFIG = {
+  // ── Supabase ──────────────────────────────────────
+  SUPABASE_URL : 'https://kgboqatlskbaajevxkow.supabase.co',
+  SUPABASE_KEY : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnYm9xYXRsc2tiYWFqZXZ4a293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxOTQzMzUsImV4cCI6MjA4ODc3MDMzNX0.eqNe8lECIzIL_kQRfEKmampOLE7ZdKtVwFRjpv4HtSc',
+
+  // ── Team ──────────────────────────────────────────
+  AGENTS       : ['Mark','Max','Isaac','McKenna','Will'],
+  TEAM_NAME    : 'Genesis Solutions',
+  AGENCY       : 'Family First Life · Nitehawk Financial',
+
+  // ── AP / Revenue goals ────────────────────────────
+  TEAM_AP_GOAL    : 100000,   // $100K monthly team AP target
+  IP_GOAL_FLOOR   : 3000,     // Realistic minimum IP for a building month
+  IP_GOAL_STRONG  : 8000,     // Strong IP month target
+
+  // ── Daily activity goals (team totals) ───────────
+  DAILY_DIALS         : 300,  // 60 per agent × 5
+  DAILY_PICKUPS       : 45,
+  DAILY_APPTS         : 15,
+  DAILY_CLOSED        : 6,
+  DAILY_PRESENTATIONS : 10,
+
+  // ── Work day ─────────────────────────────────────
+  DAY_START_H  : 8,
+  DAY_END_H    : 18,
+
+  // ── Scoreboard points ─────────────────────────────
+  PTS_FIRST9   : 5,
+  PTS_APPT     : 10,
+  PTS_PRES     : 8,
+  PTS_CLOSE    : 25,
+  PTS_DIALS150 : 15,
+  PTS_WIN      : 10,
+
+  // ── AP milestone thresholds ───────────────────────
+  AP_MILESTONES: [
+    {val:10000, label:'$10K ON THE BOARD — GENESIS IS LIVE!',    icon:'🔥'},
+    {val:25000, label:'$25K! THE TEAM IS ROLLING!',              icon:'⚡'},
+    {val:50000, label:'HALFWAY — $50K! PUSH HARDER!',            icon:'🚀'},
+    {val:75000, label:'$75K — FINISH LINE IN SIGHT!',            icon:'💎'},
+    {val:100000,label:'$100,000! GENESIS IS LEGENDARY!',         icon:'🏆'},
+  ],
+};
+
+const SUPABASE_URL = CONFIG.SUPABASE_URL;
+const SUPABASE_KEY = CONFIG.SUPABASE_KEY;
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const agents = ['Mark','Max','Isaac','McKenna','Will'];
-let currentAgent = 'Mark';
+const agents = CONFIG.AGENTS;
+let currentAgent = agents[0];
 let callCache = {}; agents.forEach(a => callCache[a] = {dials:0,pickups:0,appts:0,closed:0,presentations:0});
 let presCache = {}; agents.forEach(a => presCache[a] = {closed:0,callbacks:0,nosales:0});
 let apCache        = {};
 let ipCache        = {};
 let pipelineCache  = [];
-let apWrittenCache = {};  /* declared here so loadAll can use it */
+let apWrittenCache = {};
 let apWrittenTimers = {};
-const AP_WRITTEN_GOAL = 100000;
+const AP_WRITTEN_GOAL = CONFIG.TEAM_AP_GOAL;
 const apWrittenMilestonesHit = {};
 
 /* ═══════════════════════════════════════════════════════
@@ -3152,7 +3340,7 @@ function showMilestone(text, icon){
 
 const milestoneHit={};
 function checkMilestones(total){
-  [{val:10000,label:'$10K ON THE BOARD — GENESIS IS LIVE!',icon:'🔥'},{val:25000,label:'$25K! THE TEAM IS ROLLING!',icon:'⚡'},{val:50000,label:'HALFWAY — $50K! PUSH HARDER!',icon:'🚀'},{val:75000,label:'$75K — FINISH LINE IN SIGHT!',icon:'💎'},{val:100000,label:'$100,000! GENESIS IS LEGENDARY!',icon:'🏆'}]
+  CONFIG.AP_MILESTONES
   .forEach(m=>{if(total>=m.val&&!milestoneHit[m.val]){milestoneHit[m.val]=true;setTimeout(()=>showMilestone(m.label,m.icon),300);}});
 }
 
@@ -3189,6 +3377,7 @@ function showPage(id, btn){
   if(id==='wins')        renderWinsWall();
   if(id==='bob')         { renderBobTable(); renderBobSummary(); updateBobAPBar(); loadManualAP(); }
   if(id==='goals')       { renderGoalProgress(); renderAllGoalsTable(); renderAgentBenchmarks(); }
+  if(id==='income')      incRender();
   if(id==='followup')    { renderFollowUps(); renderFUStats(); }
   if(id==='appts')       renderAppts();
   if(id==='expenses')    { loadExpenseFields(); renderExpenseTotals(); renderTeamExpenseTable(); }
@@ -3213,7 +3402,10 @@ async function loadAll(){
     if(ipRes.data)   ipRes.data.forEach(r=>{ ipCache[r.agent]=r.amount; const el=document.getElementById('ip-'+r.agent); if(el&&r.amount>0) el.value=r.amount; });
     if(callRes.data) callRes.data.forEach(r=>{ callCache[r.agent]={dials:r.dials,pickups:r.pickups,appts:r.appts,closed:r.closed,presentations:r.presentations||0}; });
     if(pipeRes.data) pipelineCache=pipeRes.data;
-  } catch(e){ console.warn('Load error:',e); }
+  } catch(e){
+    console.warn('Supabase load error:',e);
+    toast('⚠️ Could not connect to database — working offline');
+  }
 
   updateOverviewAP(); updateIPTotal(); renderTracker(); renderTeamCallSummary();
   renderPipeline(); renderLeaderboards(); renderIPComparison(); updateDailyGoals(); updateAOTD();
@@ -3296,7 +3488,7 @@ function renderIPComparison(){
 ═══════════════════════════════════════════════════════ */
 function selectAgent(name,btn){
   playSound('click'); currentAgent=name;
-  document.querySelectorAll('.agent-pills .pill').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#page-calls .agent-pills .pill').forEach(p=>p.classList.remove('active'));
   if(btn) btn.classList.add('active');
   const title=document.getElementById('tracker-agent-title'); if(title) title.textContent=name+"'s Stats Today";
   renderTracker();
@@ -3341,7 +3533,13 @@ function renderTeamCallSummary(){
 function updateDailyGoals(){
   const totals={dials:0,pickups:0,appts:0,closed:0,presentations:0};
   agents.forEach(a=>Object.keys(totals).forEach(k=>totals[k]+=(callCache[a][k]||0)));
-  const goals={dials:300,pickups:45,appts:15,closed:6,presentations:10};
+  const goals={
+    dials:        CONFIG.DAILY_DIALS,
+    pickups:      CONFIG.DAILY_PICKUPS,
+    appts:        CONFIG.DAILY_APPTS,
+    closed:       CONFIG.DAILY_CLOSED,
+    presentations:CONFIG.DAILY_PRESENTATIONS
+  };
   Object.keys(totals).forEach(k=>{
     const el=document.getElementById('dg-'+k), bar=document.getElementById('dg-'+k+'-bar');
     if(el) el.textContent=totals[k];
@@ -3506,8 +3704,8 @@ function updateAPWrittenTotal(){
   const el=document.getElementById('ap-written-total'); if(el) el.textContent='$'+total.toLocaleString();
   const pct=Math.min((total/AP_WRITTEN_GOAL)*100,100);
   const bar=document.getElementById('ap-written-bar'); if(bar) bar.style.width=pct+'%';
-  [{v:10000,label:'$10K AP WRITTEN — THE BOARD IS LIT!',icon:'🔥'},{v:25000,label:'$25K AP WRITTEN! QUARTER WAY!',icon:'⚡'},{v:50000,label:'$50K AP WRITTEN! HALFWAY!',icon:'🚀'},{v:75000,label:'$75K AP WRITTEN! THREE QUARTERS!',icon:'💎'},{v:100000,label:'$100K AP WRITTEN! GENESIS IS LEGENDARY!',icon:'🏆'}]
-    .forEach(ms=>{const key=`team-apw-${ms.v}`;if(total>=ms.v&&!apWrittenMilestonesHit[key]){apWrittenMilestonesHit[key]=true;setTimeout(()=>showMilestone(ms.label,ms.icon),400);}});
+  CONFIG.AP_MILESTONES
+    .forEach(ms=>{const key=`team-apw-${ms.val}`;if(total>=ms.val&&!apWrittenMilestonesHit[key]){apWrittenMilestonesHit[key]=true;setTimeout(()=>showMilestone(ms.label,ms.icon),400);}});
   updateOverviewAP();
 }
 
@@ -3607,7 +3805,7 @@ setInterval(updateClock,1000);
 /* ═══════════════════════════════════════════════════════
    DAY PROGRESS BAR  (8 AM – 6 PM)
 ═══════════════════════════════════════════════════════ */
-const DAY_START_H=8, DAY_END_H=18, DAY_TOTAL_MINS=600;
+const DAY_START_H=CONFIG.DAY_START_H, DAY_END_H=CONFIG.DAY_END_H, DAY_TOTAL_MINS=(CONFIG.DAY_END_H-CONFIG.DAY_START_H)*60;
 const dayBarMilestones=[{h:9,m:0,label:'9AM'},{h:10,m:0,label:'10AM'},{h:11,m:0,label:'11AM'},{h:12,m:0,label:'NOON'},{h:13,m:0,label:'1PM'},{h:14,m:0,label:'2PM'},{h:15,m:0,label:'3PM'},{h:16,m:0,label:'4PM'},{h:17,m:0,label:'5PM'}];
 const dayMilestonesTriggered={};
 let dayEndBannerShown=false;
@@ -3864,12 +4062,12 @@ function renderFUStats(){
    DAILY SCOREBOARD
 ═══════════════════════════════════════════════════════ */
 const SCORE_ITEMS = [
-  { id:'first9',   emoji:'🌅', label:'First dial before 9 AM',  pts:5,  auto:false },
-  { id:'appt',     emoji:'📅', label:'Appointment booked',       pts:10, auto:false },
-  { id:'pres',     emoji:'📋', label:'Presentation given',       pts:8,  auto:false },
-  { id:'close',    emoji:'🔥', label:'Policy closed',            pts:25, auto:false },
-  { id:'dials150', emoji:'📞', label:'150 dials logged today',   pts:15, auto:true  },
-  { id:'win',      emoji:'🏆', label:'Logged a win today',       pts:10, auto:false },
+  { id:'first9',   emoji:'🌅', label:'First dial before 9 AM',  pts:CONFIG.PTS_FIRST9,   auto:false },
+  { id:'appt',     emoji:'📅', label:'Appointment booked',       pts:CONFIG.PTS_APPT,     auto:false },
+  { id:'pres',     emoji:'📋', label:'Presentation given',       pts:CONFIG.PTS_PRES,     auto:false },
+  { id:'close',    emoji:'🔥', label:'Policy closed',            pts:CONFIG.PTS_CLOSE,    auto:false },
+  { id:'dials150', emoji:'📞', label:'150 dials logged today',   pts:CONFIG.PTS_DIALS150, auto:true  },
+  { id:'win',      emoji:'🏆', label:'Logged a win today',       pts:CONFIG.PTS_WIN,      auto:false },
 ];
 
 let scoreData = {};
@@ -4344,10 +4542,15 @@ function completeLogin(){
   if(callPill) selectAgent(sessionAgent, callPill);
   const goalPill = document.querySelector(`#page-goals .pill[onclick*="'${sessionAgent}'"]`);
   if(goalPill) selectGoalAgent(sessionAgent, goalPill);
+  // Income tab setup
+  incSetup();
   setupPresence();
   renderScoreboard();
   renderMiniLeaderboard();
   addTickerEvent(sessionAgent, 'is online and ready to dial 🎯', '⚡');
+  // Show announcement composer for full-access users only
+  const composer=document.getElementById('announcement-composer');
+  if(composer) composer.style.display=sessionAccess==='full'?'block':'none';
   toast(`Welcome, ${sessionAgent}! Let's get it. 🔥`);
 }
 
@@ -4388,9 +4591,11 @@ function logoutSession(){
 function applyAccessRestrictions(){
   if(sessionAccess === 'full') return; // Mark & Will — unrestricted
 
-  // New Day Reset — admin only
+  // New Day Reset + Monthly Reset — admin only
   const resetBtn = document.querySelector('button[onclick="confirmDailyReset()"]');
   if(resetBtn) resetBtn.style.display='none';
+  const monthBtn = document.querySelector('button[onclick="confirmMonthlyReset()"]');
+  if(monthBtn) monthBtn.style.display='none';
 
   // ── CALL TRACKER — lock to own name only ──
   document.querySelectorAll('#page-calls .pill').forEach(pill => {
@@ -4441,6 +4646,9 @@ function applyAccessRestrictions(){
   // ── BOB — lock agent select to own name ──
   const bobAgentEl=document.getElementById('bob-agent');
   if(bobAgentEl){ bobAgentEl.value=sessionAgent; bobAgentEl.disabled=true; bobAgentEl.style.opacity='0.5'; }
+
+  // ── ANNOUNCEMENTS — composer only for admins ──
+  // (announcement banner is visible to all, composer hidden for agents)
 }
 
 
@@ -4681,7 +4889,7 @@ function updateBobAPBar(){
   const bobAP     = bobData.reduce((s,p)=>s+p.ap, 0);
   const manualAP  = agents.reduce((s,a)=>s+(manualAPData[a]||0), 0);
   const combined  = bobAP + manualAP;
-  const pct       = Math.min((combined/100000)*100, 100);
+  const pct       = Math.min((combined/CONFIG.TEAM_AP_GOAL)*100, 100);
   const set = (id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
 
   // ── BOB page ──
@@ -4801,6 +5009,267 @@ renderScoreboard();
 renderTeamScores();
 renderMiniLeaderboard();
 renderTickerBar();
+loadAnnouncement();
+incRender();
+
+/* ═══════════════════════════════════════════════════════
+   MONTHLY RESET
+═══════════════════════════════════════════════════════ */
+function confirmMonthlyReset(){
+  playSound('click');
+  const now = new Date();
+  const monthName = now.toLocaleString('default',{month:'long',year:'numeric'});
+  const modal = document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:3000;display:flex;align-items:center;justify-content:center;';
+  modal.innerHTML=`<div style="background:var(--card);border:1px solid rgba(191,159,255,0.3);border-radius:var(--r);padding:32px 36px;max-width:460px;text-align:center;box-shadow:0 0 40px rgba(191,159,255,0.08);">
+    <div style="position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--purple),transparent);box-shadow:0 0 8px rgba(191,159,255,0.5);"></div>
+    <div style="font-size:40px;margin-bottom:12px;">📅</div>
+    <div style="font-family:var(--display);font-size:20px;font-weight:900;color:var(--purple);margin-bottom:8px;letter-spacing:2px;">NEW MONTH — NEW GOALS</div>
+    <div style="font-size:13px;color:var(--text-soft);line-height:1.8;margin-bottom:10px;">This will archive <strong style="color:var(--purple)">${monthName}</strong> and reset:<br>
+    ✅ AP totals &amp; BOB AP counter<br>
+    ✅ IP totals<br>
+    ✅ Scoreboard<br>
+    ✅ Daily call stats<br>
+    <span style="color:var(--green)">All history (BOB entries, wins, follow-ups) is kept.</span></div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;margin-bottom:20px;font-size:12px;color:var(--text-mute);">A summary of ${monthName} will be saved before resetting.</div>
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button onclick="executeMonthlyReset('${monthName}');this.closest('div[style*=fixed]').remove();" style="background:rgba(191,159,255,0.1);border:1px solid rgba(191,159,255,0.4);border-radius:8px;color:var(--purple);font-family:var(--font);font-weight:700;font-size:13px;padding:10px 24px;cursor:pointer;">Start New Month</button>
+      <button onclick="this.closest('div[style*=fixed]').remove();" style="background:var(--card2);border:1px solid var(--border-hi);border-radius:8px;color:var(--text-soft);font-family:var(--font);font-weight:700;font-size:13px;padding:10px 24px;cursor:pointer;">Cancel</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+}
+
+async function executeMonthlyReset(monthName){
+  playSound('milestone');
+
+  // Archive this month's summary to localStorage
+  const archive = {
+    month: monthName,
+    archivedAt: new Date().toISOString(),
+    ap: agents.reduce((s,a)=>s+(apCache[a]||0),0),
+    ip: agents.reduce((s,a)=>s+(ipCache[a]||0),0),
+    policies: bobData.length,
+    perAgent: agents.map(a=>({
+      name:a, ap:apCache[a]||0, ip:ipCache[a]||0,
+      dials:callCache[a]?.dials||0, closed:callCache[a]?.closed||0
+    }))
+  };
+  let archives=[];
+  try{ archives=JSON.parse(localStorage.getItem('genesis_monthly_archives')||'[]'); }catch(e){}
+  archives.unshift(archive);
+  try{ localStorage.setItem('genesis_monthly_archives',JSON.stringify(archives.slice(0,24))); }catch(e){}
+
+  // Reset AP, IP, call stats, scoreboard
+  agents.forEach(a=>{
+    apCache[a]=0; apWrittenCache[a]=0; ipCache[a]=0;
+    callCache[a]={dials:0,pickups:0,appts:0,closed:0,presentations:0};
+    presCache[a]={closed:0,callbacks:0,nosales:0};
+    // Clear AP/IP inputs
+    const apEl=document.getElementById('ap-'+a); if(apEl) apEl.value='';
+    const ipEl=document.getElementById('ip-'+a); if(ipEl) ipEl.value='';
+  });
+
+  // Reset manual AP
+  agents.forEach(a=>{ manualAPData[a]=0; });
+  try{ localStorage.setItem('genesis_manual_ap',JSON.stringify(manualAPData)); }catch(e){}
+  loadManualAP();
+
+  // Clear scoreData for all agents
+  agents.forEach(a=>{ const key=getScoreKey(a); delete scoreData[key]; });
+  try{ localStorage.setItem('genesis_scores',JSON.stringify(scoreData)); }catch(e){}
+
+  // Push resets to Supabase
+  try{
+    await Promise.all([
+      ...agents.map(a=>sb.from('ap_data').upsert({agent:a,amount:0,updated_at:new Date().toISOString()},{onConflict:'agent'})),
+      ...agents.map(a=>sb.from('ip_data').upsert({agent:a,amount:0,updated_at:new Date().toISOString()},{onConflict:'agent'})),
+      ...agents.map(a=>sb.from('call_data').upsert({agent:a,dials:0,pickups:0,appts:0,closed:0,presentations:0,updated_at:new Date().toISOString()},{onConflict:'agent'})),
+    ]);
+  }catch(e){ console.warn('Monthly reset Supabase error:',e); }
+
+  // Re-render everything
+  updateBobAPBar(); updateIPTotal(); renderTracker(); renderTeamCallSummary();
+  renderLeaderboards(); updateDailyGoals(); updateAOTD(); renderScoreboard(); renderTeamScores();
+
+  toast(`🎉 ${monthName} archived! Fresh start — let's go!`);
+  showMilestone(`🎉 NEW MONTH! GENESIS RESETS AND GOES AGAIN!`,'📅');
+}
+
+/* ═══════════════════════════════════════════════════════
+   TEAM ANNOUNCEMENTS
+═══════════════════════════════════════════════════════ */
+function loadAnnouncement(){
+  try{
+    const data=JSON.parse(localStorage.getItem('genesis_announcement')||'null');
+    if(data&&data.text){
+      showAnnouncementBanner(data);
+    }
+  }catch(e){}
+}
+
+function showAnnouncementBanner(data){
+  const banner=document.getElementById('announcement-banner');
+  const textEl=document.getElementById('announcement-text');
+  const metaEl=document.getElementById('announcement-meta');
+  if(!banner||!textEl) return;
+  textEl.textContent=data.text;
+  if(metaEl) metaEl.textContent=`Posted by ${data.author} · ${data.time}`;
+  banner.style.display='flex';
+}
+
+function postAnnouncement(){
+  playSound('click');
+  const input=document.getElementById('announcement-input');
+  const text=input?.value.trim();
+  if(!text){ toast('Type a message first'); return; }
+  const data={text,author:sessionAgent||'Admin',time:new Date().toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true})};
+  try{ localStorage.setItem('genesis_announcement',JSON.stringify(data)); }catch(e){}
+  showAnnouncementBanner(data);
+  if(input) input.value='';
+  toast('📣 Announcement posted to the team!');
+  addTickerEvent(sessionAgent||'Admin','posted a team announcement','📣');
+}
+
+function clearAnnouncement(){
+  playSound('click');
+  try{ localStorage.removeItem('genesis_announcement'); }catch(e){}
+  const banner=document.getElementById('announcement-banner');
+  if(banner) banner.style.display='none';
+  toast('Announcement cleared');
+}
+
+function dismissAnnouncement(){
+  const banner=document.getElementById('announcement-banner');
+  if(banner) banner.style.display='none';
+}
+
+/* ═══════════════════════════════════════════════════════
+   INCOME TRACKER
+═══════════════════════════════════════════════════════ */
+let incomeData = {};
+try{ incomeData = JSON.parse(localStorage.getItem('genesis_income')||'{}'); }catch(e){}
+let incCurrentAgent = 'Mark';
+const incSourceLabels = {commission:'💰 Commission',bonus:'⚡ Bonus',override:'📈 Override',other:'📁 Other'};
+
+function incSetup(){
+  // Called once after login — sets agent, shows/hides selector
+  incCurrentAgent = sessionAgent;
+  const row = document.getElementById('inc-agent-row');
+  if(row) row.style.display = sessionAccess==='full' ? 'block' : 'none';
+  // Highlight own button
+  agents.forEach(a=>{
+    const btn = document.getElementById('inc-btn-'+a);
+    if(btn) btn.classList.toggle('active', a===incCurrentAgent);
+  });
+  incRender();
+}
+
+function incSelectAgent(agent){
+  incCurrentAgent = agent;
+  agents.forEach(a=>{
+    const btn = document.getElementById('inc-btn-'+a);
+    if(btn) btn.classList.toggle('active', a===agent);
+  });
+  incRender();
+}
+
+function incLogPayment(){
+  playSound('click');
+  const amount = parseFloat(document.getElementById('inc-amount')?.value)||0;
+  const source = document.getElementById('inc-source')?.value||'commission';
+  const date   = document.getElementById('inc-date')?.value||new Date().toISOString().split('T')[0];
+  const notes  = document.getElementById('inc-notes')?.value.trim()||'';
+  if(!amount){ toast('Enter an amount first'); return; }
+  if(!incomeData[incCurrentAgent]) incomeData[incCurrentAgent]=[];
+  incomeData[incCurrentAgent].unshift({id:Date.now(),amount,source,date,notes});
+  try{ localStorage.setItem('genesis_income',JSON.stringify(incomeData)); }catch(e){}
+  document.getElementById('inc-amount').value='';
+  document.getElementById('inc-notes').value='';
+  incRender();
+  playSound('closed');
+  toast('💵 $'+amount.toLocaleString()+' logged!');
+}
+
+function incDeletePayment(id){
+  incomeData[incCurrentAgent]=(incomeData[incCurrentAgent]||[]).filter(e=>e.id!==id);
+  try{ localStorage.setItem('genesis_income',JSON.stringify(incomeData)); }catch(e){}
+  incRender();
+}
+
+function incRender(){
+  const entries = incomeData[incCurrentAgent]||[];
+  const now = new Date();
+  const monthTotal = entries
+    .filter(e=>{ const d=new Date(e.date+'T00:00:00'); return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear(); })
+    .reduce((s,e)=>s+e.amount,0);
+  const allTime = entries.reduce((s,e)=>s+e.amount,0);
+  const goal = goalsData[incCurrentAgent]?.income||0;
+
+  // Header chip
+  const mt=document.getElementById('inc-month-total'); if(mt) mt.textContent='$'+monthTotal.toLocaleString();
+  const at=document.getElementById('inc-alltime-total'); if(at) at.textContent=allTime.toLocaleString();
+
+  // Cards
+  const cm=document.getElementById('inc-card-month'); if(cm) cm.textContent='$'+monthTotal.toLocaleString();
+  const ca=document.getElementById('inc-card-alltime'); if(ca) ca.textContent='$'+allTime.toLocaleString();
+
+  // vs goal
+  const vg=document.getElementById('inc-vs-goal');
+  if(vg){
+    if(goal){ const d=monthTotal-goal; vg.textContent=(d>=0?'+$':'-$')+Math.abs(d).toLocaleString(); vg.style.color=d>=0?'var(--green)':'var(--red)'; }
+    else { vg.textContent='Set goal →'; vg.style.color='var(--text-mute)'; }
+  }
+
+  // Bar
+  const pct=goal>0?Math.min((monthTotal/goal)*100,100):0;
+  const bar=document.getElementById('inc-bar'); if(bar) bar.style.width=pct+'%';
+  const bl=document.getElementById('inc-bar-label'); if(bl) bl.textContent=incCurrentAgent+"'s Income — "+now.toLocaleString('default',{month:'long',year:'numeric'});
+  const bg=document.getElementById('inc-bar-goal'); if(bg) bg.textContent=goal?'Goal: $'+goal.toLocaleString():'No goal set — add in My Goals';
+
+  // List
+  const list=document.getElementById('inc-list');
+  if(list){
+    if(!entries.length){
+      list.innerHTML='<div style="font-family:var(--mono);font-size:11px;color:var(--text-mute);text-align:center;padding:24px 0;">No payments logged yet.</div>';
+    } else {
+      list.innerHTML=entries.slice(0,40).map(e=>`
+        <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:var(--r-sm);padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:3px;">
+              <span style="font-family:var(--display);font-size:18px;font-weight:900;color:var(--green);">$${e.amount.toLocaleString()}</span>
+              <span style="font-size:11px;color:var(--text-mute);">${incSourceLabels[e.source]||e.source}</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono);">${e.date}${e.notes?' · '+e.notes:''}</div>
+          </div>
+          <button onclick="incDeletePayment(${e.id})" style="background:var(--red-dim);border:1px solid rgba(255,61,90,0.2);border-radius:5px;color:var(--red);font-size:10px;padding:4px 8px;cursor:pointer;">✕</button>
+        </div>`).join('');
+    }
+  }
+
+  // Chart
+  const chart=document.getElementById('inc-chart');
+  const chartLabels=document.getElementById('inc-chart-labels');
+  if(chart&&chartLabels){
+    const months=[];
+    for(let i=5;i>=0;i--){ const d=new Date(); d.setMonth(d.getMonth()-i); months.push({m:d.getMonth(),y:d.getFullYear(),label:d.toLocaleString('default',{month:'short'})}); }
+    const totals=months.map(mo=>entries.filter(e=>{ const d=new Date(e.date+'T00:00:00'); return d.getMonth()===mo.m&&d.getFullYear()===mo.y; }).reduce((s,e)=>s+e.amount,0));
+    const max=Math.max(...totals,1);
+    chart.innerHTML=totals.map((t,i)=>{
+      const h=Math.max(4,Math.round((t/max)*88));
+      const cur=i===5;
+      return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;">
+        <div style="font-family:var(--mono);font-size:9px;color:${cur?'var(--green)':'var(--text-mute)'};">${t>0?'$'+Math.round(t/1000)+'K':''}</div>
+        <div style="width:100%;height:${h}px;background:${cur?'var(--green)':'rgba(0,255,157,0.2)'};border-radius:3px 3px 0 0;"></div>
+      </div>`;
+    }).join('');
+    chartLabels.innerHTML=months.map((mo,i)=>`<div style="flex:1;text-align:center;font-family:var(--mono);font-size:9px;color:${i===5?'var(--green)':'var(--text-mute)'};">${mo.label}</div>`).join('');
+  }
+}
+
+
+
+
 
 </script>
 </body>
