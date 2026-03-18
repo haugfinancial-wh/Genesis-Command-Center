@@ -3174,6 +3174,28 @@ body::after {
 </div><!-- end wrap -->
 
 <script>
+/* Global error catcher — surfaces all uncaught errors visibly */
+window.onerror = function(msg, src, line, col, err){
+  console.error('UNCAUGHT:', msg, 'at', src, 'line', line);
+  // Show a dismissable toast so we can see what broke
+  const div = document.createElement('div');
+  div.style.cssText = 'position:fixed;bottom:50px;left:50%;transform:translateX(-50%);background:#1a0000;border:1px solid #ff3d5a;border-radius:8px;color:#ff3d5a;font-family:monospace;font-size:11px;padding:10px 16px;z-index:9999;max-width:90vw;word-break:break-all;cursor:pointer;';
+  div.textContent = '❌ JS Error (line '+line+'): '+msg;
+  div.onclick = ()=>div.remove();
+  document.body.appendChild(div);
+  setTimeout(()=>div.remove(), 15000);
+  return false;
+};
+window.onunhandledrejection = function(e){
+  console.error('UNHANDLED PROMISE:', e.reason);
+  const div = document.createElement('div');
+  div.style.cssText = 'position:fixed;bottom:50px;left:50%;transform:translateX(-50%);background:#1a0000;border:1px solid #ff3d5a;border-radius:8px;color:#ff3d5a;font-family:monospace;font-size:11px;padding:10px 16px;z-index:9999;max-width:90vw;word-break:break-all;cursor:pointer;';
+  div.textContent = '❌ Promise Error: '+(e.reason?.message||e.reason);
+  div.onclick = ()=>div.remove();
+  document.body.appendChild(div);
+  setTimeout(()=>div.remove(), 15000);
+};
+
 /* ═══════════════════════════════════════════════════════
    ALL STATE — declared first, no hoisting surprises
 ═══════════════════════════════════════════════════════ */
@@ -3250,6 +3272,10 @@ let apWrittenCache = {};
 let apWrittenTimers = {};
 const AP_WRITTEN_GOAL = CONFIG.TEAM_AP_GOAL;
 const apWrittenMilestonesHit = {};
+let incomeData = {};
+try{ incomeData = JSON.parse(localStorage.getItem('genesis_income')||'{}'); }catch(e){}
+let incCurrentAgent = 'Mark';
+const incSourceLabels = {commission:'💰 Commission',bonus:'⚡ Bonus',override:'📈 Override',other:'📁 Other'};
 
 /* ═══════════════════════════════════════════════════════
    AUDIO
@@ -5147,10 +5173,6 @@ function dismissAnnouncement(){
 /* ═══════════════════════════════════════════════════════
    INCOME TRACKER
 ═══════════════════════════════════════════════════════ */
-let incomeData = {};
-try{ incomeData = JSON.parse(localStorage.getItem('genesis_income')||'{}'); }catch(e){}
-let incCurrentAgent = 'Mark';
-const incSourceLabels = {commission:'💰 Commission',bonus:'⚡ Bonus',override:'📈 Override',other:'📁 Other'};
 
 function incSetup(){
   // Called once after login — sets agent, shows/hides selector
@@ -5175,20 +5197,38 @@ function incSelectAgent(agent){
 }
 
 function incLogPayment(){
-  playSound('click');
-  const amount = parseFloat(document.getElementById('inc-amount')?.value)||0;
-  const source = document.getElementById('inc-source')?.value||'commission';
-  const date   = document.getElementById('inc-date')?.value||new Date().toISOString().split('T')[0];
-  const notes  = document.getElementById('inc-notes')?.value.trim()||'';
-  if(!amount){ toast('Enter an amount first'); return; }
-  if(!incomeData[incCurrentAgent]) incomeData[incCurrentAgent]=[];
-  incomeData[incCurrentAgent].unshift({id:Date.now(),amount,source,date,notes});
-  try{ localStorage.setItem('genesis_income',JSON.stringify(incomeData)); }catch(e){}
-  document.getElementById('inc-amount').value='';
-  document.getElementById('inc-notes').value='';
-  incRender();
-  playSound('closed');
-  toast('💵 $'+amount.toLocaleString()+' logged!');
+  try {
+    playSound('click');
+    const amountEl = document.getElementById('inc-amount');
+    const sourceEl = document.getElementById('inc-source');
+    const dateEl   = document.getElementById('inc-date');
+    const notesEl  = document.getElementById('inc-notes');
+
+    if(!amountEl){ toast('❌ Error: inc-amount field not found'); return; }
+
+    const amount = parseFloat(amountEl.value)||0;
+    const source = sourceEl?.value||'commission';
+    const date   = dateEl?.value||new Date().toISOString().split('T')[0];
+    const notes  = notesEl?.value?.trim()||'';
+
+    if(!amount){ toast('Enter an amount first'); return; }
+    if(!incCurrentAgent){ toast('❌ Error: no agent selected'); return; }
+
+    if(!incomeData[incCurrentAgent]) incomeData[incCurrentAgent]=[];
+    incomeData[incCurrentAgent].unshift({id:Date.now(),amount,source,date,notes});
+
+    try{ localStorage.setItem('genesis_income',JSON.stringify(incomeData)); }catch(e){ toast('⚠️ Storage error: '+e.message); }
+
+    amountEl.value='';
+    if(notesEl) notesEl.value='';
+
+    incRender();
+    playSound('closed');
+    toast('💵 $'+amount.toLocaleString()+' logged!');
+  } catch(err){
+    console.error('incLogPayment error:', err);
+    toast('❌ Error logging payment: '+err.message);
+  }
 }
 
 function incDeletePayment(id){
@@ -5198,6 +5238,7 @@ function incDeletePayment(id){
 }
 
 function incRender(){
+  try {
   const entries = incomeData[incCurrentAgent]||[];
   const now = new Date();
   const monthTotal = entries
@@ -5265,6 +5306,7 @@ function incRender(){
     }).join('');
     chartLabels.innerHTML=months.map((mo,i)=>`<div style="flex:1;text-align:center;font-family:var(--mono);font-size:9px;color:${i===5?'var(--green)':'var(--text-mute)'};">${mo.label}</div>`).join('');
   }
+  } catch(err){ console.error('incRender error:',err); toast('❌ Render error: '+err.message); }
 }
 
 
